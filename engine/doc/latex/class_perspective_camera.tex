@@ -1,0 +1,181 @@
+\doxysection{Perspective\+Camera Class Reference}
+\hypertarget{class_perspective_camera}{}\label{class_perspective_camera}\index{PerspectiveCamera@{PerspectiveCamera}}
+
+
+Implementazione di una camera con proiezione prospettica.  
+
+
+
+
+{\ttfamily \#include $<$perspective\+Camera.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_perspective_camera_a462ca1655e5f7d0ffbedfc17419b2f5b}\label{class_perspective_camera_a462ca1655e5f7d0ffbedfc17419b2f5b} 
+{\bfseries Perspective\+Camera} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, float fovY, float aspect, float near, float far)
+\begin{DoxyCompactList}\small\item\em Costruttore per la camera prospettica. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_perspective_camera_a81f86ee7e7c769bf4fc28aed9b9f7c43}{set\+Fov}} (float fovY)
+\begin{DoxyCompactList}\small\item\em Aggiorna il Field of View (FOV). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_perspective_camera_a923e3a5ffabc861da93dd968241e96f0}{set\+Aspect\+Ratio}} (float width, float height)
+\begin{DoxyCompactList}\small\item\em Aggiorna l\textquotesingle{}aspect ratio. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_perspective_camera_ab2ab999d559d43e6686cbe68405746c6}{set\+Near}} (float near)
+\begin{DoxyCompactList}\small\item\em Imposta la distanza del piano Near. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_perspective_camera_a11d6173cad1de1cc38b0bd6770eefa30}{set\+Far}} (float far)
+\begin{DoxyCompactList}\small\item\em Imposta la distanza del piano Far. \end{DoxyCompactList}\item 
+\Hypertarget{class_perspective_camera_ae4bb810ee7c8d78f3e165ae33e3ff727}\label{class_perspective_camera_ae4bb810ee7c8d78f3e165ae33e3ff727} 
+void {\bfseries update\+Projection} ()
+\begin{DoxyCompactList}\small\item\em Ricalcola la matrice di proiezione basandosi sui parametri correnti. Viene chiamato automaticamente dai setter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_camera}{Camera}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{Camera}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore della camera base. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Camera} ()
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale. \end{DoxyCompactList}\item 
+const glm\+::mat4 \& \mbox{\hyperlink{class_camera_a7d4b9a2a5d4e2a32d2f2ac5858d366bc}{get\+Projection\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di proiezione corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_a6467681bead7b700c85be6614447052b}{get\+Inv\+Camera\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola e restituisce la View Matrix (inversa della World Matrix). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_camera_a3dc4347422345940f68f3abb6dd1f2c7}{set\+Projection\+Matrix}} (const glm\+::mat4 \&\mbox{\hyperlink{class_camera_af080757da494dd1e4a347f527df4af9c}{projection\+Matrix}})
+\begin{DoxyCompactList}\small\item\em Imposta manualmente una matrice di proiezione generica. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_node}{Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Node} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\item 
+glm\+::mat4 {\bfseries getM} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc6940cfb5d60c08c166fac399752734}{setM}} (const glm\+::mat4 \&new\+Matrix)
+\begin{DoxyCompactList}\small\item\em Imposta la matrice di trasformazione locale del nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_aed6899432765e92239207918968b186e}{rotate}} (float angle, const glm\+::vec3 \&axis)
+\begin{DoxyCompactList}\small\item\em Applica una rotazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc1316a8924601dd149dce190f2150ea}{scale}} (const glm\+::vec3 \&factor)
+\begin{DoxyCompactList}\small\item\em Applica un ridimensionamento alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_acd32a895c47c272df247a2e5058e9bc7}{translate}} (const glm\+::vec3 \&translation)
+\begin{DoxyCompactList}\small\item\em Applica una traslazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_node_ad65a52e69261fd32b826daa42252d79e}{get\+World\+Final\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{render}} () override
+\begin{DoxyCompactList}\small\item\em Esegue il rendering del nodo e, ricorsivamente, dei suoi figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore al nodo genitore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a7e23fcd1d980e25960c4cc049ad80258}{set\+Parent}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}new\+Parent)
+\begin{DoxyCompactList}\small\item\em Imposta il nodo genitore per questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a132699398b350e83b548a5645e69beb0}{add\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo figlio alla gerarchia di questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_adb62722d840bfd6a0393ec87d15c9c7a}{remove\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Rimuove un nodo figlio specifico dalla lista dei figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a47b7fffc812643e2a001e1f1fc91a521}{get\+Child}} (int index) const
+\begin{DoxyCompactList}\small\item\em Recupera un nodo figlio tramite il suo indice. \end{DoxyCompactList}\item 
+unsigned int {\bfseries get\+Num\+Children} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il numero totale di figli collegati a questo nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a4207689359377107826b25d41a1426cb}{find\+By\+Name}} (const std\+::string \&node\+Name)
+\begin{DoxyCompactList}\small\item\em Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_camera}{Camera}}}
+\begin{DoxyCompactItemize}
+\item 
+glm\+::mat4 {\bfseries projection\+Matrix}
+\begin{DoxyCompactList}\small\item\em Matrice di proiezione interna. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementazione di una camera con proiezione prospettica. 
+
+
+\begin{DoxyItemize}
+\item Simula la visione umana o fotografica, dove gli oggetti lontani appaiono più piccoli. 
+\end{DoxyItemize}
+
+\label{doc-func-members}
+\Hypertarget{class_perspective_camera_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_perspective_camera_a923e3a5ffabc861da93dd968241e96f0}\index{PerspectiveCamera@{PerspectiveCamera}!setAspectRatio@{setAspectRatio}}
+\index{setAspectRatio@{setAspectRatio}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setAspectRatio()}{setAspectRatio()}}
+{\footnotesize\ttfamily \label{class_perspective_camera_a923e3a5ffabc861da93dd968241e96f0} 
+void Perspective\+Camera\+::set\+Aspect\+Ratio (\begin{DoxyParamCaption}\item[{float}]{width}{, }\item[{float}]{height}{}\end{DoxyParamCaption})}
+
+
+
+Aggiorna l\textquotesingle{}aspect ratio. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Larghezza della viewport. \\
+\hline
+{\em height} & Altezza della viewport. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_perspective_camera_a11d6173cad1de1cc38b0bd6770eefa30}\index{PerspectiveCamera@{PerspectiveCamera}!setFar@{setFar}}
+\index{setFar@{setFar}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setFar()}{setFar()}}
+{\footnotesize\ttfamily \label{class_perspective_camera_a11d6173cad1de1cc38b0bd6770eefa30} 
+void Perspective\+Camera\+::set\+Far (\begin{DoxyParamCaption}\item[{float}]{far}{}\end{DoxyParamCaption})}
+
+
+
+Imposta la distanza del piano Far. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em far} & Nuova distanza far. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_perspective_camera_a81f86ee7e7c769bf4fc28aed9b9f7c43}\index{PerspectiveCamera@{PerspectiveCamera}!setFov@{setFov}}
+\index{setFov@{setFov}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setFov()}{setFov()}}
+{\footnotesize\ttfamily \label{class_perspective_camera_a81f86ee7e7c769bf4fc28aed9b9f7c43} 
+void Perspective\+Camera\+::set\+Fov (\begin{DoxyParamCaption}\item[{float}]{fovY}{}\end{DoxyParamCaption})}
+
+
+
+Aggiorna il Field of View (FOV). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fovY} & Nuovo angolo FOV verticale in gradi. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_perspective_camera_ab2ab999d559d43e6686cbe68405746c6}\index{PerspectiveCamera@{PerspectiveCamera}!setNear@{setNear}}
+\index{setNear@{setNear}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setNear()}{setNear()}}
+{\footnotesize\ttfamily \label{class_perspective_camera_ab2ab999d559d43e6686cbe68405746c6} 
+void Perspective\+Camera\+::set\+Near (\begin{DoxyParamCaption}\item[{float}]{near}{}\end{DoxyParamCaption})}
+
+
+
+Imposta la distanza del piano Near. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em near} & Nuova distanza near. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+perspective\+Camera.\+h\item 
+perspective\+Camera.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,195 @@
+\doxysection{Light Class Reference}
+\hypertarget{class_light}{}\label{class_light}\index{Light@{Light}}
+
+
+Classe base astratta che rappresenta una generica sorgente luminosa nel grafo di scena.  
+
+
+
+
+{\ttfamily \#include $<$light.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_light_aeb5df09a25a32f19fdffa761268ba24f}\label{class_light_aeb5df09a25a32f19fdffa761268ba24f} 
+{\bfseries Light} ()
+\begin{DoxyCompactList}\small\item\em Costruttore di default. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_light_a6e8a2f90daebca63d67fb341d39a3d07}{Light}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, const glm\+::mat4 \&matrix)
+\begin{DoxyCompactList}\small\item\em Inizializza una luce con nome e trasformazione iniziale. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_acda62e768d29738c697add4dcf0f36a5}\label{class_light_acda62e768d29738c697add4dcf0f36a5} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Light} ()=0
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale puro. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a6742e1ef45f7d30c405cb137c7940740}\label{class_light_a6742e1ef45f7d30c405cb137c7940740} 
+const glm\+::vec4 \& {\bfseries get\+Ambient} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce ambientale. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a62879f568b115fa015bd3faa0555bd21}\label{class_light_a62879f568b115fa015bd3faa0555bd21} 
+const glm\+::vec4 \& {\bfseries get\+Diffuse} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce diffusa. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_ad1bcd9b074df05af6ad9afa7e28160ea}\label{class_light_ad1bcd9b074df05af6ad9afa7e28160ea} 
+const glm\+::vec4 \& {\bfseries get\+Specular} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce speculare. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a6addba4975067c15bcd2e23b256e46b0}\label{class_light_a6addba4975067c15bcd2e23b256e46b0} 
+const glm\+::vec4 \& {\bfseries get\+Position} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la posizione della sorgente luminosa. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_af2dba2ce9041e349d76016e08eb8ca4f}\label{class_light_af2dba2ce9041e349d76016e08eb8ca4f} 
+void {\bfseries set\+Ambient} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_abcd118cea5b6bb284d218b1df62bbbce}{ambient}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce ambientale. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a334921f9c41ee4da0bc18b9496e9c05b}\label{class_light_a334921f9c41ee4da0bc18b9496e9c05b} 
+void {\bfseries set\+Diffuse} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_af933e4c1087a91fa621fa9f28ccf3e76}{diffuse}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce diffusa. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_ad039d305c6dc49b0b4fa5a84a96735a2}\label{class_light_ad039d305c6dc49b0b4fa5a84a96735a2} 
+void {\bfseries set\+Specular} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_a083c715bd3f644581975c3d0192ceebb}{specular}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce speculare. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_ae946cfc66cbceb636b57780454a679d4}\label{class_light_ae946cfc66cbceb636b57780454a679d4} 
+void {\bfseries set\+Position} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_a240653e7032ae5e2e1fbbab819422077}{position}})
+\begin{DoxyCompactList}\small\item\em Imposta la posizione della sorgente luminosa. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_light_a67a29ce5183fc8fcb65ebfda14820d8f}{set\+Light\+ID}} (int id)
+\begin{DoxyCompactList}\small\item\em Assegna l\textquotesingle{}identificativo numerico della luce nel contesto grafico (es. GL\+\_\+\+LIGHTi). \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_light_ad11747595250cede2c4c7948d1aa3d83}{render}} () override
+\begin{DoxyCompactList}\small\item\em Attiva e configura la luce nella pipeline di rendering. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_node}{Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Node} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\item 
+glm\+::mat4 {\bfseries getM} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc6940cfb5d60c08c166fac399752734}{setM}} (const glm\+::mat4 \&new\+Matrix)
+\begin{DoxyCompactList}\small\item\em Imposta la matrice di trasformazione locale del nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_aed6899432765e92239207918968b186e}{rotate}} (float angle, const glm\+::vec3 \&axis)
+\begin{DoxyCompactList}\small\item\em Applica una rotazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc1316a8924601dd149dce190f2150ea}{scale}} (const glm\+::vec3 \&factor)
+\begin{DoxyCompactList}\small\item\em Applica un ridimensionamento alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_acd32a895c47c272df247a2e5058e9bc7}{translate}} (const glm\+::vec3 \&translation)
+\begin{DoxyCompactList}\small\item\em Applica una traslazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_node_ad65a52e69261fd32b826daa42252d79e}{get\+World\+Final\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{render}} () override
+\begin{DoxyCompactList}\small\item\em Esegue il rendering del nodo e, ricorsivamente, dei suoi figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore al nodo genitore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a7e23fcd1d980e25960c4cc049ad80258}{set\+Parent}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}new\+Parent)
+\begin{DoxyCompactList}\small\item\em Imposta il nodo genitore per questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a132699398b350e83b548a5645e69beb0}{add\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo figlio alla gerarchia di questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_adb62722d840bfd6a0393ec87d15c9c7a}{remove\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Rimuove un nodo figlio specifico dalla lista dei figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a47b7fffc812643e2a001e1f1fc91a521}{get\+Child}} (int index) const
+\begin{DoxyCompactList}\small\item\em Recupera un nodo figlio tramite il suo indice. \end{DoxyCompactList}\item 
+unsigned int {\bfseries get\+Num\+Children} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il numero totale di figli collegati a questo nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a4207689359377107826b25d41a1426cb}{find\+By\+Name}} (const std\+::string \&node\+Name)
+\begin{DoxyCompactList}\small\item\em Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_light_abcd118cea5b6bb284d218b1df62bbbce}\label{class_light_abcd118cea5b6bb284d218b1df62bbbce} 
+glm\+::vec4 {\bfseries ambient}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente ambientale. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_af933e4c1087a91fa621fa9f28ccf3e76}\label{class_light_af933e4c1087a91fa621fa9f28ccf3e76} 
+glm\+::vec4 {\bfseries diffuse}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente diffusa. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a083c715bd3f644581975c3d0192ceebb}\label{class_light_a083c715bd3f644581975c3d0192ceebb} 
+glm\+::vec4 {\bfseries specular}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente speculare. \end{DoxyCompactList}\item 
+\Hypertarget{class_light_a240653e7032ae5e2e1fbbab819422077}\label{class_light_a240653e7032ae5e2e1fbbab819422077} 
+glm\+::vec4 {\bfseries position}
+\begin{DoxyCompactList}\small\item\em Coordinate spaziali della sorgente luminosa (o direzione per luci direzionali). \end{DoxyCompactList}\item 
+\Hypertarget{class_light_afefa4dcb15a528e615fdfbe38b65a9ec}\label{class_light_afefa4dcb15a528e615fdfbe38b65a9ec} 
+int {\bfseries light\+Context\+ID}
+\begin{DoxyCompactList}\small\item\em ID hardware o del contesto grafico assegnato a questa luce. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Classe base astratta che rappresenta una generica sorgente luminosa nel grafo di scena. 
+
+
+\begin{DoxyItemize}
+\item Gestisce le componenti cromatiche fondamentali (ambientale, diffusa, speculare) e la posizione. 
+\end{DoxyItemize}
+
+\label{doc-constructors}
+\Hypertarget{class_light_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_light_a6e8a2f90daebca63d67fb341d39a3d07}\index{Light@{Light}!Light@{Light}}
+\index{Light@{Light}!Light@{Light}}
+\doxysubsubsection{\texorpdfstring{Light()}{Light()}}
+{\footnotesize\ttfamily \label{class_light_a6e8a2f90daebca63d67fb341d39a3d07} 
+Light\+::\+Light (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{, }\item[{const glm\+::mat4 \&}]{matrix}{}\end{DoxyParamCaption})}
+
+
+
+Inizializza una luce con nome e trasformazione iniziale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Nome del nodo luce. \\
+\hline
+{\em matrix} & Matrice di trasformazione iniziale. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_light_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_light_ad11747595250cede2c4c7948d1aa3d83}\index{Light@{Light}!render@{render}}
+\index{render@{render}!Light@{Light}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_light_ad11747595250cede2c4c7948d1aa3d83} 
+void Light\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Attiva e configura la luce nella pipeline di rendering. 
+
+
+
+Implements \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{Object}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_infinite_light_af63da69a7719bfcddc061c29ac0841ca}{Infinite\+Light}}, \mbox{\hyperlink{class_omnidirectional_light_a5457595cdc7c98215f81773a6b31e413}{Omnidirectional\+Light}}, and \mbox{\hyperlink{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20}{Spot\+Light}}.
+
+\Hypertarget{class_light_a67a29ce5183fc8fcb65ebfda14820d8f}\index{Light@{Light}!setLightID@{setLightID}}
+\index{setLightID@{setLightID}!Light@{Light}}
+\doxysubsubsection{\texorpdfstring{setLightID()}{setLightID()}}
+{\footnotesize\ttfamily \label{class_light_a67a29ce5183fc8fcb65ebfda14820d8f} 
+void Light\+::set\+Light\+ID (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Assegna l\textquotesingle{}identificativo numerico della luce nel contesto grafico (es. GL\+\_\+\+LIGHTi). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Indice della luce da attivare. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{light_8h}{light.\+h}}\item 
+light.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,28 @@
+\doxysection{perspective\+Camera.\+h}
+\hypertarget{perspective_camera_8h_source}{}\label{perspective_camera_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{camera_8h}{camera.h}}"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_perspective_camera_a462ca1655e5f7d0ffbedfc17419b2f5b}{PerspectiveCamera}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{Camera}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_perspective_camera_a462ca1655e5f7d0ffbedfc17419b2f5b}{PerspectiveCamera}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}},\ \textcolor{keywordtype}{float}\ fovY,\ \textcolor{keywordtype}{float}\ aspect,\ \textcolor{keywordtype}{float}\ near,\ \textcolor{keywordtype}{float}\ far);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_perspective_camera_a81f86ee7e7c769bf4fc28aed9b9f7c43}{setFov}}(\textcolor{keywordtype}{float}\ fovY);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_perspective_camera_a923e3a5ffabc861da93dd968241e96f0}{setAspectRatio}}(\textcolor{keywordtype}{float}\ width,\ \textcolor{keywordtype}{float}\ height);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_perspective_camera_ab2ab999d559d43e6686cbe68405746c6}{setNear}}(\textcolor{keywordtype}{float}\ near);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_perspective_camera_a11d6173cad1de1cc38b0bd6770eefa30}{setFar}}(\textcolor{keywordtype}{float}\ far);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_perspective_camera_ae4bb810ee7c8d78f3e165ae33e3ff727}{updateProjection}}();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{float}\ fovY;\ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{float}\ aspect;\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{float}\ zNear;\ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{float}\ zFar;\ \ \ }
+\DoxyCodeLine{00052\ \};}
+
+\end{DoxyCode}

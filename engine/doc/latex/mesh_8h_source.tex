@@ -1,0 +1,54 @@
+\doxysection{mesh.\+h}
+\hypertarget{mesh_8h_source}{}\label{mesh_8h_source}\mbox{\hyperlink{mesh_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{node_8h}{node.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{material_8h}{material.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib_config_8h}{libConfig.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_mesh_aa200b9e345e84f759c60c97d1ea97059}{Mesh}}\ :\ \textcolor{keyword}{public}\ Node\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{class_mesh_aa200b9e345e84f759c60c97d1ea97059}{Mesh}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}});}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{class_mesh_aa200b9e345e84f759c60c97d1ea97059}{Mesh}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}},\ glm::mat4\ \mbox{\hyperlink{class_mesh_a676b0c1a332963c790558e5ae599147f}{matrix}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ faces,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ vertices,\ \mbox{\hyperlink{class_material}{Material}}*\ \mbox{\hyperlink{class_mesh_a2293ce5a7d3e598871a36bc8f81bba7d}{material}});}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Getters}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ \mbox{\hyperlink{class_mesh_ace32302c68f7ed4ae1ac9a485b37ecdc}{get\_all\_vertices}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ \mbox{\hyperlink{class_mesh_a2eea09b3dfa3a8a033dccf4160e6b4cf}{get\_all\_normals}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<glm::vec2>\&\ \mbox{\hyperlink{class_mesh_af97b84d5a9cdfc721775949adfd353fa}{get\_all\_texture\_coords}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::vector<unsigned\ int>>\&\ \mbox{\hyperlink{class_mesh_ae85df556038fb11104d19870f4b96bb3}{get\_face\_vertices}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_material}{Material}}*\ \mbox{\hyperlink{class_mesh_ad0815fc310ab9de09381978871f2bc77}{getMaterial}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Setters}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mesh_a17faad29f37d6d2036b399199c3415e9}{set\_all\_vertices}}(\textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ vertices);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mesh_a2c7be01ef5690003fdb1bbaddf8ce5bf}{set\_all\_normals}}(\textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ normals);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mesh_a206cd7a429127ca53e35db9539c38589}{set\_all\_texture\_coords}}(\textcolor{keyword}{const}\ std::vector<glm::vec2>\&\ textureCoords);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mesh_ad0f4edf5f57889e78156425770d03180}{set\_face\_vertices}}(\textcolor{keyword}{const}\ std::vector<std::vector<unsigned\ int>>\&\ faces);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mesh_acee71afee77988e9233bee788ac501f3}{setMaterial}}(\mbox{\hyperlink{class_material}{Material}}*\ \mbox{\hyperlink{class_mesh_a2293ce5a7d3e598871a36bc8f81bba7d}{material}});}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{render}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00093\ \ \ \ std::vector<glm::vec3>\ \mbox{\hyperlink{class_mesh_a793679b7435e13d9a36547b3ed89ee65}{all\_vertices}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ std::vector<glm::vec3>\ \mbox{\hyperlink{class_mesh_a6404b72907eaa3eaa37238bf00f6e800}{all\_normals}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00095\ \ \ \ std::vector<glm::vec2>\ \mbox{\hyperlink{class_mesh_afd8faba48a97a0353041d8ef129f4719}{all\_texture\_coords}};\ \ }
+\DoxyCodeLine{00096\ \ \ \ std::vector<std::vector<unsigned\ int>>\ \mbox{\hyperlink{class_mesh_a67e317e8e6fff85e723a826cede1f6c1}{face\_vertices}};\ }
+\DoxyCodeLine{00097\ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_mesh_a909db2b025ba83cda34b3675733997f8}{numFaces}};\ \ \ \ \ \ }
+\DoxyCodeLine{00098\ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_mesh_a4ce357c1afc5829c42412dec1dcd78fe}{numVertices}};\ \ \ }
+\DoxyCodeLine{00099\ \ \ \ \mbox{\hyperlink{class_material}{Material}}*\ \mbox{\hyperlink{class_mesh_a2293ce5a7d3e598871a36bc8f81bba7d}{material}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00100\ \ \ \ glm::mat4\ \mbox{\hyperlink{class_mesh_a676b0c1a332963c790558e5ae599147f}{matrix}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00101\ \};}
+
+\end{DoxyCode}

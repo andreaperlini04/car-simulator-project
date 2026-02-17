@@ -1,0 +1,23 @@
+\doxysection{lib\+Config.\+h}
+\hypertarget{lib_config_8h_source}{}\label{lib_config_8h_source}\mbox{\hyperlink{lib_config_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \ \textcolor{comment}{//\ Export\ API:}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ \_WINDOWS}}
+\DoxyCodeLine{00009\ \ \ \ \textcolor{comment}{//\ Specifies\ i/o\ linkage\ (VC++\ spec):}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifdef\ ENGINE\_EXPORTS}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ ENG\_API\ \_\_declspec(dllexport)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#else}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ ENG\_API\ \_\_declspec(dllimport)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif\ \ \ \ \ \ }}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \textcolor{comment}{//\ Get\ rid\ of\ annoying\ warnings:}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ warning(disable\ :\ 4251)\ }}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Under\ linux}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ ENG\_API}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+
+\end{DoxyCode}

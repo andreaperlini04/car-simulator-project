@@ -1,0 +1,88 @@
+\doxysection{Texture Class Reference}
+\hypertarget{class_texture}{}\label{class_texture}\index{Texture@{Texture}}
+
+
+Rappresenta una texture 2D applicabile alle superfici degli oggetti grafici.  
+
+
+
+
+{\ttfamily \#include $<$texture.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591}{Texture}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Carica e inizializza una texture da file. \end{DoxyCompactList}\item 
+\Hypertarget{class_texture_a09c4bcb7462f64c1d20fa69dba3cee8a}\label{class_texture_a09c4bcb7462f64c1d20fa69dba3cee8a} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Texture} ()
+\begin{DoxyCompactList}\small\item\em Distruttore della classe. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_texture_a800d2fde67c26e55834c5b38e4f7d885}{render}} () override
+\begin{DoxyCompactList}\small\item\em Attiva la texture per l\textquotesingle{}uso nel rendering corrente. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Rappresenta una texture 2D applicabile alle superfici degli oggetti grafici. 
+
+\label{doc-constructors}
+\Hypertarget{class_texture_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591}\index{Texture@{Texture}!Texture@{Texture}}
+\index{Texture@{Texture}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{Texture()}{Texture()}}
+{\footnotesize\ttfamily \label{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591} 
+Texture\+::\+Texture (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{, }\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Carica e inizializza una texture da file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & Percorso del file immagine da caricare. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_texture_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_texture_a800d2fde67c26e55834c5b38e4f7d885}\index{Texture@{Texture}!render@{render}}
+\index{render@{render}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_texture_a800d2fde67c26e55834c5b38e4f7d885} 
+void Texture\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Attiva la texture per l\textquotesingle{}uso nel rendering corrente. 
+
+
+
+Implements \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{Object}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{texture_8h}{texture.\+h}}\item 
+texture.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,39 @@
+\doxysection{engine.\+h File Reference}
+\hypertarget{engine_8h}{}\label{engine_8h}\index{engine.h@{engine.h}}
+
+
+Header principale del motore grafico.  
+
+
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include "{}lib\+Config.\+h"{}}\newline
+{\ttfamily \#include "{}camera.\+h"{}}\newline
+{\ttfamily \#include "{}list.\+h"{}}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_eng_1_1_base}{Eng\+::\+Base}}
+\begin{DoxyCompactList}\small\item\em Classe Singleton che gestisce il ciclo di vita del motore grafico, la finestra e il loop di rendering. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93}\label{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93} 
+using {\bfseries Eng\+::\+Display\+Callback} = std\+::function$<$void()$>$
+\begin{DoxyCompactList}\small\item\em Callback invocata per il rendering del frame. \end{DoxyCompactList}\item 
+\Hypertarget{engine_8h_ab286424aee33aa47593e9cad5e91dc18}\label{engine_8h_ab286424aee33aa47593e9cad5e91dc18} 
+using {\bfseries Eng\+::\+Reshape\+Callback} = std\+::function$<$void(int width, int height)$>$
+\begin{DoxyCompactList}\small\item\em Callback invocata al ridimensionamento della finestra. \end{DoxyCompactList}\item 
+\Hypertarget{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6}\label{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6} 
+using {\bfseries Eng\+::\+Keyboard\+Callback} = std\+::function$<$void(unsigned char key, int x, int y)$>$
+\begin{DoxyCompactList}\small\item\em Callback invocata alla pressione di un tasto standard. \end{DoxyCompactList}\item 
+\Hypertarget{engine_8h_a0ac52d5286070b7212cf3dc56f825460}\label{engine_8h_a0ac52d5286070b7212cf3dc56f825460} 
+using {\bfseries Eng\+::\+Special\+Callback} = std\+::function$<$void(int key, int x, int y)$>$
+\begin{DoxyCompactList}\small\item\em Callback invocata alla pressione di un tasto speciale. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header principale del motore grafico. 
+

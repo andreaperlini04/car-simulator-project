@@ -1,0 +1,159 @@
+\doxysection{Material Class Reference}
+\hypertarget{class_material}{}\label{class_material}\index{Material@{Material}}
+
+
+Rappresenta le proprietà ottiche e superficiali di un oggetto grafico.  
+
+
+
+
+{\ttfamily \#include $<$material.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_material_a927287f75541ea04179d0ea26f7b4923}{Material}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, const glm\+::vec3 \&emission, const glm\+::vec3 \&ambient, const glm\+::vec3 \&diffuse, const glm\+::vec3 \&specular, float shininess, float transparency)
+\begin{DoxyCompactList}\small\item\em Inizializza un nuovo materiale con le proprietà specificate. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a2c19452d71f54075df8f5405b03129f4}\label{class_material_a2c19452d71f54075df8f5405b03129f4} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Material} ()
+\begin{DoxyCompactList}\small\item\em Distruttore della classe. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a126db9d7cd6797f6acc910b2735f7bb4}\label{class_material_a126db9d7cd6797f6acc910b2735f7bb4} 
+const glm\+::vec3 \& {\bfseries get\+Ambient} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di riflessione ambientale. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a035e0e6cdd94ba8c8fe147f19786c068}\label{class_material_a035e0e6cdd94ba8c8fe147f19786c068} 
+const glm\+::vec3 \& {\bfseries get\+Diffuse} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di riflessione diffusa. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a064ebab10d20157251041064c5d87528}\label{class_material_a064ebab10d20157251041064c5d87528} 
+const glm\+::vec3 \& {\bfseries get\+Specular} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di riflessione speculare. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a0488430ca42123da77f44b4610fdd18d}\label{class_material_a0488430ca42123da77f44b4610fdd18d} 
+const glm\+::vec3 \& {\bfseries get\+Emissione} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente emissiva del materiale. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_ac65754d70c261b6065087fe3ce828872}\label{class_material_ac65754d70c261b6065087fe3ce828872} 
+float {\bfseries get\+Shininess} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il fattore di brillantezza (shininess). \end{DoxyCompactList}\item 
+\Hypertarget{class_material_acbecef6e49a0bc5b6ded7ad1a2895719}\label{class_material_acbecef6e49a0bc5b6ded7ad1a2895719} 
+float {\bfseries get\+Transparency} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il valore di trasparenza corrente. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a80b0c5fe5c320d38b2ed77ae7a4107f0}\label{class_material_a80b0c5fe5c320d38b2ed77ae7a4107f0} 
+\mbox{\hyperlink{class_texture}{Texture}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Texture} ()
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore alla texture associata, se presente. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a225eaed59c1116881b9fcdb82c475641}\label{class_material_a225eaed59c1116881b9fcdb82c475641} 
+void {\bfseries set\+Ambient} (const glm\+::vec3 \&ambient)
+\begin{DoxyCompactList}\small\item\em Imposta la componente di riflessione ambientale. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_abd6fd16afb939e1d69f4008c5491d6ed}\label{class_material_abd6fd16afb939e1d69f4008c5491d6ed} 
+void {\bfseries set\+Diffuse} (const glm\+::vec3 \&diffuse)
+\begin{DoxyCompactList}\small\item\em Imposta la componente di riflessione diffusa. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a185716fb9befcf05ac127ece0fe35e6c}\label{class_material_a185716fb9befcf05ac127ece0fe35e6c} 
+void {\bfseries set\+Specular} (const glm\+::vec3 \&specular)
+\begin{DoxyCompactList}\small\item\em Imposta la componente di riflessione speculare. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_aaa5b362958d9876359c62df9ea235e9a}\label{class_material_aaa5b362958d9876359c62df9ea235e9a} 
+void {\bfseries set\+Emissione} (const glm\+::vec3 \&emissione)
+\begin{DoxyCompactList}\small\item\em Imposta la componente emissiva (auto-\/illuminazione). \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a329d0ae8403956a71b1d45b3284f7dd7}\label{class_material_a329d0ae8403956a71b1d45b3284f7dd7} 
+void {\bfseries set\+Shininess} (float shininess)
+\begin{DoxyCompactList}\small\item\em Imposta il fattore di brillantezza per i riflessi speculari. \end{DoxyCompactList}\item 
+\Hypertarget{class_material_a4688116d807b7cd494798632d0f2b74a}\label{class_material_a4688116d807b7cd494798632d0f2b74a} 
+void {\bfseries set\+Transparency} (float transparency)
+\begin{DoxyCompactList}\small\item\em Imposta il livello di trasparenza del materiale. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_material_af769b6b5b214ec476e3036f16b1e4b00}{set\+Texture}} (\mbox{\hyperlink{class_texture}{Texture}} \texorpdfstring{$\ast$}{*}texture)
+\begin{DoxyCompactList}\small\item\em Associa una texture al materiale. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_material_ab2328e122f3a9ba58c209226926b7624}{render}} () override
+\begin{DoxyCompactList}\small\item\em Applica le proprietà del materiale allo stato corrente del rendering. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Rappresenta le proprietà ottiche e superficiali di un oggetto grafico. 
+
+
+\begin{DoxyItemize}
+\item Definisce come l\textquotesingle{}oggetto interagisce con la luce (modello di Phong) e l\textquotesingle{}eventuale texture applicata. 
+\end{DoxyItemize}
+
+\label{doc-constructors}
+\Hypertarget{class_material_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_material_a927287f75541ea04179d0ea26f7b4923}\index{Material@{Material}!Material@{Material}}
+\index{Material@{Material}!Material@{Material}}
+\doxysubsubsection{\texorpdfstring{Material()}{Material()}}
+{\footnotesize\ttfamily \label{class_material_a927287f75541ea04179d0ea26f7b4923} 
+Material\+::\+Material (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{, }\item[{const glm\+::vec3 \&}]{emission}{, }\item[{const glm\+::vec3 \&}]{ambient}{, }\item[{const glm\+::vec3 \&}]{diffuse}{, }\item[{const glm\+::vec3 \&}]{specular}{, }\item[{float}]{shininess}{, }\item[{float}]{transparency}{}\end{DoxyParamCaption})}
+
+
+
+Inizializza un nuovo materiale con le proprietà specificate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em emission} & Colore emesso dal materiale (auto-\/illuminazione). \\
+\hline
+{\em ambient} & Coefficiente di riflessione della luce ambientale. \\
+\hline
+{\em diffuse} & Coefficiente di riflessione diffusa. \\
+\hline
+{\em specular} & Coefficiente di riflessione speculare. \\
+\hline
+{\em shininess} & Fattore di brillantezza (esponente speculare). \\
+\hline
+{\em transparency} & Livello di trasparenza del materiale. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_material_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_material_ab2328e122f3a9ba58c209226926b7624}\index{Material@{Material}!render@{render}}
+\index{render@{render}!Material@{Material}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_material_ab2328e122f3a9ba58c209226926b7624} 
+void Material\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Applica le proprietà del materiale allo stato corrente del rendering. 
+
+
+
+Implements \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{Object}}.
+
+\Hypertarget{class_material_af769b6b5b214ec476e3036f16b1e4b00}\index{Material@{Material}!setTexture@{setTexture}}
+\index{setTexture@{setTexture}!Material@{Material}}
+\doxysubsubsection{\texorpdfstring{setTexture()}{setTexture()}}
+{\footnotesize\ttfamily \label{class_material_af769b6b5b214ec476e3036f16b1e4b00} 
+void Material\+::set\+Texture (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_texture}{Texture}} \texorpdfstring{$\ast$}{*}}]{texture}{}\end{DoxyParamCaption})}
+
+
+
+Associa una texture al materiale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em texture} & Puntatore alla texture da applicare. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{material_8h}{material.\+h}}\item 
+material.\+cpp\end{DoxyCompactItemize}

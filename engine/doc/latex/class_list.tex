@@ -1,0 +1,118 @@
+\doxysection{List Class Reference}
+\hypertarget{class_list}{}\label{class_list}\index{List@{List}}
+
+
+Gestisce una collezione di nodi grafici da renderizzare in un determinato passaggio.  
+
+
+
+
+{\ttfamily \#include $<$list.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_list_1_1_instance}{Instance}}
+\begin{DoxyCompactList}\small\item\em Rappresenta una singola istanza di rendering contenente il nodo e la sua posizione. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_list_a206eadb5753473eb913668b85b819b18}\label{class_list_a206eadb5753473eb913668b85b819b18} 
+{\bfseries List} ()
+\begin{DoxyCompactList}\small\item\em Costruttore di default. \end{DoxyCompactList}\item 
+\Hypertarget{class_list_a70aecf37bd9d779a394e4d50377fbf5f}\label{class_list_a70aecf37bd9d779a394e4d50377fbf5f} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+List} ()
+\begin{DoxyCompactList}\small\item\em Distruttore della classe. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_list_a53a32f926046c05d1820fc10e29a1367}{pass}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}node, glm\+::mat4 mat)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo alla lista di rendering con la relativa trasformazione. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_list_a1d90dbbbabd6bfca2f5eef525f52a445}{render}} (glm\+::mat4 view\+Matrix)
+\begin{DoxyCompactList}\small\item\em Esegue il rendering di tutti gli elementi contenuti nella lista. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_list_a819f0efb82263b15326e610b13623174}{render}} () override
+\begin{DoxyCompactList}\small\item\em Implementazione del metodo di rendering generico (ereditato da \doxylink{class_object}{Object}). \end{DoxyCompactList}\item 
+\Hypertarget{class_list_a3fad6292bd5126eeb437317383338cea}\label{class_list_a3fad6292bd5126eeb437317383338cea} 
+void {\bfseries clear} ()
+\begin{DoxyCompactList}\small\item\em Rimuove tutti gli elementi presenti nella lista di rendering. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_list_ab1405edb6a47b2eaa052ef565eeda6b3}\label{class_list_ab1405edb6a47b2eaa052ef565eeda6b3} 
+std\+::list$<$ \mbox{\hyperlink{struct_list_1_1_instance}{Instance}} $>$ {\bfseries instances}
+\begin{DoxyCompactList}\small\item\em Contenitore interno delle istanze da elaborare. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Gestisce una collezione di nodi grafici da renderizzare in un determinato passaggio. 
+
+\label{doc-func-members}
+\Hypertarget{class_list_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_list_a53a32f926046c05d1820fc10e29a1367}\index{List@{List}!pass@{pass}}
+\index{pass@{pass}!List@{List}}
+\doxysubsubsection{\texorpdfstring{pass()}{pass()}}
+{\footnotesize\ttfamily \label{class_list_a53a32f926046c05d1820fc10e29a1367} 
+void List\+::pass (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}}]{node}{, }\item[{glm\+::mat4}]{mat}{}\end{DoxyParamCaption})}
+
+
+
+Aggiunge un nodo alla lista di rendering con la relativa trasformazione. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & Puntatore al nodo da inserire in lista. \\
+\hline
+{\em mat} & Matrice di trasformazione mondiale (World Matrix) associata al nodo. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_list_a819f0efb82263b15326e610b13623174}\index{List@{List}!render@{render}}
+\index{render@{render}!List@{List}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_list_a819f0efb82263b15326e610b13623174} 
+void List\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implementazione del metodo di rendering generico (ereditato da \doxylink{class_object}{Object}). 
+
+
+
+Implements \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{Object}}.
+
+\Hypertarget{class_list_a1d90dbbbabd6bfca2f5eef525f52a445}\index{List@{List}!render@{render}}
+\index{render@{render}!List@{List}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_list_a1d90dbbbabd6bfca2f5eef525f52a445} 
+void List\+::render (\begin{DoxyParamCaption}\item[{glm\+::mat4}]{view\+Matrix}{}\end{DoxyParamCaption})}
+
+
+
+Esegue il rendering di tutti gli elementi contenuti nella lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em view\+Matrix} & Matrice di vista corrente utilizzata per il rendering. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{list_8h}{list.\+h}}\item 
+list.\+cpp\end{DoxyCompactItemize}

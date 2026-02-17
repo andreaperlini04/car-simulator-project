@@ -1,0 +1,11 @@
+.vs
+engine/x64
+client/x64
+x64
+client/client.vcxproj.user
+engine/engine.vcxproj.user
+client/obj
+client/bin
+engine/bin
+engine/obj
+

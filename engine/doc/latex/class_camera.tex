@@ -1,0 +1,167 @@
+\doxysection{Camera Class Reference}
+\hypertarget{class_camera}{}\label{class_camera}\index{Camera@{Camera}}
+
+
+Classe base che rappresenta una telecamera nella scena 3D.  
+
+
+
+
+{\ttfamily \#include $<$camera.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{Camera}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore della camera base. \end{DoxyCompactList}\item 
+\Hypertarget{class_camera_ad1897942d0ccf91052386388a497349f}\label{class_camera_ad1897942d0ccf91052386388a497349f} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Camera} ()
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale. \end{DoxyCompactList}\item 
+const glm\+::mat4 \& \mbox{\hyperlink{class_camera_a7d4b9a2a5d4e2a32d2f2ac5858d366bc}{get\+Projection\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di proiezione corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_a6467681bead7b700c85be6614447052b}{get\+Inv\+Camera\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola e restituisce la View Matrix (inversa della World Matrix). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_camera_a3dc4347422345940f68f3abb6dd1f2c7}{set\+Projection\+Matrix}} (const glm\+::mat4 \&\mbox{\hyperlink{class_camera_af080757da494dd1e4a347f527df4af9c}{projection\+Matrix}})
+\begin{DoxyCompactList}\small\item\em Imposta manualmente una matrice di proiezione generica. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_node}{Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Node} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\item 
+glm\+::mat4 {\bfseries getM} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc6940cfb5d60c08c166fac399752734}{setM}} (const glm\+::mat4 \&new\+Matrix)
+\begin{DoxyCompactList}\small\item\em Imposta la matrice di trasformazione locale del nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_aed6899432765e92239207918968b186e}{rotate}} (float angle, const glm\+::vec3 \&axis)
+\begin{DoxyCompactList}\small\item\em Applica una rotazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc1316a8924601dd149dce190f2150ea}{scale}} (const glm\+::vec3 \&factor)
+\begin{DoxyCompactList}\small\item\em Applica un ridimensionamento alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_acd32a895c47c272df247a2e5058e9bc7}{translate}} (const glm\+::vec3 \&translation)
+\begin{DoxyCompactList}\small\item\em Applica una traslazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_node_ad65a52e69261fd32b826daa42252d79e}{get\+World\+Final\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{render}} () override
+\begin{DoxyCompactList}\small\item\em Esegue il rendering del nodo e, ricorsivamente, dei suoi figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore al nodo genitore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a7e23fcd1d980e25960c4cc049ad80258}{set\+Parent}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}new\+Parent)
+\begin{DoxyCompactList}\small\item\em Imposta il nodo genitore per questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a132699398b350e83b548a5645e69beb0}{add\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo figlio alla gerarchia di questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_adb62722d840bfd6a0393ec87d15c9c7a}{remove\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Rimuove un nodo figlio specifico dalla lista dei figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a47b7fffc812643e2a001e1f1fc91a521}{get\+Child}} (int index) const
+\begin{DoxyCompactList}\small\item\em Recupera un nodo figlio tramite il suo indice. \end{DoxyCompactList}\item 
+unsigned int {\bfseries get\+Num\+Children} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il numero totale di figli collegati a questo nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a4207689359377107826b25d41a1426cb}{find\+By\+Name}} (const std\+::string \&node\+Name)
+\begin{DoxyCompactList}\small\item\em Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_camera_af080757da494dd1e4a347f527df4af9c}\label{class_camera_af080757da494dd1e4a347f527df4af9c} 
+glm\+::mat4 {\bfseries projection\+Matrix}
+\begin{DoxyCompactList}\small\item\em Matrice di proiezione interna. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Classe base che rappresenta una telecamera nella scena 3D. 
+
+
+\begin{DoxyItemize}
+\item Estende la classe \doxylink{class_node}{Node} per ereditare le trasformazioni spaziali (posizione, rotazione). Gestisce la matrice di proiezione e calcola la matrice di vista (View Matrix). 
+\end{DoxyItemize}
+
+\label{doc-constructors}
+\Hypertarget{class_camera_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_camera_ad0e65086a370b5c433bc863b1f6b681f}\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{Camera()}{Camera()}}
+{\footnotesize\ttfamily \label{class_camera_ad0e65086a370b5c433bc863b1f6b681f} 
+Camera\+::\+Camera (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{}\end{DoxyParamCaption})}
+
+
+
+Costruttore della camera base. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Il nome del nodo camera all\textquotesingle{}interno del grafo della scena. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_camera_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_camera_a6467681bead7b700c85be6614447052b}\index{Camera@{Camera}!getInvCameraMatrix@{getInvCameraMatrix}}
+\index{getInvCameraMatrix@{getInvCameraMatrix}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{getInvCameraMatrix()}{getInvCameraMatrix()}}
+{\footnotesize\ttfamily \label{class_camera_a6467681bead7b700c85be6614447052b} 
+glm\+::mat4 Camera\+::get\+Inv\+Camera\+Matrix (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calcola e restituisce la View Matrix (inversa della World Matrix). 
+
+
+\begin{DoxyItemize}
+\item La View Matrix trasforma le coordinate dal World Space al \doxylink{class_camera}{Camera} Space. \begin{DoxyReturn}{Returns}
+Matrice 4x4 rappresentante la vista. 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\Hypertarget{class_camera_a7d4b9a2a5d4e2a32d2f2ac5858d366bc}\index{Camera@{Camera}!getProjectionMatrix@{getProjectionMatrix}}
+\index{getProjectionMatrix@{getProjectionMatrix}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{getProjectionMatrix()}{getProjectionMatrix()}}
+{\footnotesize\ttfamily \label{class_camera_a7d4b9a2a5d4e2a32d2f2ac5858d366bc} 
+const glm\+::mat4 \& Camera\+::get\+Projection\+Matrix (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Restituisce la matrice di proiezione corrente. 
+
+\begin{DoxyReturn}{Returns}
+Riferimento costante alla matrice 4x4 di proiezione. 
+\end{DoxyReturn}
+\Hypertarget{class_camera_a3dc4347422345940f68f3abb6dd1f2c7}\index{Camera@{Camera}!setProjectionMatrix@{setProjectionMatrix}}
+\index{setProjectionMatrix@{setProjectionMatrix}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{setProjectionMatrix()}{setProjectionMatrix()}}
+{\footnotesize\ttfamily \label{class_camera_a3dc4347422345940f68f3abb6dd1f2c7} 
+void Camera\+::set\+Projection\+Matrix (\begin{DoxyParamCaption}\item[{const glm\+::mat4 \&}]{projection\+Matrix}{}\end{DoxyParamCaption})}
+
+
+
+Imposta manualmente una matrice di proiezione generica. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em projection\+Matrix} & La nuova matrice di proiezione. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{camera_8h}{camera.\+h}}\item 
+\mbox{\hyperlink{camera_8cpp}{camera.\+cpp}}\end{DoxyCompactItemize}

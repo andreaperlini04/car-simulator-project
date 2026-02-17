@@ -1,0 +1,142 @@
+\doxysection{ovo\+Reader.\+h}
+\hypertarget{ovo_reader_8h_source}{}\label{ovo_reader_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \#INCLUDE\ //}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Header\ file\ include}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ GLM:\ \ \ \ \ \ }}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <glm/gtc/packing.hpp>}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{node_8h}{node.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{material_8h}{material.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{object_8h}{object.h}}"{}}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{mesh_8h}{mesh.h}}"{}}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{light_8h}{light.h}}"{}}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{spot_light_8h}{spotLight.h}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{omnidirectional_light_8h}{omnidirectionalLight.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{infinite_light_8h}{infiniteLight.h}}"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{texture_8h}{texture.h}}"{}}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ OVO\ OBJECTS\ //}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_ov_object}{OvObject}}}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Type\ :\ \textcolor{keywordtype}{int}\ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Foundation\ types:}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ OBJECT\ =\ 0,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ NODE,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ OBJECT2D,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ OBJECT3D,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ LIST,}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Derived\ classes:}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ BUFFER,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ SHADER,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ TEXTURE,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ FILTER,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ MATERIAL,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ FBO,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ QUAD,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ BOX,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ SKYBOX,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ FONT,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ CAMERA,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ LIGHT,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ BONE,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ MESH,\ \ \ \ \ \ \textcolor{comment}{//\ Keep\ them...}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ SKINNED,\ \textcolor{comment}{//\ ...consecutive\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ INSTANCED,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ PIPELINE,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ EMITTER,}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Animation\ type}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ ANIM,}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Physics\ related:}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ PHYSICS,}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Terminator:}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ LAST,}
+\DoxyCodeLine{00091\ \ \ \ \ \};}
+\DoxyCodeLine{00092\ \};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_ov_mesh}{OvMesh}}}
+\DoxyCodeLine{00099\ \{}
+\DoxyCodeLine{00100\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Subtype\ :\ \textcolor{keywordtype}{int}\ }
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Foundation\ types:}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ DEFAULT\ =\ 0,}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ NORMALMAPPED,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ TESSELLATED,}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Terminator:}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ LAST,}
+\DoxyCodeLine{00110\ \ \ \ \ \};}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_ov_light}{OvLight}}}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Subtype\ :\ \textcolor{keywordtype}{int}\ }
+\DoxyCodeLine{00121\ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Foundation\ types:}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ OMNI\ =\ 0,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ DIRECTIONAL,}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ SPOT,}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Terminator:}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ LAST,}
+\DoxyCodeLine{00129\ \ \ \ \ \};}
+\DoxyCodeLine{00130\ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ OVO\ OBJECTS\ //}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_ovo_reader}{OvoReader}}\ \{}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00149\ \ \ \ \ \mbox{\hyperlink{class_node}{Node}}*\ \mbox{\hyperlink{class_ovo_reader_af1b9ec10f8c131e2b5b55d71949f5e0a}{readFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ file\_path,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ texture\_dir);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00158\ \ \ \ \ std::map<std::string,\ Material*>\ \mbox{\hyperlink{class_ovo_reader_a4169d6409d29b92ba08994f2098d7a55}{m\_materials}};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{class_node}{Node}}*\ \mbox{\hyperlink{class_ovo_reader_aff9511d4d7ec5f7fe305ab341dfeb6ab}{recursive\_load}}(FILE*\ dat,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_ovo_reader_a0bb674c10c418f1796a1d118dbba9273}{parse\_object}}(\textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\&\ position);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00182\ \ \ \ \ \mbox{\hyperlink{class_material}{Material}}*\ \mbox{\hyperlink{class_ovo_reader_ab6dfa2e7369c82049a1304c5da7e41b3}{parse\_material}}(\textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\&\ position,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ texture\_dir);}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00191\ \ \ \ \ \mbox{\hyperlink{class_node}{Node}}*\ \mbox{\hyperlink{class_ovo_reader_a9c26a387d140710a81702e5b532c8ece}{parse\_node}}(\textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\&\ position,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}*\ n\_children);}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00200\ \ \ \ \ \mbox{\hyperlink{class_mesh}{Mesh}}*\ \mbox{\hyperlink{class_ovo_reader_a9a727d3f058c75ffac1f8e2f7b279a42}{parse\_mesh}}(\textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\&\ position,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}*\ n\_children);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00209\ \ \ \ \ \mbox{\hyperlink{class_light}{Light}}*\ \mbox{\hyperlink{class_ovo_reader_ab0508cb516aa44d2dc44157b34c6b2be}{parse\_light}}(\textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\&\ position,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}*\ n\_children);}
+\DoxyCodeLine{00210\ \};}
+
+\end{DoxyCode}

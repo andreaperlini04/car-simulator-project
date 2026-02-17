@@ -1,0 +1,96 @@
+stages:
+  - structure
+  - engine
+  - client
+
+image: gitlab-edu.supsi.ch:5050/dti-isin/labingsw/common:ubuntu2404-cg
+
+structure:
+  stage: structure
+  script:
+    - '[ -d engine ] || exit 1'
+    - '[ -d client ] || exit 1'
+
+
+engine:
+  stage: engine
+  before_script:
+    - cd engine
+  script:
+    - make clean
+    - make release
+    - make test
+    # Verifica che la libreria sia stata creata
+    - ls -l bin/Release/libengine.so
+  after_script:
+    - cd ..
+  artifacts:
+    name: "engine-lib"
+    paths:
+      # È fondamentale che questo percorso sia ESATTO (relativo alla root del progetto)
+      - engine/bin/Release/libengine.so
+    expire_in: 1 week
+
+
+client:
+  stage: client
+  needs: 
+    - job: engine
+      artifacts: true
+  before_script:
+    - cd client
+  script:
+    - make clean
+    - make release
+
+    # --- PACKAGING ROBUSTO DELLE DIPENDENZE ---
+    - echo "Inizio procedura di bundling..."
+    - mkdir -p bin/Release/libs
+    
+    # Copia Engine
+    - cp ../engine/bin/Release/libengine.so bin/Release/libs/
+
+    # Copia dipendenze dirette (GLUT e FreeImage) con dereference (-L)
+    - cp -L /usr/lib/x86_64-linux-gnu/libglut.so.3* bin/Release/libs/
+    - cp -L /usr/lib/x86_64-linux-gnu/libfreeimage.so.3* bin/Release/libs/
+
+    - echo "Copia dipendenze annidate..."
+    - |
+      DEPENDENCIES=(
+        "libLerc*"                                    # <--- AGGIUNTO: Risolve l'errore libLerc.so.4
+        "libOpenEXR*"                                 # EXR Core
+        "libIlm*" "libImath*" "libIex*" "libHalf*"    # EXR Utils
+        "libwebp*" "libsharpyuv*"                     # WebP
+        "libjxr*" "libjpegxr*"                        # JXR
+        "libopenjp2*"                                 # JPEG 2000
+        "libraw*" "libpng16*" "libtiff*"              # Raw, PNG, Tiff
+        "libjpeg*"                                    # JPEG standard
+        "libdeflate*" "libjbig*" "liblzma*"           # Compressioni varie
+        "libzstd*" "libgomp*" "liblcms2*"             # Utils
+        "libbrotli*"                                  # Brotli
+      )
+      
+      for pattern in "${DEPENDENCIES[@]}"; do
+        find /usr/lib/x86_64-linux-gnu -name "$pattern" -exec cp -L -v {} bin/Release/libs/ \;
+      done
+
+    # Copia Assets
+    - cp tavolo.ovo bin/Release/
+    - cp -r texture bin/Release/
+
+    # --- GENERAZIONE SCRIPT DI AVVIO ---
+    - echo "Generazione run.sh..."
+    - echo '#!/bin/bash' > bin/Release/run.sh
+    - echo 'DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"' >> bin/Release/run.sh
+    - echo 'export LD_LIBRARY_PATH="$DIR/libs:$DIR:$LD_LIBRARY_PATH"' >> bin/Release/run.sh
+    - echo '"$DIR/client"' >> bin/Release/run.sh
+    - chmod +x bin/Release/run.sh
+    
+    - echo "Contenuto libs:"
+    - ls -lh bin/Release/libs/
+
+  after_script:
+    - cd ..
+  artifacts:
+    paths:
+      - client/bin/Release/

@@ -1,0 +1,203 @@
+\doxysection{Spot\+Light Class Reference}
+\hypertarget{class_spot_light}{}\label{class_spot_light}\index{SpotLight@{SpotLight}}
+
+
+Rappresenta una sorgente luminosa che emette luce in un cono specifico (faretto).  
+
+
+
+
+{\ttfamily \#include $<$spot\+Light.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_spot_light_ae4045cd7c8c6d18af39b57c9cf6f9ce6}\label{class_spot_light_ae4045cd7c8c6d18af39b57c9cf6f9ce6} 
+{\bfseries Spot\+Light} ()
+\begin{DoxyCompactList}\small\item\em Costruttore di default. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_spot_light_a6470eb5618a66e3b64f3ea411565b8b0}{Spot\+Light}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, const glm\+::mat4 \&matrix, const glm\+::vec3 \&\mbox{\hyperlink{class_light_abcd118cea5b6bb284d218b1df62bbbce}{ambient}}, const glm\+::vec3 \&\mbox{\hyperlink{class_light_af933e4c1087a91fa621fa9f28ccf3e76}{diffuse}}, const glm\+::vec3 \&\mbox{\hyperlink{class_light_a083c715bd3f644581975c3d0192ceebb}{specular}}, const glm\+::vec3 \&direction, float cutoff, float exponent)
+\begin{DoxyCompactList}\small\item\em Inizializza una luce spot con proprietà e orientamento specifici. \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_aa16b741d73aa198c203ce40a066a115c}\label{class_spot_light_aa16b741d73aa198c203ce40a066a115c} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Spot\+Light} ()
+\begin{DoxyCompactList}\small\item\em Distruttore della classe. \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_ae809e7d8f49e05d44371ba5201c7dd93}\label{class_spot_light_ae809e7d8f49e05d44371ba5201c7dd93} 
+float {\bfseries get\+Cutoff} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}angolo di apertura del cono (cutoff). \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_a25a0b2fc79973926cdddaa8a15e4f79d}\label{class_spot_light_a25a0b2fc79973926cdddaa8a15e4f79d} 
+void {\bfseries set\+Cutoff} (float value)
+\begin{DoxyCompactList}\small\item\em Imposta l\textquotesingle{}angolo limite del cono di emissione. \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_aee2365b1ce6994b71ec3985b1380ae5d}\label{class_spot_light_aee2365b1ce6994b71ec3985b1380ae5d} 
+void {\bfseries set\+Direction} (const glm\+::vec3 \&dir)
+\begin{DoxyCompactList}\small\item\em Imposta la direzione verso cui punta il faretto. \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_a7728903c155eda1e0304be6de04609d7}\label{class_spot_light_a7728903c155eda1e0304be6de04609d7} 
+glm\+::vec3 {\bfseries get\+Direction} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il vettore direzione corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_spot_light_a705480498eaa724f75e38c7048473944}{set\+Spot\+Exponent}} (float exp)
+\begin{DoxyCompactList}\small\item\em Imposta l\textquotesingle{}esponente di attenuazione angolare (spot exponent). \end{DoxyCompactList}\item 
+\Hypertarget{class_spot_light_adc13f346b79fabaca8498b3b753ad111}\label{class_spot_light_adc13f346b79fabaca8498b3b753ad111} 
+float {\bfseries get\+Spot\+Exponent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il fattore di attenuazione angolare corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20}{render}} () override
+\begin{DoxyCompactList}\small\item\em Esegue il rendering della luce spot nella scena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_light}{Light}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Light} ()
+\begin{DoxyCompactList}\small\item\em Costruttore di default. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_light_a6e8a2f90daebca63d67fb341d39a3d07}{Light}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}}, const glm\+::mat4 \&matrix)
+\begin{DoxyCompactList}\small\item\em Inizializza una luce con nome e trasformazione iniziale. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Light} ()=0
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale puro. \end{DoxyCompactList}\item 
+const glm\+::vec4 \& {\bfseries get\+Ambient} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce ambientale. \end{DoxyCompactList}\item 
+const glm\+::vec4 \& {\bfseries get\+Diffuse} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce diffusa. \end{DoxyCompactList}\item 
+const glm\+::vec4 \& {\bfseries get\+Specular} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la componente di luce speculare. \end{DoxyCompactList}\item 
+const glm\+::vec4 \& {\bfseries get\+Position} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la posizione della sorgente luminosa. \end{DoxyCompactList}\item 
+void {\bfseries set\+Ambient} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_abcd118cea5b6bb284d218b1df62bbbce}{ambient}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce ambientale. \end{DoxyCompactList}\item 
+void {\bfseries set\+Diffuse} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_af933e4c1087a91fa621fa9f28ccf3e76}{diffuse}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce diffusa. \end{DoxyCompactList}\item 
+void {\bfseries set\+Specular} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_a083c715bd3f644581975c3d0192ceebb}{specular}})
+\begin{DoxyCompactList}\small\item\em Imposta la componente di luce speculare. \end{DoxyCompactList}\item 
+void {\bfseries set\+Position} (const glm\+::vec4 \&\mbox{\hyperlink{class_light_a240653e7032ae5e2e1fbbab819422077}{position}})
+\begin{DoxyCompactList}\small\item\em Imposta la posizione della sorgente luminosa. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_light_a67a29ce5183fc8fcb65ebfda14820d8f}{set\+Light\+ID}} (int id)
+\begin{DoxyCompactList}\small\item\em Assegna l\textquotesingle{}identificativo numerico della luce nel contesto grafico (es. GL\+\_\+\+LIGHTi). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_node}{Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Node} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\item 
+glm\+::mat4 {\bfseries getM} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc6940cfb5d60c08c166fac399752734}{setM}} (const glm\+::mat4 \&new\+Matrix)
+\begin{DoxyCompactList}\small\item\em Imposta la matrice di trasformazione locale del nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_aed6899432765e92239207918968b186e}{rotate}} (float angle, const glm\+::vec3 \&axis)
+\begin{DoxyCompactList}\small\item\em Applica una rotazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc1316a8924601dd149dce190f2150ea}{scale}} (const glm\+::vec3 \&factor)
+\begin{DoxyCompactList}\small\item\em Applica un ridimensionamento alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_acd32a895c47c272df247a2e5058e9bc7}{translate}} (const glm\+::vec3 \&translation)
+\begin{DoxyCompactList}\small\item\em Applica una traslazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_node_ad65a52e69261fd32b826daa42252d79e}{get\+World\+Final\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore al nodo genitore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a7e23fcd1d980e25960c4cc049ad80258}{set\+Parent}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}new\+Parent)
+\begin{DoxyCompactList}\small\item\em Imposta il nodo genitore per questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a132699398b350e83b548a5645e69beb0}{add\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo figlio alla gerarchia di questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_adb62722d840bfd6a0393ec87d15c9c7a}{remove\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Rimuove un nodo figlio specifico dalla lista dei figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a47b7fffc812643e2a001e1f1fc91a521}{get\+Child}} (int index) const
+\begin{DoxyCompactList}\small\item\em Recupera un nodo figlio tramite il suo indice. \end{DoxyCompactList}\item 
+unsigned int {\bfseries get\+Num\+Children} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il numero totale di figli collegati a questo nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a4207689359377107826b25d41a1426cb}{find\+By\+Name}} (const std\+::string \&node\+Name)
+\begin{DoxyCompactList}\small\item\em Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_light}{Light}}}
+\begin{DoxyCompactItemize}
+\item 
+glm\+::vec4 {\bfseries ambient}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente ambientale. \end{DoxyCompactList}\item 
+glm\+::vec4 {\bfseries diffuse}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente diffusa. \end{DoxyCompactList}\item 
+glm\+::vec4 {\bfseries specular}
+\begin{DoxyCompactList}\small\item\em Intensità e colore della componente speculare. \end{DoxyCompactList}\item 
+glm\+::vec4 {\bfseries position}
+\begin{DoxyCompactList}\small\item\em Coordinate spaziali della sorgente luminosa (o direzione per luci direzionali). \end{DoxyCompactList}\item 
+int {\bfseries light\+Context\+ID}
+\begin{DoxyCompactList}\small\item\em ID hardware o del contesto grafico assegnato a questa luce. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Rappresenta una sorgente luminosa che emette luce in un cono specifico (faretto). 
+
+
+\begin{DoxyItemize}
+\item Simula una luce posizionale con una direzione e un\textquotesingle{}apertura angolare limitata. 
+\end{DoxyItemize}
+
+\label{doc-constructors}
+\Hypertarget{class_spot_light_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_spot_light_a6470eb5618a66e3b64f3ea411565b8b0}\index{SpotLight@{SpotLight}!SpotLight@{SpotLight}}
+\index{SpotLight@{SpotLight}!SpotLight@{SpotLight}}
+\doxysubsubsection{\texorpdfstring{SpotLight()}{SpotLight()}}
+{\footnotesize\ttfamily \label{class_spot_light_a6470eb5618a66e3b64f3ea411565b8b0} 
+Spot\+Light\+::\+Spot\+Light (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{, }\item[{const glm\+::mat4 \&}]{matrix}{, }\item[{const glm\+::vec3 \&}]{ambient}{, }\item[{const glm\+::vec3 \&}]{diffuse}{, }\item[{const glm\+::vec3 \&}]{specular}{, }\item[{const glm\+::vec3 \&}]{direction}{, }\item[{float}]{cutoff}{, }\item[{float}]{exponent}{}\end{DoxyParamCaption})}
+
+
+
+Inizializza una luce spot con proprietà e orientamento specifici. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cutoff} & Angolo di apertura del cono di luce. \\
+\hline
+{\em exponent} & Fattore di attenuazione angolare della luce all\textquotesingle{}interno del cono. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_spot_light_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20}\index{SpotLight@{SpotLight}!render@{render}}
+\index{render@{render}!SpotLight@{SpotLight}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20} 
+void Spot\+Light\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Esegue il rendering della luce spot nella scena. 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_light_ad11747595250cede2c4c7948d1aa3d83}{Light}}.
+
+\Hypertarget{class_spot_light_a705480498eaa724f75e38c7048473944}\index{SpotLight@{SpotLight}!setSpotExponent@{setSpotExponent}}
+\index{setSpotExponent@{setSpotExponent}!SpotLight@{SpotLight}}
+\doxysubsubsection{\texorpdfstring{setSpotExponent()}{setSpotExponent()}}
+{\footnotesize\ttfamily \label{class_spot_light_a705480498eaa724f75e38c7048473944} 
+void Spot\+Light\+::set\+Spot\+Exponent (\begin{DoxyParamCaption}\item[{float}]{exp}{}\end{DoxyParamCaption})}
+
+
+
+Imposta l\textquotesingle{}esponente di attenuazione angolare (spot exponent). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em exp} & Valore che determina quanto la luce è concentrata al centro del fascio. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{spot_light_8h}{spot\+Light.\+h}}\item 
+spot\+Light.\+cpp\end{DoxyCompactItemize}

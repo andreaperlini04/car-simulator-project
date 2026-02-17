@@ -1,0 +1,22 @@
+\doxysection{texture.\+h}
+\hypertarget{texture_8h_source}{}\label{texture_8h_source}\mbox{\hyperlink{texture_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{object_8h}{object.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib_config_8h}{libConfig.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591}{Texture}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591}{Texture}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}},\ \textcolor{keyword}{const}\ std::string\&\ filepath);\ \textcolor{comment}{//\ Updated\ constructor\ to\ take\ filepath}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_texture_ac95fcaf0a04ef58cbb8324efe3d12591}{\string~Texture}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{render}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00031\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ \ \ \ \ std::string\ m\_filepath;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ m\_texId;}
+\DoxyCodeLine{00036\ \};}
+
+\end{DoxyCode}

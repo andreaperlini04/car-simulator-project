@@ -1,0 +1,252 @@
+\doxysection{Node Class Reference}
+\hypertarget{class_node}{}\label{class_node}\index{Node@{Node}}
+
+
+Rappresenta un nodo nel grafo della scena, gestisce trasformazioni e gerarchia.  
+
+
+
+
+{\ttfamily \#include $<$node.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_node_a11e9bcdbf821a39379c7ac1973f090d3}\label{class_node_a11e9bcdbf821a39379c7ac1973f090d3} 
+{\bfseries Node} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\item 
+\Hypertarget{class_node_abce703f211f6a577085b4b8ad68cbb19}\label{class_node_abce703f211f6a577085b4b8ad68cbb19} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Node} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\item 
+\Hypertarget{class_node_a35a157d00e13bc6044c91e71dd7a0a6e}\label{class_node_a35a157d00e13bc6044c91e71dd7a0a6e} 
+glm\+::mat4 {\bfseries getM} () const
+\begin{DoxyCompactList}\small\item\em Restituisce la matrice di trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc6940cfb5d60c08c166fac399752734}{setM}} (const glm\+::mat4 \&new\+Matrix)
+\begin{DoxyCompactList}\small\item\em Imposta la matrice di trasformazione locale del nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_aed6899432765e92239207918968b186e}{rotate}} (float angle, const glm\+::vec3 \&axis)
+\begin{DoxyCompactList}\small\item\em Applica una rotazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_afc1316a8924601dd149dce190f2150ea}{scale}} (const glm\+::vec3 \&factor)
+\begin{DoxyCompactList}\small\item\em Applica un ridimensionamento alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_acd32a895c47c272df247a2e5058e9bc7}{translate}} (const glm\+::vec3 \&translation)
+\begin{DoxyCompactList}\small\item\em Applica una traslazione alla trasformazione locale corrente. \end{DoxyCompactList}\item 
+glm\+::mat4 \mbox{\hyperlink{class_node_ad65a52e69261fd32b826daa42252d79e}{get\+World\+Final\+Matrix}} () const
+\begin{DoxyCompactList}\small\item\em Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{render}} () override
+\begin{DoxyCompactList}\small\item\em Esegue il rendering del nodo e, ricorsivamente, dei suoi figli. \end{DoxyCompactList}\item 
+\Hypertarget{class_node_a3cad655320d50751c43c5cec9356dcf3}\label{class_node_a3cad655320d50751c43c5cec9356dcf3} 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il puntatore al nodo genitore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a7e23fcd1d980e25960c4cc049ad80258}{set\+Parent}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}new\+Parent)
+\begin{DoxyCompactList}\small\item\em Imposta il nodo genitore per questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_a132699398b350e83b548a5645e69beb0}{add\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Aggiunge un nodo figlio alla gerarchia di questo nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_node_adb62722d840bfd6a0393ec87d15c9c7a}{remove\+Child}} (\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}child)
+\begin{DoxyCompactList}\small\item\em Rimuove un nodo figlio specifico dalla lista dei figli. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a47b7fffc812643e2a001e1f1fc91a521}{get\+Child}} (int index) const
+\begin{DoxyCompactList}\small\item\em Recupera un nodo figlio tramite il suo indice. \end{DoxyCompactList}\item 
+\Hypertarget{class_node_a57b6728c86b29401090279df12c802e9}\label{class_node_a57b6728c86b29401090279df12c802e9} 
+unsigned int {\bfseries get\+Num\+Children} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il numero totale di figli collegati a questo nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_node_a4207689359377107826b25d41a1426cb}{find\+By\+Name}} (const std\+::string \&node\+Name)
+\begin{DoxyCompactList}\small\item\em Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Rappresenta un nodo nel grafo della scena, gestisce trasformazioni e gerarchia. 
+
+Rappresenta un nodo nel grafo della scena, gestendo le trasformazioni locali e la gerarchia padre-\/figlio. 
+
+\label{doc-func-members}
+\Hypertarget{class_node_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_node_a132699398b350e83b548a5645e69beb0}\index{Node@{Node}!addChild@{addChild}}
+\index{addChild@{addChild}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{addChild()}{addChild()}}
+{\footnotesize\ttfamily \label{class_node_a132699398b350e83b548a5645e69beb0} 
+void Node\+::add\+Child (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}}]{child}{}\end{DoxyParamCaption})}
+
+
+
+Aggiunge un nodo figlio alla gerarchia di questo nodo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em child} & Puntatore al nodo da aggiungere. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_a4207689359377107826b25d41a1426cb}\index{Node@{Node}!findByName@{findByName}}
+\index{findByName@{findByName}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{findByName()}{findByName()}}
+{\footnotesize\ttfamily \label{class_node_a4207689359377107826b25d41a1426cb} 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} Node\+::find\+By\+Name (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{node\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Cerca ricorsivamente un nodo nella gerarchia tramite il suo nome. 
+
+\begin{DoxyReturn}{Returns}
+Puntatore al nodo trovato o nullptr se non esiste. 
+\end{DoxyReturn}
+\Hypertarget{class_node_a47b7fffc812643e2a001e1f1fc91a521}\index{Node@{Node}!getChild@{getChild}}
+\index{getChild@{getChild}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getChild()}{getChild()}}
+{\footnotesize\ttfamily \label{class_node_a47b7fffc812643e2a001e1f1fc91a521} 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} Node\+::get\+Child (\begin{DoxyParamCaption}\item[{int}]{index}{}\end{DoxyParamCaption}) const}
+
+
+
+Recupera un nodo figlio tramite il suo indice. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Indice posizionale del figlio nel vettore. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_ad65a52e69261fd32b826daa42252d79e}\index{Node@{Node}!getWorldFinalMatrix@{getWorldFinalMatrix}}
+\index{getWorldFinalMatrix@{getWorldFinalMatrix}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{getWorldFinalMatrix()}{getWorldFinalMatrix()}}
+{\footnotesize\ttfamily \label{class_node_ad65a52e69261fd32b826daa42252d79e} 
+glm\+::mat4 Node\+::get\+World\+Final\+Matrix (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calcola la matrice di trasformazione globale moltiplicando la matrice locale con quelle dei nodi genitori. 
+
+\begin{DoxyReturn}{Returns}
+Matrice che rappresenta la trasformazione del nodo nello spazio mondo (World Space). 
+\end{DoxyReturn}
+\Hypertarget{class_node_adb62722d840bfd6a0393ec87d15c9c7a}\index{Node@{Node}!removeChild@{removeChild}}
+\index{removeChild@{removeChild}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{removeChild()}{removeChild()}}
+{\footnotesize\ttfamily \label{class_node_adb62722d840bfd6a0393ec87d15c9c7a} 
+void Node\+::remove\+Child (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}}]{child}{}\end{DoxyParamCaption})}
+
+
+
+Rimuove un nodo figlio specifico dalla lista dei figli. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em child} & Puntatore al nodo da rimuovere. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_a111b3a0347ca6cf9adc343080362a01d}\index{Node@{Node}!render@{render}}
+\index{render@{render}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_node_a111b3a0347ca6cf9adc343080362a01d} 
+void Node\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Esegue il rendering del nodo e, ricorsivamente, dei suoi figli. 
+
+
+
+Implements \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{Object}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_omnidirectional_light_a5457595cdc7c98215f81773a6b31e413}{Omnidirectional\+Light}}, and \mbox{\hyperlink{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20}{Spot\+Light}}.
+
+\Hypertarget{class_node_aed6899432765e92239207918968b186e}\index{Node@{Node}!rotate@{rotate}}
+\index{rotate@{rotate}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily \label{class_node_aed6899432765e92239207918968b186e} 
+void Node\+::rotate (\begin{DoxyParamCaption}\item[{float}]{angle}{, }\item[{const glm\+::vec3 \&}]{axis}{}\end{DoxyParamCaption})}
+
+
+
+Applica una rotazione alla trasformazione locale corrente. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & Angolo di rotazione in gradi. \\
+\hline
+{\em axis} & Asse attorno al quale ruotare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_afc1316a8924601dd149dce190f2150ea}\index{Node@{Node}!scale@{scale}}
+\index{scale@{scale}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{scale()}{scale()}}
+{\footnotesize\ttfamily \label{class_node_afc1316a8924601dd149dce190f2150ea} 
+void Node\+::scale (\begin{DoxyParamCaption}\item[{const glm\+::vec3 \&}]{factor}{}\end{DoxyParamCaption})}
+
+
+
+Applica un ridimensionamento alla trasformazione locale corrente. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em factor} & Vettore contenente i fattori di scala per gli assi X, Y, Z. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_afc6940cfb5d60c08c166fac399752734}\index{Node@{Node}!setM@{setM}}
+\index{setM@{setM}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setM()}{setM()}}
+{\footnotesize\ttfamily \label{class_node_afc6940cfb5d60c08c166fac399752734} 
+void Node\+::setM (\begin{DoxyParamCaption}\item[{const glm\+::mat4 \&}]{new\+Matrix}{}\end{DoxyParamCaption})}
+
+
+
+Imposta la matrice di trasformazione locale del nodo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Matrix} & Nuova matrice 4x4 da assegnare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_a7e23fcd1d980e25960c4cc049ad80258}\index{Node@{Node}!setParent@{setParent}}
+\index{setParent@{setParent}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{setParent()}{setParent()}}
+{\footnotesize\ttfamily \label{class_node_a7e23fcd1d980e25960c4cc049ad80258} 
+void Node\+::set\+Parent (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*}}]{new\+Parent}{}\end{DoxyParamCaption})}
+
+
+
+Imposta il nodo genitore per questo nodo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Parent} & Puntatore al nuovo genitore. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_node_acd32a895c47c272df247a2e5058e9bc7}\index{Node@{Node}!translate@{translate}}
+\index{translate@{translate}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{translate()}{translate()}}
+{\footnotesize\ttfamily \label{class_node_acd32a895c47c272df247a2e5058e9bc7} 
+void Node\+::translate (\begin{DoxyParamCaption}\item[{const glm\+::vec3 \&}]{translation}{}\end{DoxyParamCaption})}
+
+
+
+Applica una traslazione alla trasformazione locale corrente. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em translation} & Vettore di spostamento. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{node_8h}{node.\+h}}\item 
+node.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,92 @@
+\doxysection{Object Class Reference}
+\hypertarget{class_object}{}\label{class_object}\index{Object@{Object}}
+
+
+Classe base astratta per tutti gli oggetti della scena.  
+
+
+
+
+{\ttfamily \#include $<$object.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}} (const std\+::string \&\mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}})
+\begin{DoxyCompactList}\small\item\em Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{render}} ()=0
+\begin{DoxyCompactList}\small\item\em Metodo puramente virtuale per il rendering dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+\Hypertarget{class_object_acb9b466607cb80beaaa30ece2f7f570a}\label{class_object_acb9b466607cb80beaaa30ece2f7f570a} 
+virtual std\+::string {\bfseries get\+Name} () const
+\begin{DoxyCompactList}\small\item\em Restituisce il nome assegnato all\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+\Hypertarget{class_object_ace6903473ab7ca31cd6817a0d7b2aa2e}\label{class_object_ace6903473ab7ca31cd6817a0d7b2aa2e} 
+virtual unsigned int {\bfseries get\+Id} () const
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}identificativo numerico univoco dell\textquotesingle{}oggetto. \end{DoxyCompactList}\item 
+\Hypertarget{class_object_a226f2ae2af766b77d83c09a4d766b725}\label{class_object_a226f2ae2af766b77d83c09a4d766b725} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Object} ()=default
+\begin{DoxyCompactList}\small\item\em Distruttore virtuale di default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_object_a236012903d5536bc40d28094ad4bda45}\label{class_object_a236012903d5536bc40d28094ad4bda45} 
+unsigned int {\bfseries uid}
+\begin{DoxyCompactList}\small\item\em Identificativo numerico univoco dell\textquotesingle{}istanza. \end{DoxyCompactList}\item 
+\Hypertarget{class_object_a24457e0a387492c80594aec7681a2277}\label{class_object_a24457e0a387492c80594aec7681a2277} 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Nome identificativo dell\textquotesingle{}oggetto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Classe base astratta per tutti gli oggetti della scena. 
+
+
+\begin{DoxyItemize}
+\item Gestisce l\textquotesingle{}identificazione univoca delle istanze e definisce l\textquotesingle{}interfaccia comune per il rendering. 
+\end{DoxyItemize}
+
+\label{doc-constructors}
+\Hypertarget{class_object_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_object_a8551a38cd9cdc013ef98aa9093e660cf}\index{Object@{Object}!Object@{Object}}
+\index{Object@{Object}!Object@{Object}}
+\doxysubsubsection{\texorpdfstring{Object()}{Object()}}
+{\footnotesize\ttfamily \label{class_object_a8551a38cd9cdc013ef98aa9093e660cf} 
+\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} Object\+::\+Object (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{}\end{DoxyParamCaption})}
+
+
+
+Costruttore che inizializza l\textquotesingle{}oggetto con un nome e gli assegna un ID univoco. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Nome identificativo da assegnare all\textquotesingle{}oggetto. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_object_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}\index{Object@{Object}!render@{render}}
+\index{render@{render}!Object@{Object}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_object_ada5bcf2d11f6b728deaa4aecaef3023f} 
+virtual void Object\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Metodo puramente virtuale per il rendering dell\textquotesingle{}oggetto. 
+
+
+\begin{DoxyItemize}
+\item Deve essere implementato dalle classi derivate per definire la logica di disegno specifica. 
+\end{DoxyItemize}
+
+Implemented in \mbox{\hyperlink{class_infinite_light_af63da69a7719bfcddc061c29ac0841ca}{Infinite\+Light}}, \mbox{\hyperlink{class_light_ad11747595250cede2c4c7948d1aa3d83}{Light}}, \mbox{\hyperlink{class_list_a819f0efb82263b15326e610b13623174}{List}}, \mbox{\hyperlink{class_material_ab2328e122f3a9ba58c209226926b7624}{Material}}, \mbox{\hyperlink{class_mesh_a0e4c32b72cf08edd59bba250135352f2}{Mesh}}, \mbox{\hyperlink{class_node_a111b3a0347ca6cf9adc343080362a01d}{Node}}, \mbox{\hyperlink{class_omnidirectional_light_a5457595cdc7c98215f81773a6b31e413}{Omnidirectional\+Light}}, \mbox{\hyperlink{class_spot_light_af643ec0f6d9a2a0707baba47799e7c20}{Spot\+Light}}, and \mbox{\hyperlink{class_texture_a800d2fde67c26e55834c5b38e4f7d885}{Texture}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{object_8h}{object.\+h}}\item 
+object.\+cpp\end{DoxyCompactItemize}

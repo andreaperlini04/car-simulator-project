@@ -1,0 +1,210 @@
+\doxysection{Ovo\+Reader Class Reference}
+\hypertarget{class_ovo_reader}{}\label{class_ovo_reader}\index{OvoReader@{OvoReader}}
+
+
+Handles parsing and loading of OVO files.  
+
+
+
+
+{\ttfamily \#include $<$ovo\+Reader.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_af1b9ec10f8c131e2b5b55d71949f5e0a}{read\+File}} (const char \texorpdfstring{$\ast$}{*}file\+\_\+path, const char \texorpdfstring{$\ast$}{*}texture\+\_\+dir)
+\begin{DoxyCompactList}\small\item\em Reads an OVO file and creates a hierarchical node structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_aff9511d4d7ec5f7fe305ab341dfeb6ab}{recursive\+\_\+load}} (FILE \texorpdfstring{$\ast$}{*}dat, const char \texorpdfstring{$\ast$}{*}path)
+\begin{DoxyCompactList}\small\item\em Recursively loads nodes and their children from the file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_ovo_reader_a0bb674c10c418f1796a1d118dbba9273}{parse\+\_\+object}} (char \texorpdfstring{$\ast$}{*}data, unsigned int \&position)
+\begin{DoxyCompactList}\small\item\em Parses a generic object chunk from the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_material}{Material}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_ab6dfa2e7369c82049a1304c5da7e41b3}{parse\+\_\+material}} (char \texorpdfstring{$\ast$}{*}data, unsigned int \&position, const char \texorpdfstring{$\ast$}{*}texture\+\_\+dir)
+\begin{DoxyCompactList}\small\item\em Parses a material chunk from the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_a9c26a387d140710a81702e5b532c8ece}{parse\+\_\+node}} (char \texorpdfstring{$\ast$}{*}data, unsigned int \&position, unsigned int \texorpdfstring{$\ast$}{*}n\+\_\+children)
+\begin{DoxyCompactList}\small\item\em Parses a node chunk from the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_mesh}{Mesh}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_a9a727d3f058c75ffac1f8e2f7b279a42}{parse\+\_\+mesh}} (char \texorpdfstring{$\ast$}{*}data, unsigned int \&position, unsigned int \texorpdfstring{$\ast$}{*}n\+\_\+children)
+\begin{DoxyCompactList}\small\item\em Parses a mesh chunk from the file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_light}{Light}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ovo_reader_ab0508cb516aa44d2dc44157b34c6b2be}{parse\+\_\+light}} (char \texorpdfstring{$\ast$}{*}data, unsigned int \&position, unsigned int \texorpdfstring{$\ast$}{*}n\+\_\+children)
+\begin{DoxyCompactList}\small\item\em Parses a light chunk from the file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ std\+::string, \mbox{\hyperlink{class_material}{Material}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_ovo_reader_a4169d6409d29b92ba08994f2098d7a55}{m\+\_\+materials}}
+\begin{DoxyCompactList}\small\item\em A map that stores materials parsed from the OVO file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles parsing and loading of OVO files. 
+
+\label{doc-func-members}
+\Hypertarget{class_ovo_reader_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_ovo_reader_ab0508cb516aa44d2dc44157b34c6b2be}\index{OvoReader@{OvoReader}!parse\_light@{parse\_light}}
+\index{parse\_light@{parse\_light}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{parse\_light()}{parse\_light()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_ab0508cb516aa44d2dc44157b34c6b2be} 
+\mbox{\hyperlink{class_light}{Light}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::parse\+\_\+light (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{unsigned int \&}]{position}{, }\item[{unsigned int \texorpdfstring{$\ast$}{*}}]{n\+\_\+children}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parses a light chunk from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the chunk data. \\
+\hline
+{\em position} & Current read position in the data. \\
+\hline
+{\em n\+\_\+children} & Pointer to store the number of child nodes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the parsed \doxylink{class_light}{Light} object. 
+\end{DoxyReturn}
+\Hypertarget{class_ovo_reader_ab6dfa2e7369c82049a1304c5da7e41b3}\index{OvoReader@{OvoReader}!parse\_material@{parse\_material}}
+\index{parse\_material@{parse\_material}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{parse\_material()}{parse\_material()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_ab6dfa2e7369c82049a1304c5da7e41b3} 
+\mbox{\hyperlink{class_material}{Material}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::parse\+\_\+material (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{unsigned int \&}]{position}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{texture\+\_\+dir}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parses a material chunk from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the chunk data. \\
+\hline
+{\em position} & Current read position in the data. \\
+\hline
+{\em texture\+\_\+dir} & Directory containing textures. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the parsed \doxylink{class_material}{Material} object. 
+\end{DoxyReturn}
+\Hypertarget{class_ovo_reader_a9a727d3f058c75ffac1f8e2f7b279a42}\index{OvoReader@{OvoReader}!parse\_mesh@{parse\_mesh}}
+\index{parse\_mesh@{parse\_mesh}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{parse\_mesh()}{parse\_mesh()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_a9a727d3f058c75ffac1f8e2f7b279a42} 
+\mbox{\hyperlink{class_mesh}{Mesh}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::parse\+\_\+mesh (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{unsigned int \&}]{position}{, }\item[{unsigned int \texorpdfstring{$\ast$}{*}}]{n\+\_\+children}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parses a mesh chunk from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the chunk data. \\
+\hline
+{\em position} & Current read position in the data. \\
+\hline
+{\em n\+\_\+children} & Pointer to store the number of child nodes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the parsed \doxylink{class_mesh}{Mesh} object. 
+\end{DoxyReturn}
+!! Warning\+: always loading the first level of deteails (always available)\Hypertarget{class_ovo_reader_a9c26a387d140710a81702e5b532c8ece}\index{OvoReader@{OvoReader}!parse\_node@{parse\_node}}
+\index{parse\_node@{parse\_node}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{parse\_node()}{parse\_node()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_a9c26a387d140710a81702e5b532c8ece} 
+\mbox{\hyperlink{class_node}{Node}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::parse\+\_\+node (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{unsigned int \&}]{position}{, }\item[{unsigned int \texorpdfstring{$\ast$}{*}}]{n\+\_\+children}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parses a node chunk from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the chunk data. \\
+\hline
+{\em position} & Current read position in the data. \\
+\hline
+{\em n\+\_\+children} & Pointer to store the number of child nodes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the parsed \doxylink{class_node}{Node} object. 
+\end{DoxyReturn}
+\Hypertarget{class_ovo_reader_a0bb674c10c418f1796a1d118dbba9273}\index{OvoReader@{OvoReader}!parse\_object@{parse\_object}}
+\index{parse\_object@{parse\_object}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{parse\_object()}{parse\_object()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_a0bb674c10c418f1796a1d118dbba9273} 
+void \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} Ovo\+Reader\+::parse\+\_\+object (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{unsigned int \&}]{position}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parses a generic object chunk from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the chunk data. \\
+\hline
+{\em position} & Current read position in the data. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_ovo_reader_af1b9ec10f8c131e2b5b55d71949f5e0a}\index{OvoReader@{OvoReader}!readFile@{readFile}}
+\index{readFile@{readFile}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_af1b9ec10f8c131e2b5b55d71949f5e0a} 
+\mbox{\hyperlink{class_node}{Node}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::read\+File (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{file\+\_\+path}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{texture\+\_\+dir}{}\end{DoxyParamCaption})}
+
+
+
+Reads an OVO file and creates a hierarchical node structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & Path to the OVO file. \\
+\hline
+{\em texture\+\_\+dir} & Directory containing textures. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the root \doxylink{class_node}{Node}, or nullptr if an error occurs. 
+\end{DoxyReturn}
+PARSE CHUNKS ///\Hypertarget{class_ovo_reader_aff9511d4d7ec5f7fe305ab341dfeb6ab}\index{OvoReader@{OvoReader}!recursive\_load@{recursive\_load}}
+\index{recursive\_load@{recursive\_load}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{recursive\_load()}{recursive\_load()}}
+{\footnotesize\ttfamily \label{class_ovo_reader_aff9511d4d7ec5f7fe305ab341dfeb6ab} 
+\mbox{\hyperlink{class_node}{Node}} \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} \texorpdfstring{$\ast$}{*} Ovo\+Reader\+::recursive\+\_\+load (\begin{DoxyParamCaption}\item[{FILE \texorpdfstring{$\ast$}{*}}]{dat}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Recursively loads nodes and their children from the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dat} & File pointer to the open OVO file. \\
+\hline
+{\em path} & Path to the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the parsed \doxylink{class_node}{Node}, or nullptr if an error occurs. 
+\end{DoxyReturn}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_ovo_reader_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_ovo_reader_a4169d6409d29b92ba08994f2098d7a55}\index{OvoReader@{OvoReader}!m\_materials@{m\_materials}}
+\index{m\_materials@{m\_materials}!OvoReader@{OvoReader}}
+\doxysubsubsection{\texorpdfstring{m\_materials}{m\_materials}}
+{\footnotesize\ttfamily \label{class_ovo_reader_a4169d6409d29b92ba08994f2098d7a55} 
+std\+::map$<$std\+::string, \mbox{\hyperlink{class_material}{Material}}\texorpdfstring{$\ast$}{*}$>$ Ovo\+Reader\+::m\+\_\+materials\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+A map that stores materials parsed from the OVO file. 
+
+The key is the material\textquotesingle{}s name (as a string), and the value is a pointer to the corresponding \doxylink{class_material}{Material} object. This map is used to manage and reference materials during the parsing process. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+ovo\+Reader.\+h\item 
+ovo\+Reader.\+cpp\end{DoxyCompactItemize}

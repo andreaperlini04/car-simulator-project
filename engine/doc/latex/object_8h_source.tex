@@ -1,0 +1,31 @@
+\doxysection{object.\+h}
+\hypertarget{object_8h_source}{}\label{object_8h_source}\mbox{\hyperlink{object_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib_config_8h}{libConfig.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \textcolor{keyword}{static}\ std::atomic<unsigned\ int>\ nextId;}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \ \mbox{\hyperlink{class_object_a8551a38cd9cdc013ef98aa9093e660cf}{Object}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}});}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00032\ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_object_ada5bcf2d11f6b728deaa4aecaef3023f}{render}}()\ =\ 0;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00037\ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_object_acb9b466607cb80beaaa30ece2f7f570a}{getName}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_object_ace6903473ab7ca31cd6817a0d7b2aa2e}{getId}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_object_a226f2ae2af766b77d83c09a4d766b725}{\string~Object}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00051\ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_object_a236012903d5536bc40d28094ad4bda45}{uid}};}
+\DoxyCodeLine{00053\ \ \ \ std::string\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}};}
+\DoxyCodeLine{00054\ \};}
+
+\end{DoxyCode}

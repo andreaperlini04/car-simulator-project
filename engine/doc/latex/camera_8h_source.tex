@@ -1,0 +1,28 @@
+\doxysection{camera.\+h}
+\hypertarget{camera_8h_source}{}\label{camera_8h_source}\mbox{\hyperlink{camera_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <glm/gtc/matrix\_transform.hpp>}\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{node_8h}{node.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{Camera}}\ :\ \textcolor{keyword}{public}\ Node\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{Camera}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}});}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_camera_ad0e65086a370b5c433bc863b1f6b681f}{\string~Camera}}();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{const}\ glm::mat4\&\ \mbox{\hyperlink{class_camera_a7d4b9a2a5d4e2a32d2f2ac5858d366bc}{getProjectionMatrix}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00042\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_a6467681bead7b700c85be6614447052b}{getInvCameraMatrix}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_camera_a3dc4347422345940f68f3abb6dd1f2c7}{setProjectionMatrix}}(\textcolor{keyword}{const}\ glm::mat4\&\ \mbox{\hyperlink{class_camera_af080757da494dd1e4a347f527df4af9c}{projectionMatrix}});}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00054\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_af080757da494dd1e4a347f527df4af9c}{projectionMatrix}};}
+\DoxyCodeLine{00055\ \};}
+
+\end{DoxyCode}

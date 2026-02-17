@@ -1,0 +1,26 @@
+\doxysection{infinite\+Light.\+h}
+\hypertarget{infinite_light_8h_source}{}\label{infinite_light_8h_source}\mbox{\hyperlink{infinite_light_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{light_8h}{light.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_infinite_light_a920ddb2a095c60dd3d01e6498f581e7f}{InfiniteLight}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_infinite_light_a920ddb2a095c60dd3d01e6498f581e7f}{InfiniteLight}}();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{class_infinite_light_a920ddb2a095c60dd3d01e6498f581e7f}{InfiniteLight}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}},\ \textcolor{keyword}{const}\ glm::mat4\&\ matrix,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_abcd118cea5b6bb284d218b1df62bbbce}{ambient}},\ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_af933e4c1087a91fa621fa9f28ccf3e76}{diffuse}},}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_a083c715bd3f644581975c3d0192ceebb}{specular}},\ \textcolor{keyword}{const}\ glm::vec3\&\ direction);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_infinite_light_a920ddb2a095c60dd3d01e6498f581e7f}{\string~InfiniteLight}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_infinite_light_ae9d84c437f1be3ac87f671304f70a1a6}{setDirection}}(\textcolor{keyword}{const}\ glm::vec3\&\ dir);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00043\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{class_infinite_light_a7280f0f137ab7695a992a9ecd3e9277e}{getDirection}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_light_ad11747595250cede2c4c7948d1aa3d83}{render}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00049\ \};}
+
+\end{DoxyCode}

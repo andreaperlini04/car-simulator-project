@@ -1,0 +1,125 @@
+\doxysection{engine.\+h}
+\hypertarget{engine_8h_source}{}\label{engine_8h_source}\mbox{\hyperlink{engine_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib_config_8h}{libConfig.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{camera_8h}{camera.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{list_8h}{list.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }Eng\ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \textcolor{comment}{//\ Definizioni\ dei\ tipi\ di\ callback\ per\ il\ Client}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00021\ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93}{DisplayCallback}}\ =\ std::function<void()>;}
+\DoxyCodeLine{00023\ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{engine_8h_ab286424aee33aa47593e9cad5e91dc18}{ReshapeCallback}}\ =\ std::function<void(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height)>;}
+\DoxyCodeLine{00025\ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6}{KeyboardCallback}}\ =\ std::function<void(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)>;}
+\DoxyCodeLine{00027\ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{engine_8h_a0ac52d5286070b7212cf3dc56f825460}{SpecialCallback}}\ =\ std::function<void(\textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)>;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00033\ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ Base\ final}
+\DoxyCodeLine{00034\ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \textcolor{comment}{//\ Singleton}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \textcolor{keyword}{static}\ Base\&\ \mbox{\hyperlink{class_eng_1_1_base_a15f222446c6679d583b917062a930a35}{getInstance}}();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \textcolor{comment}{//\ Ciclo\ di\ vita}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_eng_1_1_base_a03f81e6e54460dd66bd937d639cacf8d}{init}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[]);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_eng_1_1_base_a88850a81b9c70e76faae8212a35c722f}{free}}();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_aaca027e4c9296b445a700596653dc7e5}{setRenderList}}(\mbox{\hyperlink{class_list}{List}}*\ list);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_ae76cb12a676e802c02c13eb6766264be}{setReflectionList}}(\mbox{\hyperlink{class_list}{List}}*\ list);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a68dfb5e9476534d8d458b22495b0cd97}{setMainCamera}}(\mbox{\hyperlink{class_camera}{Camera}}*\ camera);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \textcolor{comment}{//\ Gestione\ Finestra\ e\ Loop}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a503bee7b25574e8bbf1b716b722177b6}{createWindow}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ title);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_abf576aaed1567dca950265659304da81}{update}}();\ \textcolor{comment}{//\ Avvia\ il\ main\ loop}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{comment}{//\ Rendering}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a0d620848a36067621f9ffd51a3db3e88}{render}}();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \textcolor{comment}{//\ Callback\ Registration\ (Il\ client\ usa\ queste\ per\ agganciare\ la\ logica)}}
+\DoxyCodeLine{00100\ \ \ \ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_affdae80e745f7063f39ca00b6afe2d54}{setDisplayCallback}}(\mbox{\hyperlink{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93}{DisplayCallback}}\ cb);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_acbf8afb26e637a50a925a2e067bc665a}{setReshapeCallback}}(\mbox{\hyperlink{engine_8h_ab286424aee33aa47593e9cad5e91dc18}{ReshapeCallback}}\ cb);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a1e5ccf2c1ce8178c479c6b4e3feffd99}{setKeyboardCallback}}(\mbox{\hyperlink{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6}{KeyboardCallback}}\ cb);}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_acd98506d7ccdae3983cd701d5a95b443}{setSpecialCallback}}(\mbox{\hyperlink{engine_8h_a0ac52d5286070b7212cf3dc56f825460}{SpecialCallback}}\ cb);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \textcolor{comment}{//\ Utility\ per\ il\ Client}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a84c0991eede79202276396995ffcc72d}{setClearColor}}(\textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,\ \textcolor{keywordtype}{float}\ b,\ \textcolor{keywordtype}{float}\ a);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a07841e2a04828d0900286f6ab43bc6ef}{setLighting}}(\textcolor{keywordtype}{bool}\ enable);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a71bbfc2d92395ca7c5d3c81400aa5faa}{setTexture}}(\textcolor{keywordtype}{bool}\ enable);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ METODI\ PER\ LA\ GESTIONE\ EVENTI\ (Chiamati\ dai\ wrapper\ statici)\ -\/-\/-\/}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a4e21cb6111287944c863dbad47b2a29c}{handleDisplayRequest}}();}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a210017bf0c7626d6ec7aef5637a83dc6}{handleReshapeRequest}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_abace7c269ef4f0703ecd915099a6792c}{handleKeyboardRequest}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_aba6e119b1e9dec9d6b84311253bb211f}{handleSpecialRequest}}(\textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \textcolor{comment}{//\ No\ copy}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ Base(Base\ \textcolor{keyword}{const}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ operator=(Base\ \textcolor{keyword}{const}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a53b0560614238baf0a23d19e97e70c0c}{enableFPS}}();}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a6df0b3faf4bf6ad6f6de5e92c244472f}{disableFPS}}();}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a7e7cdce4faa7cc489e540b00884d57f1}{calculateFPS}}();}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a65235efe7b872c4ae3d702748c1739ac}{addToScreenText}}(std::string\ text);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_a82cf3cb76fd16cd0dd105617598f6791}{clearScreenText}}();}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_aee548fd14bbb4ad972960f82b12408ab}{postRedisplay}}();}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_eng_1_1_base_ad9cb25b988866b2efd989fc462b94992}{addString}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ std::string\ text,\ \textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,\ \textcolor{keywordtype}{float}\ b);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_eng_1_1_base_a7e54e830d0a32fbbfe1a79646d96e758}{getWindowWidth}}();}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_eng_1_1_base_a4f62e88fb5d9f4f749f0e94c24d84886}{getWindowHeight}}();}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_eng_1_1_base_a87990de4490546c5024eacd7bf98030e}{getTextWidth}}(\textcolor{keyword}{const}\ std::string\&\ text);}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ Base();}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \string~Base();}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \textcolor{comment}{//\ PIMPL:\ Nasconde\ i\ dettagli\ privati\ (es.\ header\ GLUT)}}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_eng_1_1_base_1_1_reserved}{Reserved}};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ std::unique\_ptr<Reserved>\ reserved;}
+\DoxyCodeLine{00251\ \ \ \ \ }
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ show\_fps;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ frameCounter\ =\ 0;}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fps\ =\ 0.0f;}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00259\ \textcolor{comment}{\ \ \ \ \ \ *\ @brief\ Timestamp\ dell'ultimo\ aggiornamento\ del\ frame\ per\ il\ calcolo\ del\ delta\ time.}}
+\DoxyCodeLine{00260\ \textcolor{comment}{\ \ \ \ \ \ */}}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ std::chrono::time\_point<std::chrono::steady\_clock>\ lastTime;}
+\DoxyCodeLine{00262\ \ \ \ }
+\DoxyCodeLine{00263\ \ \ \ \};}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \}\ \textcolor{comment}{//\ namespace\ Eng}}
+
+\end{DoxyCode}

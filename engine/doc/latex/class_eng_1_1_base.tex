@@ -1,0 +1,488 @@
+\doxysection{Eng\+::Base Class Reference}
+\hypertarget{class_eng_1_1_base}{}\label{class_eng_1_1_base}\index{Eng::Base@{Eng::Base}}
+
+
+Classe Singleton che gestisce il ciclo di vita del motore grafico, la finestra e il loop di rendering.  
+
+
+
+
+{\ttfamily \#include $<$engine.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_eng_1_1_base_1_1_reserved}{Reserved}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_eng_1_1_base_a03f81e6e54460dd66bd937d639cacf8d}{init}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Inizializza il sottosistema grafico e le librerie dipendenti. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_eng_1_1_base_a88850a81b9c70e76faae8212a35c722f}{free}} ()
+\begin{DoxyCompactList}\small\item\em Libera le risorse allocate dal motore grafico. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_aaca027e4c9296b445a700596653dc7e5}{set\+Render\+List}} (\mbox{\hyperlink{class_list}{List}} \texorpdfstring{$\ast$}{*}list)
+\begin{DoxyCompactList}\small\item\em Imposta la lista degli oggetti da renderizzare nella scena principale. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_ae76cb12a676e802c02c13eb6766264be}{set\+Reflection\+List}} (\mbox{\hyperlink{class_list}{List}} \texorpdfstring{$\ast$}{*}list)
+\begin{DoxyCompactList}\small\item\em Imposta la lista degli oggetti per il calcolo delle riflessioni. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a68dfb5e9476534d8d458b22495b0cd97}{set\+Main\+Camera}} (\mbox{\hyperlink{class_camera}{Camera}} \texorpdfstring{$\ast$}{*}camera)
+\begin{DoxyCompactList}\small\item\em Assegna la telecamera principale utilizzata per il rendering. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a503bee7b25574e8bbf1b716b722177b6}{create\+Window}} (int width, int height, int x, int y, const char \texorpdfstring{$\ast$}{*}title)
+\begin{DoxyCompactList}\small\item\em Crea la finestra di visualizzazione. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_abf576aaed1567dca950265659304da81}\label{class_eng_1_1_base_abf576aaed1567dca950265659304da81} 
+void {\bfseries update} ()
+\begin{DoxyCompactList}\small\item\em Avvia il ciclo principale (main loop) del motore grafico. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_a0d620848a36067621f9ffd51a3db3e88}\label{class_eng_1_1_base_a0d620848a36067621f9ffd51a3db3e88} 
+void {\bfseries render} ()
+\begin{DoxyCompactList}\small\item\em Esegue la procedura di rendering della scena corrente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_affdae80e745f7063f39ca00b6afe2d54}{set\+Display\+Callback}} (\mbox{\hyperlink{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93}{Display\+Callback}} cb)
+\begin{DoxyCompactList}\small\item\em Registra la funzione di callback per il rendering definita dall\textquotesingle{}utente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_acbf8afb26e637a50a925a2e067bc665a}{set\+Reshape\+Callback}} (\mbox{\hyperlink{engine_8h_ab286424aee33aa47593e9cad5e91dc18}{Reshape\+Callback}} cb)
+\begin{DoxyCompactList}\small\item\em Registra la funzione di callback per il ridimensionamento della finestra. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a1e5ccf2c1ce8178c479c6b4e3feffd99}{set\+Keyboard\+Callback}} (\mbox{\hyperlink{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6}{Keyboard\+Callback}} cb)
+\begin{DoxyCompactList}\small\item\em Registra la funzione di callback per l\textquotesingle{}input da tastiera standard. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_acd98506d7ccdae3983cd701d5a95b443}{set\+Special\+Callback}} (\mbox{\hyperlink{engine_8h_a0ac52d5286070b7212cf3dc56f825460}{Special\+Callback}} cb)
+\begin{DoxyCompactList}\small\item\em Registra la funzione di callback per l\textquotesingle{}input di tasti speciali. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a84c0991eede79202276396995ffcc72d}{set\+Clear\+Color}} (float r, float g, float b, float a)
+\begin{DoxyCompactList}\small\item\em Imposta il colore di pulizia dello sfondo (background). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a07841e2a04828d0900286f6ab43bc6ef}{set\+Lighting}} (bool enable)
+\begin{DoxyCompactList}\small\item\em Abilita o disabilita il calcolo dell\textquotesingle{}illuminazione globale. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a71bbfc2d92395ca7c5d3c81400aa5faa}{set\+Texture}} (bool enable)
+\begin{DoxyCompactList}\small\item\em Abilita o disabilita l\textquotesingle{}uso delle texture 2D. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_a4e21cb6111287944c863dbad47b2a29c}\label{class_eng_1_1_base_a4e21cb6111287944c863dbad47b2a29c} 
+void {\bfseries handle\+Display\+Request} ()
+\begin{DoxyCompactList}\small\item\em Gestisce internamente la richiesta di ridisegno della scena. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a210017bf0c7626d6ec7aef5637a83dc6}{handle\+Reshape\+Request}} (int width, int height)
+\begin{DoxyCompactList}\small\item\em Gestisce internamente l\textquotesingle{}evento di ridimensionamento della finestra. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_abace7c269ef4f0703ecd915099a6792c}{handle\+Keyboard\+Request}} (unsigned char key, int x, int y)
+\begin{DoxyCompactList}\small\item\em Gestisce internamente l\textquotesingle{}evento di pressione di un tasto standard. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_aba6e119b1e9dec9d6b84311253bb211f}{handle\+Special\+Request}} (int key, int x, int y)
+\begin{DoxyCompactList}\small\item\em Gestisce internamente l\textquotesingle{}evento di pressione di un tasto speciale. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_ac9bc36f2293d517cc6f1b2ab348d4f69}\label{class_eng_1_1_base_ac9bc36f2293d517cc6f1b2ab348d4f69} 
+{\bfseries Base} (Base const \&)=delete
+\item 
+\Hypertarget{class_eng_1_1_base_ac4eb1f66179273abba59260a6b4c5cbd}\label{class_eng_1_1_base_ac4eb1f66179273abba59260a6b4c5cbd} 
+void {\bfseries operator=} (Base const \&)=delete
+\item 
+\Hypertarget{class_eng_1_1_base_a53b0560614238baf0a23d19e97e70c0c}\label{class_eng_1_1_base_a53b0560614238baf0a23d19e97e70c0c} 
+void {\bfseries enable\+FPS} ()
+\begin{DoxyCompactList}\small\item\em Abilita la visualizzazione dei frame per secondo (FPS) a schermo. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_a6df0b3faf4bf6ad6f6de5e92c244472f}\label{class_eng_1_1_base_a6df0b3faf4bf6ad6f6de5e92c244472f} 
+void {\bfseries disable\+FPS} ()
+\begin{DoxyCompactList}\small\item\em Disabilita la visualizzazione dei frame per secondo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a7e7cdce4faa7cc489e540b00884d57f1}{calculate\+FPS}} ()
+\begin{DoxyCompactList}\small\item\em Aggiunge un testo alla lista interna degli elementi da visualizzare. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_a65235efe7b872c4ae3d702748c1739ac}{add\+To\+Screen\+Text}} (std\+::string text)
+\begin{DoxyCompactList}\small\item\em Accoda una stringa al buffer di testo visualizzato a schermo (overlay). \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_a82cf3cb76fd16cd0dd105617598f6791}\label{class_eng_1_1_base_a82cf3cb76fd16cd0dd105617598f6791} 
+void {\bfseries clear\+Screen\+Text} ()
+\begin{DoxyCompactList}\small\item\em Rimuove tutto il testo presente nel buffer di visualizzazione a schermo. \end{DoxyCompactList}\item 
+\Hypertarget{class_eng_1_1_base_aee548fd14bbb4ad972960f82b12408ab}\label{class_eng_1_1_base_aee548fd14bbb4ad972960f82b12408ab} 
+void {\bfseries post\+Redisplay} ()
+\begin{DoxyCompactList}\small\item\em Segnala al sistema che la finestra necessita di essere ridisegnata. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_eng_1_1_base_ad9cb25b988866b2efd989fc462b94992}{add\+String}} (float x, float y, std\+::string text, float r, float g, float b)
+\begin{DoxyCompactList}\small\item\em Aggiunge una stringa colorata in una posizione specifica dello schermo. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_eng_1_1_base_a7e54e830d0a32fbbfe1a79646d96e758}{get\+Window\+Width}} ()
+\begin{DoxyCompactList}\small\item\em Restituisce la larghezza corrente della finestra. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_eng_1_1_base_a4f62e88fb5d9f4f749f0e94c24d84886}{get\+Window\+Height}} ()
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}altezza corrente della finestra. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_eng_1_1_base_a87990de4490546c5024eacd7bf98030e}{get\+Text\+Width}} (const std\+::string \&text)
+\begin{DoxyCompactList}\small\item\em Calcola la larghezza in pixel di una stringa di testo renderizzata. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Base \& \mbox{\hyperlink{class_eng_1_1_base_a15f222446c6679d583b917062a930a35}{get\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Restituisce l\textquotesingle{}istanza unica della classe \doxylink{class_eng_1_1_base}{Base} (Singleton). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Classe Singleton che gestisce il ciclo di vita del motore grafico, la finestra e il loop di rendering. 
+
+\label{doc-func-members}
+\Hypertarget{class_eng_1_1_base_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_eng_1_1_base_ad9cb25b988866b2efd989fc462b94992}\index{Eng::Base@{Eng::Base}!addString@{addString}}
+\index{addString@{addString}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{addString()}{addString()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_ad9cb25b988866b2efd989fc462b94992} 
+void Eng\+::\+Base\+::add\+String (\begin{DoxyParamCaption}\item[{float}]{x}{, }\item[{float}]{y}{, }\item[{std\+::string}]{text}{, }\item[{float}]{r}{, }\item[{float}]{g}{, }\item[{float}]{b}{}\end{DoxyParamCaption})}
+
+
+
+Aggiunge una stringa colorata in una posizione specifica dello schermo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Coordinata X. \\
+\hline
+{\em y} & Coordinata Y. \\
+\hline
+{\em text} & Testo da visualizzare. \\
+\hline
+{\em r} & Componente rossa del colore. \\
+\hline
+{\em g} & Componente verde del colore. \\
+\hline
+{\em b} & Componente blu del colore. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a65235efe7b872c4ae3d702748c1739ac}\index{Eng::Base@{Eng::Base}!addToScreenText@{addToScreenText}}
+\index{addToScreenText@{addToScreenText}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{addToScreenText()}{addToScreenText()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a65235efe7b872c4ae3d702748c1739ac} 
+void Eng\+::\+Base\+::add\+To\+Screen\+Text (\begin{DoxyParamCaption}\item[{std\+::string}]{text}{}\end{DoxyParamCaption})}
+
+
+
+Accoda una stringa al buffer di testo visualizzato a schermo (overlay). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & La stringa da visualizzare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a7e7cdce4faa7cc489e540b00884d57f1}\index{Eng::Base@{Eng::Base}!calculateFPS@{calculateFPS}}
+\index{calculateFPS@{calculateFPS}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{calculateFPS()}{calculateFPS()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a7e7cdce4faa7cc489e540b00884d57f1} 
+void \mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\+\_\+\+API}} Eng\+::\+Base\+::calculate\+FPS (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Aggiunge un testo alla lista interna degli elementi da visualizzare. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & La stringa di testo da aggiungere. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a503bee7b25574e8bbf1b716b722177b6}\index{Eng::Base@{Eng::Base}!createWindow@{createWindow}}
+\index{createWindow@{createWindow}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{createWindow()}{createWindow()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a503bee7b25574e8bbf1b716b722177b6} 
+void Eng\+::\+Base\+::create\+Window (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{, }\item[{int}]{x}{, }\item[{int}]{y}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{title}{}\end{DoxyParamCaption})}
+
+
+
+Crea la finestra di visualizzazione. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Larghezza della finestra in pixel. \\
+\hline
+{\em height} & Altezza della finestra in pixel. \\
+\hline
+{\em x} & Posizione orizzontale iniziale dello schermo. \\
+\hline
+{\em y} & Posizione verticale iniziale dello schermo. \\
+\hline
+{\em title} & Titolo della finestra. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a88850a81b9c70e76faae8212a35c722f}\index{Eng::Base@{Eng::Base}!free@{free}}
+\index{free@{free}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{free()}{free()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a88850a81b9c70e76faae8212a35c722f} 
+bool Eng\+::\+Base\+::free (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Libera le risorse allocate dal motore grafico. 
+
+\begin{DoxyReturn}{Returns}
+True se la liberazione delle risorse ha successo. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_a15f222446c6679d583b917062a930a35}\index{Eng::Base@{Eng::Base}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a15f222446c6679d583b917062a930a35} 
+\mbox{\hyperlink{class_eng_1_1_base}{Eng\+::\+Base}} \& Eng\+::\+Base\+::get\+Instance (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Restituisce l\textquotesingle{}istanza unica della classe \doxylink{class_eng_1_1_base}{Base} (Singleton). 
+
+\begin{DoxyReturn}{Returns}
+Riferimento all\textquotesingle{}istanza del motore. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_a87990de4490546c5024eacd7bf98030e}\index{Eng::Base@{Eng::Base}!getTextWidth@{getTextWidth}}
+\index{getTextWidth@{getTextWidth}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{getTextWidth()}{getTextWidth()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a87990de4490546c5024eacd7bf98030e} 
+int Eng\+::\+Base\+::get\+Text\+Width (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text}{}\end{DoxyParamCaption})}
+
+
+
+Calcola la larghezza in pixel di una stringa di testo renderizzata. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & La stringa di cui calcolare la lunghezza. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Larghezza in pixel. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_a4f62e88fb5d9f4f749f0e94c24d84886}\index{Eng::Base@{Eng::Base}!getWindowHeight@{getWindowHeight}}
+\index{getWindowHeight@{getWindowHeight}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{getWindowHeight()}{getWindowHeight()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a4f62e88fb5d9f4f749f0e94c24d84886} 
+int Eng\+::\+Base\+::get\+Window\+Height (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Restituisce l\textquotesingle{}altezza corrente della finestra. 
+
+\begin{DoxyReturn}{Returns}
+Altezza in pixel. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_a7e54e830d0a32fbbfe1a79646d96e758}\index{Eng::Base@{Eng::Base}!getWindowWidth@{getWindowWidth}}
+\index{getWindowWidth@{getWindowWidth}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{getWindowWidth()}{getWindowWidth()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a7e54e830d0a32fbbfe1a79646d96e758} 
+int Eng\+::\+Base\+::get\+Window\+Width (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Restituisce la larghezza corrente della finestra. 
+
+\begin{DoxyReturn}{Returns}
+Larghezza in pixel. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_abace7c269ef4f0703ecd915099a6792c}\index{Eng::Base@{Eng::Base}!handleKeyboardRequest@{handleKeyboardRequest}}
+\index{handleKeyboardRequest@{handleKeyboardRequest}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{handleKeyboardRequest()}{handleKeyboardRequest()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_abace7c269ef4f0703ecd915099a6792c} 
+void Eng\+::\+Base\+::handle\+Keyboard\+Request (\begin{DoxyParamCaption}\item[{unsigned char}]{key}{, }\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Gestisce internamente l\textquotesingle{}evento di pressione di un tasto standard. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & Codice ASCII del tasto premuto. \\
+\hline
+{\em x} & Coordinata X del mouse al momento della pressione. \\
+\hline
+{\em y} & Coordinata Y del mouse al momento della pressione. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a210017bf0c7626d6ec7aef5637a83dc6}\index{Eng::Base@{Eng::Base}!handleReshapeRequest@{handleReshapeRequest}}
+\index{handleReshapeRequest@{handleReshapeRequest}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{handleReshapeRequest()}{handleReshapeRequest()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a210017bf0c7626d6ec7aef5637a83dc6} 
+void Eng\+::\+Base\+::handle\+Reshape\+Request (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{}\end{DoxyParamCaption})}
+
+
+
+Gestisce internamente l\textquotesingle{}evento di ridimensionamento della finestra. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Nuova larghezza della finestra. \\
+\hline
+{\em height} & Nuova altezza della finestra. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_aba6e119b1e9dec9d6b84311253bb211f}\index{Eng::Base@{Eng::Base}!handleSpecialRequest@{handleSpecialRequest}}
+\index{handleSpecialRequest@{handleSpecialRequest}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{handleSpecialRequest()}{handleSpecialRequest()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_aba6e119b1e9dec9d6b84311253bb211f} 
+void Eng\+::\+Base\+::handle\+Special\+Request (\begin{DoxyParamCaption}\item[{int}]{key}{, }\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Gestisce internamente l\textquotesingle{}evento di pressione di un tasto speciale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & Codice del tasto speciale premuto. \\
+\hline
+{\em x} & Coordinata X del mouse al momento della pressione. \\
+\hline
+{\em y} & Coordinata Y del mouse al momento della pressione. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a03f81e6e54460dd66bd937d639cacf8d}\index{Eng::Base@{Eng::Base}!init@{init}}
+\index{init@{init}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a03f81e6e54460dd66bd937d639cacf8d} 
+bool Eng\+::\+Base\+::init (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Inizializza il sottosistema grafico e le librerie dipendenti. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Numero di argomenti da riga di comando. \\
+\hline
+{\em argv} & Array degli argomenti da riga di comando. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True se l\textquotesingle{}inizializzazione ha successo, False altrimenti. 
+\end{DoxyReturn}
+\Hypertarget{class_eng_1_1_base_a84c0991eede79202276396995ffcc72d}\index{Eng::Base@{Eng::Base}!setClearColor@{setClearColor}}
+\index{setClearColor@{setClearColor}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setClearColor()}{setClearColor()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a84c0991eede79202276396995ffcc72d} 
+void Eng\+::\+Base\+::set\+Clear\+Color (\begin{DoxyParamCaption}\item[{float}]{r}{, }\item[{float}]{g}{, }\item[{float}]{b}{, }\item[{float}]{a}{}\end{DoxyParamCaption})}
+
+
+
+Imposta il colore di pulizia dello sfondo (background). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Componente rossa (0.\+0 -\/ 1.\+0). \\
+\hline
+{\em g} & Componente verde (0.\+0 -\/ 1.\+0). \\
+\hline
+{\em b} & Componente blu (0.\+0 -\/ 1.\+0). \\
+\hline
+{\em a} & Componente alpha (0.\+0 -\/ 1.\+0). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_affdae80e745f7063f39ca00b6afe2d54}\index{Eng::Base@{Eng::Base}!setDisplayCallback@{setDisplayCallback}}
+\index{setDisplayCallback@{setDisplayCallback}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setDisplayCallback()}{setDisplayCallback()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_affdae80e745f7063f39ca00b6afe2d54} 
+void Eng\+::\+Base\+::set\+Display\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{engine_8h_a0a2db014bf8dd8ed37be5ec07ae15f93}{Display\+Callback}}}]{cb}{}\end{DoxyParamCaption})}
+
+
+
+Registra la funzione di callback per il rendering definita dall\textquotesingle{}utente. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Funzione da invocare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a1e5ccf2c1ce8178c479c6b4e3feffd99}\index{Eng::Base@{Eng::Base}!setKeyboardCallback@{setKeyboardCallback}}
+\index{setKeyboardCallback@{setKeyboardCallback}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setKeyboardCallback()}{setKeyboardCallback()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a1e5ccf2c1ce8178c479c6b4e3feffd99} 
+void Eng\+::\+Base\+::set\+Keyboard\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{engine_8h_ac1b7b5d5a33303f67f079a64ce18ccf6}{Keyboard\+Callback}}}]{cb}{}\end{DoxyParamCaption})}
+
+
+
+Registra la funzione di callback per l\textquotesingle{}input da tastiera standard. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Funzione da invocare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a07841e2a04828d0900286f6ab43bc6ef}\index{Eng::Base@{Eng::Base}!setLighting@{setLighting}}
+\index{setLighting@{setLighting}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setLighting()}{setLighting()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a07841e2a04828d0900286f6ab43bc6ef} 
+void Eng\+::\+Base\+::set\+Lighting (\begin{DoxyParamCaption}\item[{bool}]{enable}{}\end{DoxyParamCaption})}
+
+
+
+Abilita o disabilita il calcolo dell\textquotesingle{}illuminazione globale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enable} & True per abilitare, False per disabilitare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a68dfb5e9476534d8d458b22495b0cd97}\index{Eng::Base@{Eng::Base}!setMainCamera@{setMainCamera}}
+\index{setMainCamera@{setMainCamera}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setMainCamera()}{setMainCamera()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a68dfb5e9476534d8d458b22495b0cd97} 
+void Eng\+::\+Base\+::set\+Main\+Camera (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_camera}{Camera}} \texorpdfstring{$\ast$}{*}}]{camera}{}\end{DoxyParamCaption})}
+
+
+
+Assegna la telecamera principale utilizzata per il rendering. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em camera} & Puntatore alla camera da utilizzare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_ae76cb12a676e802c02c13eb6766264be}\index{Eng::Base@{Eng::Base}!setReflectionList@{setReflectionList}}
+\index{setReflectionList@{setReflectionList}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setReflectionList()}{setReflectionList()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_ae76cb12a676e802c02c13eb6766264be} 
+void Eng\+::\+Base\+::set\+Reflection\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_list}{List}} \texorpdfstring{$\ast$}{*}}]{list}{}\end{DoxyParamCaption})}
+
+
+
+Imposta la lista degli oggetti per il calcolo delle riflessioni. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & Puntatore alla lista di oggetti riflessi. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_aaca027e4c9296b445a700596653dc7e5}\index{Eng::Base@{Eng::Base}!setRenderList@{setRenderList}}
+\index{setRenderList@{setRenderList}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setRenderList()}{setRenderList()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_aaca027e4c9296b445a700596653dc7e5} 
+void Eng\+::\+Base\+::set\+Render\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_list}{List}} \texorpdfstring{$\ast$}{*}}]{list}{}\end{DoxyParamCaption})}
+
+
+
+Imposta la lista degli oggetti da renderizzare nella scena principale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & Puntatore alla lista di oggetti. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_acbf8afb26e637a50a925a2e067bc665a}\index{Eng::Base@{Eng::Base}!setReshapeCallback@{setReshapeCallback}}
+\index{setReshapeCallback@{setReshapeCallback}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setReshapeCallback()}{setReshapeCallback()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_acbf8afb26e637a50a925a2e067bc665a} 
+void Eng\+::\+Base\+::set\+Reshape\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{engine_8h_ab286424aee33aa47593e9cad5e91dc18}{Reshape\+Callback}}}]{cb}{}\end{DoxyParamCaption})}
+
+
+
+Registra la funzione di callback per il ridimensionamento della finestra. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Funzione da invocare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_acd98506d7ccdae3983cd701d5a95b443}\index{Eng::Base@{Eng::Base}!setSpecialCallback@{setSpecialCallback}}
+\index{setSpecialCallback@{setSpecialCallback}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setSpecialCallback()}{setSpecialCallback()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_acd98506d7ccdae3983cd701d5a95b443} 
+void Eng\+::\+Base\+::set\+Special\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{engine_8h_a0ac52d5286070b7212cf3dc56f825460}{Special\+Callback}}}]{cb}{}\end{DoxyParamCaption})}
+
+
+
+Registra la funzione di callback per l\textquotesingle{}input di tasti speciali. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Funzione da invocare. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_eng_1_1_base_a71bbfc2d92395ca7c5d3c81400aa5faa}\index{Eng::Base@{Eng::Base}!setTexture@{setTexture}}
+\index{setTexture@{setTexture}!Eng::Base@{Eng::Base}}
+\doxysubsubsection{\texorpdfstring{setTexture()}{setTexture()}}
+{\footnotesize\ttfamily \label{class_eng_1_1_base_a71bbfc2d92395ca7c5d3c81400aa5faa} 
+void Eng\+::\+Base\+::set\+Texture (\begin{DoxyParamCaption}\item[{bool}]{enable}{}\end{DoxyParamCaption})}
+
+
+
+Abilita o disabilita l\textquotesingle{}uso delle texture 2D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enable} & True per abilitare, False per disabilitare. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{engine_8h}{engine.\+h}}\item 
+engine.\+cpp\end{DoxyCompactItemize}

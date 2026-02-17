@@ -1,0 +1,27 @@
+\doxysection{omnidirectional\+Light.\+h}
+\hypertarget{omnidirectional_light_8h_source}{}\label{omnidirectional_light_8h_source}\mbox{\hyperlink{omnidirectional_light_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{light_8h}{light.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{lib_config_8h_a2ef14742296b6d1fdaf5e70dfdd60996}{ENG\_API}}\ \mbox{\hyperlink{class_omnidirectional_light_ab983d29d1992feefcc88ea6fedaf71be}{OmnidirectionalLight}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \mbox{\hyperlink{class_omnidirectional_light_ab983d29d1992feefcc88ea6fedaf71be}{OmnidirectionalLight}}();}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \ \ \ \mbox{\hyperlink{class_omnidirectional_light_ab983d29d1992feefcc88ea6fedaf71be}{OmnidirectionalLight}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_object_a24457e0a387492c80594aec7681a2277}{name}},\ \textcolor{keyword}{const}\ glm::mat4\&\ matrix,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_abcd118cea5b6bb284d218b1df62bbbce}{ambient}},\ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_af933e4c1087a91fa621fa9f28ccf3e76}{diffuse}},}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ \mbox{\hyperlink{class_light_a083c715bd3f644581975c3d0192ceebb}{specular}});}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00031\ \ \ \ \mbox{\hyperlink{class_omnidirectional_light_ab983d29d1992feefcc88ea6fedaf71be}{\string~OmnidirectionalLight}}();}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_omnidirectional_light_a6351b16a3154d7e0a01f68f5e934a0b7}{getCutoff}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_light_ad11747595250cede2c4c7948d1aa3d83}{render}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \textcolor{keywordtype}{float}\ cutoff\ =\ 180.0f;\ \textcolor{comment}{//\ 180°\ =\ omnidirezionale}}
+\DoxyCodeLine{00047\ \};}
+
+\end{DoxyCode}

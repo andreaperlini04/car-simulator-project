@@ -8,6 +8,9 @@ class Car
 public:	
 	Car();
 	
+	// Inizializza la macchina con il nodo grafico
+	void init(Node* carNode);
+
 	bool startEngine();
 	bool turnOffEngine();
 	
@@ -18,8 +21,12 @@ public:
 
 	void update(); //Called at every frame
 
+	glm::mat4 getWorldMatrix() const;
+
+	void testDrive(float speed, float rotation);
+
 private:
-	Node* carModel;
+	Node* carModel = nullptr;
 	Wheel wheels[4];
 
 	double maxSpeed;

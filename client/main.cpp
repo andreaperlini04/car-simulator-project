@@ -21,6 +21,7 @@
 #include <cmath>
 #include <array>
 #include <iomanip>
+#include "Car.h"
 
 // --- GLOBALI ---
 Eng::Base* engine;
@@ -28,13 +29,51 @@ Camera* camera;
 List* list;
 Node* root;
 OvoReader ovoreader{};
+Car myCar;
 
 
 
 glm::mat4 mainCameraHome{ 1.0f };
-bool isRotationMode = false; // false = MUOVI, true = RUOTA
-bool isPresetView = false;   // true quando si è in una delle telecamere fisse
 
+void updateCameraFollow() {
+   if (!camera) return;
+
+   // 1. Ottieni la matrice della macchina
+   glm::mat4 carMatrix = myCar.getWorldMatrix();
+
+   // 2. Estrai la posizione della macchina (quarta colonna della matrice)
+   glm::vec3 carPosition = glm::vec3(carMatrix[3]);
+
+   // 3. Estrai i vettori direzionali della macchina dalla matrice di rotazione
+   //    Assumendo che nel modello 3D:
+   //    Z negativo = Avanti (Forward)
+   //    Y positivo = Alto (Up)
+   //    X positivo = Destra (Right)
+   glm::vec3 carForward = glm::normalize(glm::vec3(carMatrix[2])); // Z axis (Back/Forward)
+   glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1]));      // Y axis
+
+   // 4. Definisci l'offset 
+   float distanceBehind = 60.0f; // Quanto stare indietro
+   float heightAbove = 60.0f;     // Quanto stare in alto
+
+   // Calcola la posizione desiderata della camera:
+   // Posizione = CarPos + (VettoreIndietro * distanza) + (VettoreAlto * altezza)
+   // Nota: Se la macchina guarda verso -Z, allora +Z è "indietro".
+   glm::vec3 cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
+
+   // 5. Definisci dove la camera deve guardare (Target)
+   //    Guardiamo leggermente sopra la macchina, non alle ruote
+   glm::vec3 cameraTarget = carPosition + (carUp * 2.0f);
+
+   // 6. Calcola la View Matrix usando glm::lookAt
+   //    lookAt restituisce la matrice che trasforma il mondo vista dalla camera.
+   //    Il nodo Camera del tuo engine si aspetta la World Matrix (dove è la camera nel mondo),
+   //    quindi dobbiamo invertire la matrice lookAt.
+   glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+
+   // Imposta la matrice della camera (Inversa della view matrix)
+   camera->setM(glm::inverse(viewMatrix));
+}
 
 void specialCallback(int key, int x, int y) {
     // Delega la gestione delle frecce alla classe logica
@@ -42,13 +81,42 @@ void specialCallback(int key, int x, int y) {
 }
 
 void displayCallback() {
-    
-    engine->postRedisplay();
+   updateCameraFollow();
+   list->clear();
+   list->pass(root, glm::mat4(1.0f));
+
+   engine->setRenderList(list);
+   engine->setMainCamera(camera);
+   engine->postRedisplay();
 }
 
 void keyboardCallback(unsigned char key, int x, int y) {
-    
-    engine->postRedisplay();
+   // Velocità di test
+   float moveSpeed = 2.0f;
+   float rotSpeed = 5.0f;
+
+   switch (key) {
+   case 'w':
+      // Muovi la macchina in avanti (asse Z negativo locale)
+      myCar.testDrive(-moveSpeed, 0.0f);
+      break;
+   case 's':
+      // Muovi la macchina indietro
+      myCar.testDrive(moveSpeed, 0.0f);
+      break;
+   case 'a':
+      // Ruota a sinistra (rotazione positiva su Y)
+      myCar.testDrive(0.0f, rotSpeed);
+      break;
+   case 'd':
+      // Ruota a destra (rotazione negativa su Y)
+      myCar.testDrive(0.0f, -rotSpeed);
+      break;
+
+   }
+
+   // Forza il ridisegno della scena
+   engine->postRedisplay();
 }
 
 void reshapeCallback(int width, int height) {
@@ -59,8 +127,8 @@ void reshapeCallback(int width, int height) {
     }
 }
 
-// per debuggare 
-/*
+// Debug method
+
 void printSceneGraphWithPosition(Node* node, int level = 0) {
     if (!node) return;
     std::string indent(level * 4, ' ');
@@ -80,7 +148,7 @@ void printSceneGraphWithPosition(Node* node, int level = 0) {
         printSceneGraphWithPosition(node->getChild(i), level + 1);
     }
 }
-*/
+
 
 int main(int argc, char* argv[]) {
     // --- INIZIO ---
@@ -103,15 +171,30 @@ int main(int argc, char* argv[]) {
    // --- SETUP VISTA FRONTALE ---
 
    // Hard-coded
-    camera->translate(glm::vec3(0.0f, 50.0f, 50.0f));
-    camera->rotate(-25.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-    mainCameraHome = camera->getM(); // salva posizione iniziale della camera mobile
+    //camera->translate(glm::vec3(0.0f, 50.0f,100.0f));
+    //camera->rotate(-25.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+    //mainCameraHome = camera->getM(); // salva posizione iniziale della camera mobile
 
     list = new List();
     root = new Node("Root");
+    Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
+    if (scena) {
+       std::cout << "OVO caricato con successo! Aggiungo alla scena." << std::endl;
+       root = scena;
+       root->addChild(camera);
+       Node* t = root->findByName("Car");
+       if (t)
+       {
+          myCar.init(t);
+       }
+    }
+    else {
+       std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;
+    }
 
-    
-
+    //root->removeChild(root->findByName("Omni"));
+    printSceneGraphWithPosition(root);
+    //engine->setLighting(false);
 
 
 

@@ -6,8 +6,11 @@
 class Car
 {
 public:	
-	Car(Node* carModel, int startX, int startZ);
+	Car();
 	
+	// Inizializza la macchina con il nodo grafico
+	void init(Node* carNode, int startX, int startZ);
+
 	bool startEngine();
 	bool turnOffEngine();
 	
@@ -18,8 +21,12 @@ public:
 
 	void update(double deltaTime); 
 
+	glm::mat4 getWorldMatrix() const;
+
+	void testDrive(float speed, float rotation);
+
 private:
-	Node* carModel;
+	Node* carModel = nullptr;
 	Wheel wheels[4];
 
 	// CONST ?? 

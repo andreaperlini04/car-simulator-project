@@ -44,6 +44,7 @@ struct Eng::Base::Reserved
     Eng::ReshapeCallback  clientReshapeCb = nullptr;
     Eng::KeyboardCallback clientKeyboardCb = nullptr;
     Eng::SpecialCallback  clientSpecialCb = nullptr;
+    Eng::KeyboardUpCallback clientKeyboardUpCb = nullptr;
 
     Reserved() {
         uiCamera = std::make_unique<OrthographicCamera>("UI_Cam", 0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
@@ -55,9 +56,8 @@ static void glutDisplayWrapper() { Eng::Base::getInstance().handleDisplayRequest
 static void glutReshapeWrapper(int width, int height) { Eng::Base::getInstance().handleReshapeRequest(width, height); }
 static void glutKeyboardWrapper(unsigned char key, int x, int y) { Eng::Base::getInstance().handleKeyboardRequest(key, x, y); }
 static void glutSpecialWrapper(int key, int x, int y) { Eng::Base::getInstance().handleSpecialRequest(key, x, y); }
-
+static void glutKeyboardUpWrapper(unsigned char key, int x, int y) { Eng::Base::getInstance().handleKeyboardUpRequest(key); }
 // --- IMPLEMENTAZIONE BASE ---
-
 Eng::Base::Base() : reserved(std::make_unique<Eng::Base::Reserved>()) {}
 Eng::Base::~Base() { free(); }
 
@@ -97,6 +97,7 @@ void Eng::Base::createWindow(int width, int height, int x, int y, const char* ti
     glutReshapeFunc(glutReshapeWrapper);
     glutKeyboardFunc(glutKeyboardWrapper);
     glutSpecialFunc(glutSpecialWrapper);
+    glutKeyboardUpFunc(glutKeyboardUpWrapper);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -113,6 +114,7 @@ void Eng::Base::setDisplayCallback(DisplayCallback cb) { reserved->clientDisplay
 void Eng::Base::setReshapeCallback(ReshapeCallback cb) { reserved->clientReshapeCb = cb; }
 void Eng::Base::setKeyboardCallback(KeyboardCallback cb) { reserved->clientKeyboardCb = cb; }
 void Eng::Base::setSpecialCallback(SpecialCallback cb) { reserved->clientSpecialCb = cb; }
+void Eng::Base::setKeyboardUpCallback(KeyboardUpCallback cb) { reserved->clientKeyboardUpCb = cb; }
 
 void Eng::Base::setClearColor(float r, float g, float b, float a) { glClearColor(r, g, b, a); }
 
@@ -221,6 +223,11 @@ void Eng::Base::handleReshapeRequest(int width, int height) {
 void Eng::Base::handleKeyboardRequest(unsigned char key, int x, int y) {
     if (reserved->clientKeyboardCb) reserved->clientKeyboardCb(key, x, y);
 }
+
+void Eng::Base::handleKeyboardUpRequest(unsigned char key) {
+    if (reserved->clientKeyboardUpCb) reserved->clientKeyboardUpCb(key);
+}
+
 
 void Eng::Base::handleSpecialRequest(int key, int x, int y) {
     if (reserved->clientSpecialCb) reserved->clientSpecialCb(key, x, y);

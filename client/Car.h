@@ -33,7 +33,7 @@ private:
 
 	double maxSpeed;
 	double currSpeed;
-	double accellerationFactor;
+	double accelerationFactor;
 	double brakingFactor;
 	double friction;  // Terrain friction
 

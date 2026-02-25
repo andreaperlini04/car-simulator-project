@@ -25,6 +25,9 @@ namespace Eng {
    using KeyboardCallback = std::function<void(unsigned char key, int x, int y)>;
    /** @brief Callback invocata alla pressione di un tasto speciale. */
    using SpecialCallback = std::function<void(int key, int x, int y)>;
+   /** @brief Callback invocata al rilascio di un tasto. */
+   using KeyboardUpCallback = std::function<void(int key)>;
+
 
    /**
     * @class Base
@@ -122,6 +125,12 @@ namespace Eng {
        */
       void setSpecialCallback(SpecialCallback cb);
 
+      /**
+       * @brief Registra la funzione di callback quando i tasti della tastiera vengono rilasciati.
+       * @param cb Funzione da invocare.
+       */
+      void setKeyboardUpCallback(KeyboardUpCallback cb);
+
       // Utility per il Client
 
       /**
@@ -166,6 +175,12 @@ namespace Eng {
        * @param y Coordinata Y del mouse al momento della pressione.
        */
       void handleKeyboardRequest(unsigned char key, int x, int y);
+      
+      /**
+       * @brief Gestisce internamente l'evento di rilascio di un tasto standard.
+       * @param key Codice ASCII del tasto premuto.
+       */
+      void handleKeyboardUpRequest(unsigned char key);
 
       /**
        * @brief Gestisce internamente l'evento di pressione di un tasto speciale.

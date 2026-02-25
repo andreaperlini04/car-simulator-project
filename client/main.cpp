@@ -105,6 +105,27 @@ void displayCallback() {
    engine->postRedisplay();
 }
 
+/*
+* Viene chiamata ogni volta che un tasto viene rilasciato
+*/
+void keyboardUpCallback(unsigned char key) {
+    switch (key) {
+    case 'w':
+        myCar.setAccelerating(false);
+        break;
+    case 's':
+        myCar.setBraking(false);
+        break;
+    case 'a':
+    case 'd':
+        myCar.setSteering(0.0);
+        break;
+    }
+    std::cout << "DEBUG DEBUG";
+    // Forza il ridisegno della scena
+    engine->postRedisplay();
+}
+
 void keyboardCallback(unsigned char key, int x, int y) {
     
     switch (key) {
@@ -115,16 +136,18 @@ void keyboardCallback(unsigned char key, int x, int y) {
         myCar.setBraking(true);
         break;
     case 'a':
-        myCar.setSteering(-45.0); 
+        myCar.setSteering(-30.0); 
         break;
     case 'd':
-        myCar.setSteering(45.0);  
+        myCar.setSteering(30.0);  
         break;
     }
 
    // Forza il ridisegno della scena
    engine->postRedisplay();
 }
+
+
 
 void reshapeCallback(int width, int height) {
     if (height == 0) height = 1;
@@ -170,6 +193,7 @@ int main(int argc, char* argv[]) {
 
     // Setup Callback
     engine->setKeyboardCallback(keyboardCallback);
+    engine->setKeyboardUpCallback(keyboardUpCallback);
     engine->setSpecialCallback(specialCallback);
     engine->setDisplayCallback(displayCallback);
     engine->setReshapeCallback(reshapeCallback);

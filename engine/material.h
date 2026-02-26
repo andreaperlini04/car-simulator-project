@@ -105,6 +105,8 @@ public:
 	 */
 	void setTexture(Texture* texture);
 
+	void setTextureMatrix(const glm::mat4& mat);
+
 	/**
 	 * @brief Applica le proprietà del materiale allo stato corrente del rendering.
 	 */
@@ -124,4 +126,6 @@ private:
 	float transparency;
 	/** @brief Puntatore alla texture applicata alla superficie. */
 	Texture* texture;
+
+	glm::mat4 textureMatrix = glm::mat4(1.0f);
 };

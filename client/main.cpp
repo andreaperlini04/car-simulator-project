@@ -30,6 +30,7 @@ List* list;
 Node* root;
 OvoReader ovoreader{};
 Car myCar;
+Mesh* groundMesh = nullptr;
 
 // Timer
 auto lastFrameTime = std::chrono::steady_clock::now();
@@ -96,6 +97,43 @@ void displayCallback() {
 
    myCar.update(deltaTime);
 
+   if (groundMesh) {
+      // 1. Logica Posizione (Geometria):
+      // Sposta il piano sotto la macchina affinché non "finisca" mai.
+      glm::mat4 carMat = myCar.getWorldMatrix();
+      float carX = carMat[3][0];
+      float carZ = carMat[3][2];
+      float groundY = groundMesh->getM()[3][1]; // Mantieni altezza originale
+
+      // Sposta la mesh fisica
+      groundMesh->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, groundY, carZ)));
+
+      // 2. Logica Texture (Illusione Movimento):
+      // Calcola l'offset opposto al movimento.
+      Material* mat = groundMesh->getMaterial();
+      if (mat) {
+         float textureFactor = 0.05f; // Regola quanto è "fitta" la texture
+
+         // Calcola matrice con GLM (Client side)
+         glm::mat4 texAnim = glm::translate(glm::mat4(1.0f),
+            glm::vec3(carX * textureFactor, -carZ * textureFactor, 0.0f));
+
+         // Passa la matrice all'Engine. Il Client NON chiama glLoadMatrixf.
+         mat->setTextureMatrix(texAnim);
+      }
+
+     
+   }
+
+   // TODO mettere luce in una variabile
+   glm::mat4 carMat = myCar.getWorldMatrix();
+   float carX = carMat[3][0];
+   float carZ = carMat[3][2];
+   float lighty = root->findByName("Omni")->getM()[3][1]; // Mantieni altezza originale
+
+   // Sposta la mesh fisica
+   root->findByName("Omni")->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
+
    updateCameraFollow();
    list->clear();
    list->pass(root, glm::mat4(1.0f));
@@ -110,10 +148,10 @@ void displayCallback() {
 */
 void keyboardUpCallback(unsigned char key) {
     switch (key) {
-    case 'w':
+    case 's':
         myCar.setAccelerating(false);
         break;
-    case 's':
+    case 'w':
         myCar.setBraking(false);
         break;
     case 'a':
@@ -121,7 +159,7 @@ void keyboardUpCallback(unsigned char key) {
         myCar.setSteering(0.0);
         break;
     }
-    std::cout << "DEBUG DEBUG";
+    //std::cout << "DEBUG DEBUG";
     // Forza il ridisegno della scena
     engine->postRedisplay();
 }
@@ -129,10 +167,10 @@ void keyboardUpCallback(unsigned char key) {
 void keyboardCallback(unsigned char key, int x, int y) {
     
     switch (key) {
-    case 'w':
+    case 's':
         myCar.setAccelerating(true);
         break;
-    case 's':
+    case 'w':
         myCar.setBraking(true);
         break;
     case 'a':
@@ -202,7 +240,7 @@ int main(int argc, char* argv[]) {
    // --- SETUP VISTA FRONTALE ---
 
    // Hard-coded
-    //camera->translate(glm::vec3(0.0f, 50.0f,100.0f));
+    camera->translate(glm::vec3(0.0f, 50.0f,100.0f));
     //camera->rotate(-25.0f, glm::vec3(1.0f, 0.0f, 0.0f));
     //mainCameraHome = camera->getM(); // salva posizione iniziale della camera mobile
 
@@ -213,15 +251,24 @@ int main(int argc, char* argv[]) {
        std::cout << "OVO caricato con successo! Aggiungo alla scena." << std::endl;
        root = scena;
        root->addChild(camera);
+       printSceneGraphWithPosition(root);
        Node* t = root->findByName("Car");
        if (t)
        {
           myCar.init(t, 0, 0);
        }
+
+       Node* foundNode = root->findByName("Piano"); // Trova il piano dall'OVO
+       if (foundNode) {
+          groundMesh = dynamic_cast<Mesh*>(foundNode);
+          // Assicurati che la texture sia impostata su GL_REPEAT (di solito lo è di default in texture.cpp)
+       }
     }
     else {
        std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;
     }
+
+
 
     //root->removeChild(root->findByName("Omni"));
     printSceneGraphWithPosition(root);

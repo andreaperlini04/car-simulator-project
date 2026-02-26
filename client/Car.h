@@ -19,17 +19,22 @@ public:
 	void setBraking(bool isBraking);
 	void setSteering(double angle);
 
+
 	void update(double deltaTime); 
 
 	glm::mat4 getWorldMatrix() const;
 
-	void testDrive(float speed, float rotation);
+	
 
 private:
 	Node* carModel = nullptr;
 	Wheel wheels[4];
 
 	// CONST ?? 
+	float originalY = 0.0f;
+	glm::vec3 originalScale = glm::vec3(1.0f);
+
+
 
 	double maxSpeed;
 	double currSpeed;

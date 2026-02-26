@@ -62,5 +62,12 @@ void Mesh::render() {
     }
 
     // 3. Ripristina stato
-    if (!material) glEnable(GL_LIGHTING);
+    if (material) {
+       // [NUOVO] Reset della matrice texture per sicurezza
+       glMatrixMode(GL_TEXTURE);
+       glLoadIdentity(); // Rimette la matrice a "neutro"
+       glMatrixMode(GL_MODELVIEW);
+
+       glEnable(GL_LIGHTING); // (era già presente nel tuo codice originale)
+    }
 }

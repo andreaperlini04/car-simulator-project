@@ -31,6 +31,7 @@ Node* root;
 OvoReader ovoreader{};
 Car myCar;
 Mesh* groundMesh = nullptr;
+int selectedCamera = 1; // Follows the car from behind
 
 // Timer
 auto lastFrameTime = std::chrono::steady_clock::now();
@@ -38,45 +39,58 @@ bool isFirstFrame = true;
 
 
 glm::mat4 mainCameraHome{ 1.0f };
+void updateCameraFollow(int idx) {
+    if (!camera) return;
 
-void updateCameraFollow() {
-   if (!camera) return;
+    glm::mat4 carMatrix = myCar.getWorldMatrix();
+    glm::vec3 carPosition = glm::vec3(carMatrix[3]);
 
-   // 1. Ottieni la matrice della macchina
-   glm::mat4 carMatrix = myCar.getWorldMatrix();
+    // Estrazione assi locali della macchina
+    glm::vec3 carRight = glm::normalize(glm::vec3(carMatrix[0])); // X axis (Left/Right)
+    glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1])); // Y axis (Up/Down)
+    glm::vec3 carForward = glm::normalize(glm::vec3(carMatrix[2])); // Z axis (Back/Forward)
 
-   // 2. Estrai la posizione della macchina (quarta colonna della matrice)
-   glm::vec3 carPosition = glm::vec3(carMatrix[3]);
+    float distanceBehind = 0.0f;
+    float distanceSide = 0.0f; 
+    float heightAbove = 0.0f;
 
-   // 3. Estrai i vettori direzionali della macchina dalla matrice di rotazione
-   //    Assumendo che nel modello 3D:
-   //    Z negativo = Avanti (Forward)
-   //    Y positivo = Alto (Up)
-   //    X positivo = Destra (Right)
-   glm::vec3 carForward = glm::normalize(glm::vec3(carMatrix[2])); // Z axis (Back/Forward)
-   glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1]));      // Y axis
+    glm::vec3 cameraPos{ 1.f };
+    glm::vec3 cameraTarget{ 1.f };
+    glm::mat4 viewMatrix{ 1.f };
 
-   // 4. Definisci l'offset 
-   float distanceBehind = 50.0f; // Quanto stare indietro
-   float heightAbove = 50.0f;     // Quanto stare in alto
+    if (idx == 1) {
+        // Camera da DIETRO
+        distanceBehind = 50.0f;
+        heightAbove = 50.0f; 
 
-   // Calcola la posizione desiderata della camera:
-   // Posizione = CarPos + (VettoreIndietro * distanza) + (VettoreAlto * altezza)
-   // Nota: Se la macchina guarda verso -Z, allora +Z è "indietro".
-   glm::vec3 cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
+        cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
+        cameraTarget = carPosition + (carUp * 2.0f);
+        viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+    else if (idx == 2) {
+        // Camera lato SINISTRO
+        distanceSide = 40.0f;
+        heightAbove = 10.0f; 
 
-   // 5. Definisci dove la camera deve guardare (Target)
-   //    Guardiamo leggermente sopra la macchina, non alle ruote
-   glm::vec3 cameraTarget = carPosition + (carUp * 2.0f);
+        // Sottraiamo carRight per posizionarci a sinistra della macchina
+        cameraPos = carPosition - (carRight * distanceSide) + (carUp * heightAbove);
+        cameraTarget = carPosition + (carUp * 2.0f); 
 
-   // 6. Calcola la View Matrix usando glm::lookAt
-   //    lookAt restituisce la matrice che trasforma il mondo vista dalla camera.
-   //    Il nodo Camera del tuo engine si aspetta la World Matrix (dove è la camera nel mondo),
-   //    quindi dobbiamo invertire la matrice lookAt.
-   glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+        viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+    else if (idx == 3) {
+        //  Camera lato DESTRO
+        distanceSide = 40.0f;
+        heightAbove = 10.0f;
 
-   // Imposta la matrice della camera (Inversa della view matrix)
-   camera->setM(glm::inverse(viewMatrix));
+        // Sommiamo carRight per posizionarci a destra della macchina
+        cameraPos = carPosition + (carRight * distanceSide) + (carUp * heightAbove);
+        cameraTarget = carPosition + (carUp * 2.0f);
+
+        viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
+    camera->setM(glm::inverse(viewMatrix));
 }
 
 void specialCallback(int key, int x, int y) {
@@ -134,7 +148,7 @@ void displayCallback() {
    // Sposta la mesh fisica
    root->findByName("Omni")->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
 
-   updateCameraFollow();
+   updateCameraFollow(selectedCamera);
    list->clear();
    list->pass(root, glm::mat4(1.0f));
 
@@ -160,6 +174,16 @@ void keyboardCallback(unsigned char key, int x, int y) {
    case 'd':
       myCar.setSteering(-30.0); 
       break;
+   case '1':
+       selectedCamera = 1;
+       break;
+   case '2':
+       selectedCamera = 2;
+       break;
+   case '3':
+       selectedCamera = 3;
+
+       break;
    }
 
    // Forza il ridisegno della scena

@@ -11,10 +11,10 @@ Car::Car()
    this->isAccelerating = false;
    this->isBraking = false;
 
-   this->maxSpeed = 50.0;
+   this->maxSpeed = 25.0;
    this->currSpeed = 0.0;
-   this->accelerationFactor = 15.0;
-   this->brakingFactor = 30.0;
+   this->accelerationFactor =8.0;
+   this->brakingFactor = 20.0;
    this->friction = 10.0;
 
    this->carHeading = 90.0;
@@ -108,10 +108,13 @@ void Car::update(double deltaTime)
    if (carModel != nullptr) {
       glm::mat4 newMatrix = glm::mat4(1.0f);
       newMatrix = glm::translate(newMatrix, glm::vec3(posX, originalY, posZ));
+
+      // Aggiunge rotazione base di 180° per correggere l'orientamento del modello
+      newMatrix = glm::rotate(newMatrix, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+      // Poi applica la rotazione di guida normale
       newMatrix = glm::rotate(newMatrix, (float)carHeadingRad, glm::vec3(0.0f, 1.0f, 0.0f));
 
-      // FIX: Riapplica la scala originale del modello (quella impostata in 3ds Max)
-      // Senza questo, ogni frame la scala veniva resettata a 1.0 e la macchina appariva piccola.
       newMatrix = glm::scale(newMatrix, originalScale);
 
       carModel->setM(newMatrix);

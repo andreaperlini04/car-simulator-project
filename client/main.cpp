@@ -57,8 +57,8 @@ void updateCameraFollow() {
    glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1]));      // Y axis
 
    // 4. Definisci l'offset 
-   float distanceBehind = 60.0f; // Quanto stare indietro
-   float heightAbove = 60.0f;     // Quanto stare in alto
+   float distanceBehind = 50.0f; // Quanto stare indietro
+   float heightAbove = 50.0f;     // Quanto stare in alto
 
    // Calcola la posizione desiderata della camera:
    // Posizione = CarPos + (VettoreIndietro * distanza) + (VettoreAlto * altezza)
@@ -143,45 +143,43 @@ void displayCallback() {
    engine->postRedisplay();
 }
 
-/*
-* Viene chiamata ogni volta che un tasto viene rilasciato
-*/
-void keyboardUpCallback(unsigned char key) {
-    switch (key) {
-    case 's':
-        myCar.setAccelerating(false);
-        break;
-    case 'w':
-        myCar.setBraking(false);
-        break;
-    case 'a':
-    case 'd':
-        myCar.setSteering(0.0);
-        break;
-    }
-    //std::cout << "DEBUG DEBUG";
-    // Forza il ridisegno della scena
-    engine->postRedisplay();
-}
 
 void keyboardCallback(unsigned char key, int x, int y) {
-    
-    switch (key) {
-    case 's':
-        myCar.setAccelerating(true);
-        break;
-    case 'w':
-        myCar.setBraking(true);
-        break;
-    case 'a':
-        myCar.setSteering(-30.0); 
-        break;
-    case 'd':
-        myCar.setSteering(30.0);  
-        break;
-    }
+
+   switch (key) {
+   case 'w': 
+      myCar.setAccelerating(true);
+      break;
+   case 's':
+      myCar.setBraking(true);
+      break;
+  
+   case 'a':
+      myCar.setSteering(30.0); 
+      break;
+   case 'd':
+      myCar.setSteering(-30.0); 
+      break;
+   }
 
    // Forza il ridisegno della scena
+   engine->postRedisplay();
+}
+
+void keyboardUpCallback(unsigned char key) {
+   switch (key) {
+   case 'w': 
+      myCar.setAccelerating(false);
+      break;
+   case 's': 
+      myCar.setBraking(false);
+      break;
+   case 'a':
+   case 'd':
+      myCar.setSteering(0.0); 
+      break;
+   }
+   
    engine->postRedisplay();
 }
 

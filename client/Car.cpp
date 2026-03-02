@@ -119,16 +119,12 @@ void Car::update(double deltaTime)
 
       carModel->setM(newMatrix);
 
-      // Steering Animation
-      if (currSpeed != 0) {     
-          wheels[0].setSteeringAngle(steeringAngle);
-          wheels[0].updateVisuals();
-          wheels[1].setSteeringAngle(steeringAngle);
-          wheels[1].updateVisuals();
-      }
-
+      // Steering Animation (Front wheels)
+        wheels[0].setSteeringAngle(steeringAngle);
+        wheels[0].updateVisuals();
+        wheels[1].setSteeringAngle(steeringAngle);
+        wheels[1].updateVisuals();
    }
-
 }
 
 
@@ -193,55 +189,43 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
    std::cout << " -> Heading estratto dall'OVO: " << this->carHeading << " deg" << std::endl;
 
-  
-
-   // --- 4. COLLEGAMENTO RUOTE E CERCHIONI ---
    for (int i = 0; i < 4; i++) {
-      // --- A. GESTIONE GOMMA ---
-      Node* ruota = rootScene->findByName(wheelNames[i]);
-      if (ruota) {
-         // 1. Calcola posizione relativa contro la worldMatrix OVO originale (PRIMA di setM)
-         //    così la posizione delle ruote è coerente con la posizione reale del car nell'OVO.
-         glm::mat4 relativeM = glm::inverse(worldMatrix) * ruota->getWorldFinalMatrix();
+       Node* ruota = rootScene->findByName(wheelNames[i]);
+       Node* cerchione = rootScene->findByName(rimNames[i]);
 
-         // 2. Stacca dal vecchio padre (ID:12 [root])
-         if (ruota->getParent()) {
-            ruota->getParent()->removeChild(ruota);
-         }
+       if (ruota) {
+           glm::mat4 origRuotaWorld = ruota->getWorldFinalMatrix();
 
-         // 3. Attacca alla macchina (Car diventa il nuovo padre)
-         this->carModel->addChild(ruota);
+           // --- A. GESTIONE GOMMA ---
+           // Calcoliamo la posizione della ruota rispetto alla macchina
+           glm::mat4 relRuotaM = glm::inverse(worldMatrix) * origRuotaWorld;
 
-         // 4. Applica la matrice corretta
-         ruota->setM(relativeM);
+           if (ruota->getParent()) {
+               ruota->getParent()->removeChild(ruota);
+           }
 
-         // 5. Inizializza oggetto logico
-         wheels[i].init(ruota, 1.0f, 0.0f, 0.0f, 0.0f);
+           this->carModel->addChild(ruota);
+           ruota->setM(relRuotaM);
+           wheels[i].init(ruota, 1.0f, 0.0f, 0.0f, 0.0f);
+           std::cout << "    -> Collegata OK: " << wheelNames[i] << std::endl;
 
-         std::cout << "    -> Collegata OK: " << wheelNames[i] << std::endl;
-      }
-      else {
-         std::cout << "    ERRORE: " << wheelNames[i] << " NON trovata (cercando da " << rootScene->getName() << ")" << std::endl;
-      }
+           // --- B. GESTIONE CERCHIONE ---
+           if (cerchione) {
+               // Calcoliamo la posizione del cerchione RISPETTO ALLA RUOTA ORIGINALE
+               glm::mat4 relCerchioneM = glm::inverse(origRuotaWorld) * cerchione->getWorldFinalMatrix();
 
-      // --- B. GESTIONE CERCHIONE ---
-      Node* cerchione = rootScene->findByName(rimNames[i]);
-      if (cerchione) {
-         glm::mat4 relativeM = glm::inverse(worldMatrix) * cerchione->getWorldFinalMatrix();
+               if (cerchione->getParent()) {
+                   cerchione->getParent()->removeChild(cerchione);
+               }
 
-         if (cerchione->getParent()) {
-            cerchione->getParent()->removeChild(cerchione);
-         }
+               ruota->addChild(cerchione);
+               cerchione->setM(relCerchioneM);
 
-         this->carModel->addChild(cerchione);
-         cerchione->setM(relativeM);
-
-         std::cout << "    -> Collegato OK: " << rimNames[i] << std::endl;
-      }
+               std::cout << "    -> Collegato OK: " << rimNames[i] << " (ora e' figlio di " << wheelNames[i] << ")" << std::endl;
+           }
+       }
    }
 
-   // Applica cleanCarMatrix DOPO aver calcolato tutte le relative,
-   // così update() parte da una matrice coerente con i wheel locals.
    this->carModel->setM(cleanCarMatrix);
 }
 

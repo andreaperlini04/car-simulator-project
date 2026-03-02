@@ -25,5 +25,6 @@ private:
     double offsetZ;
 
     double steeringAngle;
+    double oldSteeringAngle; // Only used to update the angle of the wheel
     double rollingAngle; 
 };

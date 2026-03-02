@@ -169,8 +169,8 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
   
    case 'a':
-      myCar.setSteering(30.0); 
-      break;
+       myCar.setSteering(30.0); 
+       break;
    case 'd':
       myCar.setSteering(-30.0); 
       break;

@@ -10,6 +10,7 @@ Wheel::Wheel()
     offsetZ = 0.0;
 
     steeringAngle = 0.0;
+    oldSteeringAngle = steeringAngle;
     rollingAngle = 0.0;
 }
 
@@ -24,6 +25,7 @@ void Wheel::init(Node* model, double wheelRadius, double offX, double offY, doub
 
 void Wheel::setSteeringAngle(double angle)
 {
+    oldSteeringAngle = steeringAngle;
     steeringAngle = angle;
 }
 
@@ -35,5 +37,11 @@ void Wheel::updateVisuals()
 {
     if (!wheelModel) return;
 
-
+   // if (steeringAngle != oldSteeringAngle) { // avoids accumulating rotations
+        this->wheelModel->rotate(-oldSteeringAngle, glm::vec3(0.0f, 1.0f, 0.0f));
+        this->wheelModel->rotate(steeringAngle, glm::vec3(0.0f, 1.0f, 0.0f));
+        
+    //}
+    
 }
+

@@ -23,8 +23,8 @@ public:
 	void update(double deltaTime); 
 
 	glm::mat4 getWorldMatrix() const;
-
-	
+	const std::string wheelNames[4] = { "RuotaAD", "RuotaAS", "RuotaPD", "RuotaPS" };
+	const std::string rimNames[4] = { "CerchioneAD", "CerchioneAS", "CerchionePD", "CerchionePS" };
 
 private:
 	Node* carModel = nullptr;

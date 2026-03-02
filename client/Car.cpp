@@ -118,8 +118,16 @@ void Car::update(double deltaTime)
       newMatrix = glm::scale(newMatrix, originalScale);
 
       carModel->setM(newMatrix);
-   }
 
+      // Steering Animation
+      if (currSpeed != 0) {     
+          wheels[0].setSteeringAngle(steeringAngle);
+          wheels[0].updateVisuals();
+          wheels[1].setSteeringAngle(steeringAngle);
+          wheels[1].updateVisuals();
+      }
+
+   }
 
 }
 
@@ -139,7 +147,6 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
    std::cout << "Init Car: Ricerca iniziata dal nodo radice: '" << rootScene->getName() << "'" << std::endl;
 
-   // --- 2. CERCA LA CARROZZERIA ---
    this->carModel = rootScene->findByName("Car");
 
    if (this->carModel == nullptr) {
@@ -166,9 +173,6 @@ void Car::init(Node* passedNode, int startX, int startZ)
       << originalScale.x << ", " << originalScale.y << ", " << originalScale.z << ")"
       << "  Y originale (world): " << originalY << std::endl;
 
-   // FIX: Estrai il heading iniziale DALLA matrice OVO, non usare il valore hardcoded 90°.
-   // La colonna Z (indice [2]) della matrice di rotazione dà la direzione "avanti" del modello.
-   // atan2 su quella colonna (normalizzata, senza scala) restituisce il heading reale.
    glm::vec3 forwardVec = glm::normalize(glm::vec3(
       worldMatrix[2][0] / originalScale.x,
       worldMatrix[2][1] / originalScale.y,
@@ -189,8 +193,7 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
    std::cout << " -> Heading estratto dall'OVO: " << this->carHeading << " deg" << std::endl;
 
-   std::string wheelNames[4] = { "RuotaAD", "RuotaAS", "RuotaPD", "RuotaPS" };
-   std::string rimNames[4] = { "CerchioneAD", "CerchioneAS", "CerchionePD", "CerchionePS" };
+  
 
    // --- 4. COLLEGAMENTO RUOTE E CERCHIONI ---
    for (int i = 0; i < 4; i++) {

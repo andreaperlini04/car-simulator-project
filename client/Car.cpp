@@ -26,7 +26,9 @@ bool Car::turnOffEngine() { return this->isEngineOn = false; }
 
 void Car::setAccelerating(bool v) { this->isAccelerating = v; }
 void Car::setBraking(bool v) { this->isBraking = v; }
-void Car::setSteering(double angle) { this->steeringAngle = angle; }
+void Car::setSteeringRight(bool isSteeringRigth) { this->isSteeringRight = isSteeringRigth; }
+void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeringLeft; }
+
 
 void Car::update(double deltaTime)
 {
@@ -54,12 +56,11 @@ void Car::update(double deltaTime)
    if (currSpeed < -maxSpeed) currSpeed = -maxSpeed;
 
    // -------  STERZO  -------
-   if (currSpeed != 0) {
-      double turnRate = steeringAngle * currSpeed * 0.05;
-      double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
-      if (grip > 1.0) grip = 1.0;
-      carHeading += turnRate * grip * deltaTime;
-   }
+    updateSteeringAngle(deltaTime);
+    double turnRate = steeringAngle * currSpeed * 0.05;
+    double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
+    if (grip > 1.0) grip = 1.0;
+    carHeading += turnRate * grip * deltaTime;
 
    // -------  POSIZIONE  -------
    double carHeadingRad = carHeading * (3.14159265358979 / 180.0);
@@ -185,6 +186,31 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
    // Applica la matrice pulita alla carrozzeria (sovrascrive quella dell'OVO con una consistente)
    this->carModel->setM(cleanCarMatrix);
+}
+void Car::updateSteeringAngle(double const deltaTime) {
+    if (isSteeringRight) {
+        // std::cout << "\nGoing Right, Angle: " << steeringAngle;
+        steeringAngle -= steeringSpeed * deltaTime;
+        if (steeringAngle < -maxSteeringAngle)
+            steeringAngle = -maxSteeringAngle;
+    }
+    else if (isSteeringLeft) {
+        // std::cout << "\nGoing left, Angle: " << steeringAngle;
+        steeringAngle += steeringSpeed * deltaTime;
+        if (steeringAngle > maxSteeringAngle)
+            steeringAngle = maxSteeringAngle;
+    }
+    // Ritorno graduale delle ruote alla posizione originale
+    else if (steeringAngle > 0) { // Left (positive)
+        steeringAngle -= steeringSpeed * deltaTime;
+        if (steeringAngle < 0.0)
+            steeringAngle = 0.0;
+    }
+    else if (steeringAngle < 0) { // Right (negative)
+        steeringAngle += steeringSpeed * deltaTime;
+        if (steeringAngle > 0.0)
+            steeringAngle = 0.0;
+    }
 }
 
 glm::mat4 Car::getWorldMatrix() const

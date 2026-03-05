@@ -169,10 +169,10 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
   
    case 'a':
-       myCar.setSteering(30.0); 
+       myCar.setSteeringLeft(true); 
        break;
    case 'd':
-      myCar.setSteering(-30.0); 
+      myCar.setSteeringRight(true); 
       break;
    case '1':
        selectedCamera = 1;
@@ -199,8 +199,10 @@ void keyboardUpCallback(unsigned char key) {
       myCar.setBraking(false);
       break;
    case 'a':
+       myCar.setSteeringLeft(false);
+       break;
    case 'd':
-      myCar.setSteering(0.0); 
+       myCar.setSteeringRight(false);
       break;
    }
    

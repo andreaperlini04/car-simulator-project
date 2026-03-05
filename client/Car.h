@@ -14,7 +14,8 @@ public:
 
    void setAccelerating(bool isAccelerating);
    void setBraking(bool isBraking);
-   void setSteering(double angle);
+   void setSteeringLeft(bool isSteeringLeft);
+   void setSteeringRight(bool isSteeringRight);
 
    void update(double deltaTime);
 
@@ -40,9 +41,16 @@ private:
    double posZ;
 
    double carHeading = 90.0;
-   double steeringAngle = 0.0;
+   double steeringAngle = 0.0; // Positive angle => going left
+   const double maxSteeringAngle = 35.0; // Degrees 
+
+   bool isSteeringLeft = false;
+   bool isSteeringRight = false;
 
    bool isEngineOn = false;
    bool isAccelerating = false;
    bool isBraking = false;
+
+   const double steeringSpeed = 120.0; // Degree/s
+   void updateSteeringAngle(double deltaTime);
 };

@@ -70,7 +70,7 @@ void updateCameraFollow(int idx) {
     else if (idx == 2) {
         // Camera lato SINISTRO
         distanceSide = 40.0f;
-        heightAbove = 10.0f; 
+        heightAbove = 0.0f; 
 
         // Sottraiamo carRight per posizionarci a sinistra della macchina
         cameraPos = carPosition - (carRight * distanceSide) + (carUp * heightAbove);
@@ -81,7 +81,7 @@ void updateCameraFollow(int idx) {
     else if (idx == 3) {
         //  Camera lato DESTRO
         distanceSide = 40.0f;
-        heightAbove = 10.0f;
+        heightAbove = 0.0f;
 
         // Sommiamo carRight per posizionarci a destra della macchina
         cameraPos = carPosition + (carRight * distanceSide) + (carUp * heightAbove);

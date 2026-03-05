@@ -118,12 +118,23 @@ void Car::update(double deltaTime)
       newMatrix = glm::scale(newMatrix, originalScale);
 
       carModel->setM(newMatrix);
+      // Calcola quanto si è spostata la macchina in questo esatto frame
+      double distanceMoved = currSpeed * deltaTime;
 
-      // Steering Animation (Front wheels)
-        wheels[0].setSteeringAngle(steeringAngle);
-        wheels[0].updateVisuals();
-        wheels[1].setSteeringAngle(steeringAngle);
-        wheels[1].updateVisuals();
+
+      // Sterzo solo per le ruote anteriori (0 e 1)
+      wheels[0].setSteeringAngle(steeringAngle);
+      wheels[1].setSteeringAngle(steeringAngle);
+
+      // Ruote posteriori (2 e 3) dritte
+      wheels[2].setSteeringAngle(0.0);
+      wheels[3].setSteeringAngle(0.0);
+
+      // Aggiorna rotolamento e rendering per tutte e 4 le ruote
+      for (int i = 0; i < 4; i++) {
+         wheels[i].updateRolling(distanceMoved);
+         wheels[i].updateVisuals();
+      }
    }
 }
 
@@ -206,7 +217,9 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
            this->carModel->addChild(ruota);
            ruota->setM(relRuotaM);
-           wheels[i].init(ruota, 1.0f, 0.0f, 0.0f, 0.0f);
+
+
+           wheels[i].init(ruota, 3.534f / 2.0f, 0.0f, 0.0f, 0.0f);
            std::cout << "    -> Collegata OK: " << wheelNames[i] << std::endl;
 
            // --- B. GESTIONE CERCHIONE ---

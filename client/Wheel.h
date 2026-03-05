@@ -16,6 +16,9 @@ public:
 
 private:
     Node* wheelModel;
+    glm::mat4 baseMatrix;
+
+
 
     double radius; 
 

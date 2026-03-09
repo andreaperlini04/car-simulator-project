@@ -28,6 +28,7 @@ Eng::Base* engine;
 Camera* camera;
 List* list;
 Node* root;
+Node* omniLight;
 OvoReader ovoreader{};
 Car myCar;
 Mesh* groundMesh = nullptr;
@@ -143,14 +144,22 @@ void displayCallback() {
    glm::mat4 carMat = myCar.getWorldMatrix();
    float carX = carMat[3][0];
    float carZ = carMat[3][2];
-   float lighty = root->findByName("Omni")->getM()[3][1]; // Mantieni altezza originale
+   float lighty = omniLight->getM()[3][1]; // Mantieni altezza originale
 
    // Sposta la mesh fisica
-   root->findByName("Omni")->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
+   omniLight->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
 
    updateCameraFollow(selectedCamera);
    list->clear();
    list->pass(root, glm::mat4(1.0f));
+
+   // MENU
+   engine->clearScreenText();
+   engine->addToScreenText("[1] Main Camera");
+   engine->addToScreenText("[2-3] Left/Right Camera");
+   engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
+   engine->addToScreenText("[A-D] Turn Left/Rigth");
+   //engine->addToScreenText("[] ");
 
    engine->setRenderList(list);
    engine->setMainCamera(camera);
@@ -292,7 +301,7 @@ int main(int argc, char* argv[]) {
        std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;
     }
 
-
+    omniLight = root->findByName("Omni");
 
     //root->removeChild(root->findByName("Omni"));
     printSceneGraphWithPosition(root);

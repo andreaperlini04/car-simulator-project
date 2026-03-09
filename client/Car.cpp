@@ -1,6 +1,9 @@
-﻿#include "Car.h"
+﻿#define _USE_MATH_DEFINES
+
+#include "Car.h"
 #include "engine.h"
 #include <iostream>
+#include <cmath>
 
 Car::Car()
 {
@@ -63,7 +66,7 @@ void Car::update(double deltaTime)
     carHeading += turnRate * grip * deltaTime;
 
    // -------  POSIZIONE  -------
-   double carHeadingRad = carHeading * (3.14159265358979 / 180.0);
+   double carHeadingRad = carHeading * (M_PI / 180.0);
    posX += currSpeed * std::sin(carHeadingRad) * deltaTime;
    posZ += currSpeed * std::cos(carHeadingRad) * deltaTime;
 
@@ -127,7 +130,7 @@ void Car::init(Node* passedNode, int startX, int startZ)
       worldMatrix[2][2] / originalScale.z
    ));
    float initHeadingRad = atan2f(forwardVec.x, forwardVec.z);
-   this->carHeading = (double)(initHeadingRad * 180.0 / 3.14159265358979);
+   this->carHeading = (double)(initHeadingRad * 180.0 / M_PI);
    this->posX = worldMatrix[3][0];
    this->posZ = worldMatrix[3][2];
 

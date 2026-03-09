@@ -31,6 +31,7 @@ Node* root;
 Node* omniLight;
 OvoReader ovoreader{};
 Car myCar;
+bool isGameStarted = false;
 Mesh* groundMesh = nullptr;
 int selectedCamera = 1; // Follows the car from behind
 
@@ -99,6 +100,16 @@ void specialCallback(int key, int x, int y) {
     
 }
 
+void drawCenteredText(std::string text, float yOffset, float r, float g, float b) {
+    int winW = engine->getWindowWidth();
+    int winH = engine->getWindowHeight();
+    int textWidth = engine->getTextWidth(text);
+
+    float x = (winW - textWidth) / 2.0f;
+    float y = (winH / 2.0f) + yOffset;
+    engine->addString(x, y, text, r, g, b);
+}
+
 void displayCallback() {
    auto currentFrameTime = std::chrono::steady_clock::now();
 
@@ -153,13 +164,27 @@ void displayCallback() {
    list->clear();
    list->pass(root, glm::mat4(1.0f));
 
-   // MENU
-   engine->clearScreenText();
-   engine->addToScreenText("[1] Main Camera");
-   engine->addToScreenText("[2-3] Left/Right Camera");
-   engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
-   engine->addToScreenText("[A-D] Turn Left/Rigth");
-   //engine->addToScreenText("[] ");
+   // STARTING TEXT
+   if(!isGameStarted){
+       drawCenteredText("Welcome to the Car Simulator", 0.0f, 0.2f, 1.0f, 0.2f); // Verde Lime
+       drawCenteredText("Press [E] to turn on the engine", -30.0f, 1.0f, 1.0f, 1.0f); // Bianco
+   }
+   else { // MENU
+       engine->clearScreenText();
+       engine->addToScreenText("[1] Main Camera");
+       engine->addToScreenText("[2-3] Left/Right Camera");
+       engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
+       engine->addToScreenText("[A-D] Turn Left/Rigth");
+       engine->addToScreenText("\n");
+       
+       if (myCar.isEngineStarted()) {
+           engine->addToScreenText("[T] Turn off the engine");
+       } else {
+           engine->addToScreenText("[E] Turn on the engine");
+       }
+       //engine->addToScreenText("[] ");
+   }
+   
 
    engine->setRenderList(list);
    engine->setMainCamera(camera);
@@ -170,6 +195,17 @@ void displayCallback() {
 void keyboardCallback(unsigned char key, int x, int y) {
 
    switch (key) {
+   case 'E':
+   case 'e':
+       if (!isGameStarted)
+           isGameStarted = true;
+       myCar.startEngine();
+       break;
+   case 'T':
+   case't':
+       myCar.turnOffEngine();
+       break;
+
    case 'w': 
       myCar.setAccelerating(true);
       break;
@@ -178,10 +214,12 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
   
    case 'a':
-       myCar.setSteeringLeft(true); 
+       if(isGameStarted)
+            myCar.setSteeringLeft(true); 
        break;
    case 'd':
-      myCar.setSteeringRight(true); 
+       if(isGameStarted)
+            myCar.setSteeringRight(true); 
       break;
    case '1':
        selectedCamera = 1;

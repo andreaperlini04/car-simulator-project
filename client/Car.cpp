@@ -26,6 +26,7 @@ Car::Car()
 
 bool Car::startEngine() { return this->isEngineOn = true; }
 bool Car::turnOffEngine() { return this->isEngineOn = false; }
+bool Car::isEngineStarted() const { return this->isEngineOn; }
 
 void Car::setAccelerating(bool v) { this->isAccelerating = v; }
 void Car::setBraking(bool v) { this->isBraking = v; }
@@ -35,26 +36,26 @@ void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeri
 
 void Car::update(double deltaTime)
 {
-   if (deltaTime < 0) return;
-
+   if (deltaTime < 0 || deltaTime > 1) return;
+    
    // -------  VELOCITA'  -------
-   if (isAccelerating) {
-      currSpeed += accelerationFactor * deltaTime;
+   // Accelerating 
+   if (isEngineOn && isAccelerating) {
+       currSpeed += accelerationFactor * deltaTime;
    }
-   else if (isBraking) {
-      currSpeed -= brakingFactor * deltaTime;
+   // Braking
+   else if (isEngineOn && isBraking) {
+       currSpeed -= brakingFactor * deltaTime;
    }
+   /* Friction applied
+   Cases: 1) no gas / no braking applied
+          2) the driver turns off the engine
+   */
    else {
-      // Attrito terreno
-      if (currSpeed > 0) {
-         currSpeed -= friction * deltaTime;
-         if (currSpeed < 0) currSpeed = 0;
-      }
-      else if (currSpeed < 0) {
-         currSpeed += friction * deltaTime;
-         if (currSpeed > 0) currSpeed = 0;
-      }
+       applyFriction(deltaTime);
    }
+   
+
    if (currSpeed > maxSpeed) currSpeed = maxSpeed;
    if (currSpeed < -maxSpeed) currSpeed = -maxSpeed;
 
@@ -93,6 +94,18 @@ void Car::update(double deltaTime)
          wheels[i].updateVisuals();
       }
    }
+}
+
+void Car::applyFriction(double deltaTime)
+{
+    if (currSpeed > 0) {
+        currSpeed -= friction * deltaTime;
+        if (currSpeed < 0) currSpeed = 0;
+    }
+    else if (currSpeed < 0) {
+        currSpeed += friction * deltaTime;
+        if (currSpeed > 0) currSpeed = 0;
+    }
 }
 
 void Car::init(Node* passedNode, int startX, int startZ)

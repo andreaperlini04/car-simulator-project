@@ -16,6 +16,7 @@ public:
    void setBraking(bool isBraking);
    void setSteeringLeft(bool isSteeringLeft);
    void setSteeringRight(bool isSteeringRight);
+   bool isEngineStarted() const;
 
    void update(double deltaTime);
 
@@ -53,4 +54,6 @@ private:
 
    const double steeringSpeed = 120.0; // Degree/s
    void updateSteeringAngle(double deltaTime);
+
+   void applyFriction(double deltaTime);
 };

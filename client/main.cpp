@@ -132,7 +132,6 @@ void displayCallback() {
          glm::mat4 texAnim = glm::translate(glm::mat4(1.0f),
             glm::vec3(carX * textureFactor, -carZ * textureFactor, 0.0f));
 
-         // Passa la matrice all'Engine. Il Client NON chiama glLoadMatrixf.
          mat->setTextureMatrix(texAnim);
       }
 

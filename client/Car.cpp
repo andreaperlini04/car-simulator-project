@@ -44,8 +44,20 @@ void Car::update(double deltaTime)
        currSpeed += accelerationFactor * deltaTime;
    }
    // Braking
-   else if (isEngineOn && isBraking) {
-       currSpeed -= brakingFactor * deltaTime;
+   else if (isBraking) {
+       if(isEngineOn)
+            currSpeed -= brakingFactor * deltaTime;
+       else
+       {
+           // when engine is off you can only steer or brake. this prevents going backwards
+           if (currSpeed > 0) {
+               currSpeed -= brakingFactor * deltaTime;
+           }
+           else if (currSpeed < 0)
+           {
+               currSpeed += brakingFactor * deltaTime;
+           }
+       }
    }
    /* Friction applied
    Cases: 1) no gas / no braking applied

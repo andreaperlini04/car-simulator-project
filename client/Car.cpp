@@ -1,6 +1,9 @@
-﻿#include "Car.h"
+﻿#define _USE_MATH_DEFINES
+
+#include "Car.h"
 #include "engine.h"
 #include <iostream>
+#include <cmath>
 
 Car::Car()
 {
@@ -23,46 +26,60 @@ Car::Car()
 
 bool Car::startEngine() { return this->isEngineOn = true; }
 bool Car::turnOffEngine() { return this->isEngineOn = false; }
+bool Car::isEngineStarted() const { return this->isEngineOn; }
 
 void Car::setAccelerating(bool v) { this->isAccelerating = v; }
 void Car::setBraking(bool v) { this->isBraking = v; }
-void Car::setSteering(double angle) { this->steeringAngle = angle; }
+void Car::setSteeringRight(bool isSteeringRigth) { this->isSteeringRight = isSteeringRigth; }
+void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeringLeft; }
+
 
 void Car::update(double deltaTime)
 {
-   if (deltaTime < 0) return;
-
+   if (deltaTime < 0 || deltaTime > 1) return;
+    
    // -------  VELOCITA'  -------
-   if (isAccelerating) {
-      currSpeed += accelerationFactor * deltaTime;
+   // Accelerating 
+   if (isEngineOn && isAccelerating) {
+       currSpeed += accelerationFactor * deltaTime;
    }
+   // Braking
    else if (isBraking) {
-      currSpeed -= brakingFactor * deltaTime;
+       if(isEngineOn)
+            currSpeed -= brakingFactor * deltaTime;
+       else
+       {
+           // when engine is off you can only steer or brake. this prevents going backwards
+           if (currSpeed > 0) {
+               currSpeed -= brakingFactor * deltaTime;
+           }
+           else if (currSpeed < 0)
+           {
+               currSpeed += brakingFactor * deltaTime;
+           }
+       }
    }
+   /* Friction applied
+   Cases: 1) no gas / no braking applied
+          2) the driver turns off the engine
+   */
    else {
-      // Attrito terreno
-      if (currSpeed > 0) {
-         currSpeed -= friction * deltaTime;
-         if (currSpeed < 0) currSpeed = 0;
-      }
-      else if (currSpeed < 0) {
-         currSpeed += friction * deltaTime;
-         if (currSpeed > 0) currSpeed = 0;
-      }
+       applyFriction(deltaTime);
    }
+   
+
    if (currSpeed > maxSpeed) currSpeed = maxSpeed;
    if (currSpeed < -maxSpeed) currSpeed = -maxSpeed;
 
    // -------  STERZO  -------
-   if (currSpeed != 0) {
-      double turnRate = steeringAngle * currSpeed * 0.05;
-      double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
-      if (grip > 1.0) grip = 1.0;
-      carHeading += turnRate * grip * deltaTime;
-   }
+    updateSteeringAngle(deltaTime);
+    double turnRate = steeringAngle * currSpeed * 0.05;
+    double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
+    if (grip > 1.0) grip = 1.0;
+    carHeading += turnRate * grip * deltaTime;
 
    // -------  POSIZIONE  -------
-   double carHeadingRad = carHeading * (3.14159265358979 / 180.0);
+   double carHeadingRad = carHeading * (M_PI / 180.0);
    posX += currSpeed * std::sin(carHeadingRad) * deltaTime;
    posZ += currSpeed * std::cos(carHeadingRad) * deltaTime;
 
@@ -89,6 +106,18 @@ void Car::update(double deltaTime)
          wheels[i].updateVisuals();
       }
    }
+}
+
+void Car::applyFriction(double deltaTime)
+{
+    if (currSpeed > 0) {
+        currSpeed -= friction * deltaTime;
+        if (currSpeed < 0) currSpeed = 0;
+    }
+    else if (currSpeed < 0) {
+        currSpeed += friction * deltaTime;
+        if (currSpeed > 0) currSpeed = 0;
+    }
 }
 
 void Car::init(Node* passedNode, int startX, int startZ)
@@ -126,7 +155,7 @@ void Car::init(Node* passedNode, int startX, int startZ)
       worldMatrix[2][2] / originalScale.z
    ));
    float initHeadingRad = atan2f(forwardVec.x, forwardVec.z);
-   this->carHeading = (double)(initHeadingRad * 180.0 / 3.14159265358979);
+   this->carHeading = (double)(initHeadingRad * 180.0 / M_PI);
    this->posX = worldMatrix[3][0];
    this->posZ = worldMatrix[3][2];
 
@@ -185,6 +214,31 @@ void Car::init(Node* passedNode, int startX, int startZ)
 
    // Applica la matrice pulita alla carrozzeria (sovrascrive quella dell'OVO con una consistente)
    this->carModel->setM(cleanCarMatrix);
+}
+void Car::updateSteeringAngle(double const deltaTime) {
+    if (isSteeringRight) {
+        // std::cout << "\nGoing Right, Angle: " << steeringAngle;
+        steeringAngle -= steeringSpeed * deltaTime;
+        if (steeringAngle < -maxSteeringAngle)
+            steeringAngle = -maxSteeringAngle;
+    }
+    else if (isSteeringLeft) {
+        // std::cout << "\nGoing left, Angle: " << steeringAngle;
+        steeringAngle += steeringSpeed * deltaTime;
+        if (steeringAngle > maxSteeringAngle)
+            steeringAngle = maxSteeringAngle;
+    }
+    // Ritorno graduale delle ruote alla posizione originale
+    else if (steeringAngle > 0) { // Left (positive)
+        steeringAngle -= steeringSpeed * deltaTime;
+        if (steeringAngle < 0.0)
+            steeringAngle = 0.0;
+    }
+    else if (steeringAngle < 0) { // Right (negative)
+        steeringAngle += steeringSpeed * deltaTime;
+        if (steeringAngle > 0.0)
+            steeringAngle = 0.0;
+    }
 }
 
 glm::mat4 Car::getWorldMatrix() const

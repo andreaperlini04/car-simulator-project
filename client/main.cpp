@@ -28,8 +28,10 @@ Eng::Base* engine;
 Camera* camera;
 List* list;
 Node* root;
+Node* omniLight;
 OvoReader ovoreader{};
 Car myCar;
+bool isGameStarted = false;
 Mesh* groundMesh = nullptr;
 int selectedCamera = 1; // Follows the car from behind
 
@@ -98,6 +100,16 @@ void specialCallback(int key, int x, int y) {
     
 }
 
+void drawCenteredText(std::string text, float yOffset, float r, float g, float b) {
+    int winW = engine->getWindowWidth();
+    int winH = engine->getWindowHeight();
+    int textWidth = engine->getTextWidth(text);
+
+    float x = (winW - textWidth) / 2.0f;
+    float y = (winH / 2.0f) + yOffset;
+    engine->addString(x, y, text, r, g, b);
+}
+
 void displayCallback() {
    auto currentFrameTime = std::chrono::steady_clock::now();
 
@@ -142,14 +154,36 @@ void displayCallback() {
    glm::mat4 carMat = myCar.getWorldMatrix();
    float carX = carMat[3][0];
    float carZ = carMat[3][2];
-   float lighty = root->findByName("Omni")->getM()[3][1]; // Mantieni altezza originale
+   float lighty = omniLight->getM()[3][1]; // Mantieni altezza originale
 
    // Sposta la mesh fisica
-   root->findByName("Omni")->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
+   omniLight->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
 
    updateCameraFollow(selectedCamera);
    list->clear();
    list->pass(root, glm::mat4(1.0f));
+
+   // STARTING TEXT
+   if(!isGameStarted){
+       drawCenteredText("Welcome to the Car Simulator", 0.0f, 0.2f, 1.0f, 0.2f); // Verde Lime
+       drawCenteredText("Press [E] to turn on the engine", -30.0f, 1.0f, 1.0f, 1.0f); // Bianco
+   }
+   else { // MENU
+       engine->clearScreenText();
+       engine->addToScreenText("[1] Main Camera");
+       engine->addToScreenText("[2-3] Left/Right Camera");
+       engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
+       engine->addToScreenText("[A-D] Turn Left/Rigth");
+       engine->addToScreenText("\n");
+       
+       if (myCar.isEngineStarted()) {
+           engine->addToScreenText("[T] Turn off the engine");
+       } else {
+           engine->addToScreenText("[E] Turn on the engine");
+       }
+       //engine->addToScreenText("[] ");
+   }
+   
 
    engine->setRenderList(list);
    engine->setMainCamera(camera);
@@ -160,6 +194,17 @@ void displayCallback() {
 void keyboardCallback(unsigned char key, int x, int y) {
 
    switch (key) {
+   case 'E':
+   case 'e':
+       if (!isGameStarted)
+           isGameStarted = true;
+       myCar.startEngine();
+       break;
+   case 'T':
+   case't':
+       myCar.turnOffEngine();
+       break;
+
    case 'w': 
       myCar.setAccelerating(true);
       break;
@@ -168,10 +213,12 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
   
    case 'a':
-       myCar.setSteering(30.0); 
+       if(isGameStarted)
+            myCar.setSteeringLeft(true); 
        break;
    case 'd':
-      myCar.setSteering(-30.0); 
+       if(isGameStarted)
+            myCar.setSteeringRight(true); 
       break;
    case '1':
        selectedCamera = 1;
@@ -198,8 +245,10 @@ void keyboardUpCallback(unsigned char key) {
       myCar.setBraking(false);
       break;
    case 'a':
+       myCar.setSteeringLeft(false);
+       break;
    case 'd':
-      myCar.setSteering(0.0); 
+       myCar.setSteeringRight(false);
       break;
    }
    
@@ -289,7 +338,7 @@ int main(int argc, char* argv[]) {
        std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;
     }
 
-
+    omniLight = root->findByName("Omni");
 
     //root->removeChild(root->findByName("Omni"));
     printSceneGraphWithPosition(root);

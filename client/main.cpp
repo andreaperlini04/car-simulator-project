@@ -123,32 +123,7 @@ void displayCallback() {
 
    myCar.update(deltaTime);
 
-   if (groundMesh) {
-      // 1. Logica Posizione (Geometria):
-      // Sposta il piano sotto la macchina affinché non "finisca" mai.
-      glm::mat4 carMat = myCar.getWorldMatrix();
-      float carX = carMat[3][0];
-      float carZ = carMat[3][2];
-      float groundY = groundMesh->getM()[3][1]; // Mantieni altezza originale
-
-      // Sposta la mesh fisica
-      groundMesh->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, groundY, carZ)));
-
-      // 2. Logica Texture (Illusione Movimento):
-      // Calcola l'offset opposto al movimento.
-      Material* mat = groundMesh->getMaterial();
-      if (mat) {
-         float textureFactor = 0.05f; // Regola quanto è "fitta" la texture
-
-         // Calcola matrice con GLM (Client side)
-         glm::mat4 texAnim = glm::translate(glm::mat4(1.0f),
-            glm::vec3(carX * textureFactor, -carZ * textureFactor, 0.0f));
-
-         mat->setTextureMatrix(texAnim);
-      }
-
-     
-   }
+ 
 
    // TODO mettere luce in una variabile
    glm::mat4 carMat = myCar.getWorldMatrix();
@@ -317,6 +292,11 @@ int main(int argc, char* argv[]) {
     list = new List();
     root = new Node("Root");
     Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
+
+    Node* cerchione = root->findByName("CerchioneAD"); // Trova il piano dall'OVO
+    Node* ruota = root->findByName("RuotaAD"); // Trova il piano dall'OVO
+    
+
     if (scena) {
        std::cout << "OVO caricato con successo! Aggiungo alla scena." << std::endl;
        root = scena;
@@ -333,6 +313,8 @@ int main(int argc, char* argv[]) {
           groundMesh = dynamic_cast<Mesh*>(foundNode);
           // Assicurati che la texture sia impostata su GL_REPEAT (di solito lo è di default in texture.cpp)
        }
+
+
     }
     else {
        std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;

@@ -11,7 +11,7 @@ Car::Car()
    this->isAccelerating = false;
    this->isBraking = false;
 
-   this->maxSpeed = 25.0;
+   this->maxSpeed = 100.0;
    this->currSpeed = 0.0;
    this->accelerationFactor = 8.0;
    this->brakingFactor = 20.0;

@@ -123,16 +123,6 @@ void displayCallback() {
 
    myCar.update(deltaTime);
 
- 
-
-   // TODO mettere luce in una variabile
-   glm::mat4 carMat = myCar.getWorldMatrix();
-   float carX = carMat[3][0];
-   float carZ = carMat[3][2];
-   float lighty = omniLight->getM()[3][1]; // Mantieni altezza originale
-
-   // Sposta la mesh fisica
-   omniLight->setM(glm::translate(glm::mat4(1.0f), glm::vec3(carX, lighty, carZ)));
 
    updateCameraFollow(selectedCamera);
    list->clear();
@@ -320,7 +310,27 @@ int main(int argc, char* argv[]) {
        std::cerr << "Errore critico: impossibile caricare tavolo.ovo" << std::endl;
     }
 
+    Node* carNode = root->findByName("Car");
     omniLight = root->findByName("Omni");
+
+    if (carNode && omniLight) {
+
+       // 1. Rimuovi la luce dal suo vecchio genitore
+       if (omniLight->getParent()) {
+          omniLight->getParent()->removeChild(omniLight);
+       }
+
+       // 2. Aggiungi la luce come figlia della macchina (ora carNode è valido!)
+       carNode->addChild(omniLight);
+
+       
+
+    }
+    else {
+       std::cerr << "Attenzione: Impossibile trovare 'Car' o 'Omni' nello Scene Graph!" << std::endl;
+    }
+
+
 
     //root->removeChild(root->findByName("Omni"));
     printSceneGraphWithPosition(root);

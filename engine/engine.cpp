@@ -45,6 +45,7 @@ struct Eng::Base::Reserved
     Eng::KeyboardCallback clientKeyboardCb = nullptr;
     Eng::SpecialCallback  clientSpecialCb = nullptr;
     Eng::KeyboardUpCallback clientKeyboardUpCb = nullptr;
+    Eng::MouseMotionCallback mouseMotionCb = nullptr;
 
     Reserved() {
         uiCamera = std::make_unique<OrthographicCamera>("UI_Cam", 0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
@@ -57,6 +58,8 @@ static void glutReshapeWrapper(int width, int height) { Eng::Base::getInstance()
 static void glutKeyboardWrapper(unsigned char key, int x, int y) { Eng::Base::getInstance().handleKeyboardRequest(key, x, y); }
 static void glutSpecialWrapper(int key, int x, int y) { Eng::Base::getInstance().handleSpecialRequest(key, x, y); }
 static void glutKeyboardUpWrapper(unsigned char key, int x, int y) { Eng::Base::getInstance().handleKeyboardUpRequest(key); }
+static void glutMotionFuncWrapper(int x, int y) { Eng::Base::getInstance().handleMouseMotion(x, y); }
+
 // --- IMPLEMENTAZIONE BASE ---
 Eng::Base::Base() : reserved(std::make_unique<Eng::Base::Reserved>()) {}
 Eng::Base::~Base() { free(); }
@@ -99,6 +102,10 @@ void Eng::Base::createWindow(int width, int height, int x, int y, const char* ti
     glutSpecialFunc(glutSpecialWrapper);
     glutKeyboardUpFunc(glutKeyboardUpWrapper);
 
+    // MOUSE Camera
+    glutMotionFunc(glutMotionFuncWrapper);
+    glutPassiveMotionFunc(glutMotionFuncWrapper);
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_LIGHTING);
@@ -115,6 +122,7 @@ void Eng::Base::setReshapeCallback(ReshapeCallback cb) { reserved->clientReshape
 void Eng::Base::setKeyboardCallback(KeyboardCallback cb) { reserved->clientKeyboardCb = cb; }
 void Eng::Base::setSpecialCallback(SpecialCallback cb) { reserved->clientSpecialCb = cb; }
 void Eng::Base::setKeyboardUpCallback(KeyboardUpCallback cb) { reserved->clientKeyboardUpCb = cb; }
+void Eng::Base::setMouseMotionCallback(MouseMotionCallback cb) { reserved->mouseMotionCb = cb; }
 
 void Eng::Base::setClearColor(float r, float g, float b, float a) { glClearColor(r, g, b, a); }
 
@@ -228,6 +236,9 @@ void Eng::Base::handleKeyboardUpRequest(unsigned char key) {
     if (reserved->clientKeyboardUpCb) reserved->clientKeyboardUpCb(key);
 }
 
+void Eng::Base::handleMouseMotion(int x, int y) {
+    if (reserved->mouseMotionCb) reserved->mouseMotionCb(x, y);
+}
 
 void Eng::Base::handleSpecialRequest(int key, int x, int y) {
     if (reserved->clientSpecialCb) reserved->clientSpecialCb(key, x, y);

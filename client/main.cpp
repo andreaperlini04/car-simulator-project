@@ -35,12 +35,32 @@ bool isGameStarted = false;
 Mesh* groundMesh = nullptr;
 int selectedCamera = 1; // Follows the car from behind
 
+glm::mat4 mainCameraHome{ 1.0f };
+
 // Timer
 auto lastFrameTime = std::chrono::steady_clock::now();
 bool isFirstFrame = true;
 
+////////////////
+// STRUCT
+// Orbital Camera: Mouse movement
+///////////////
+struct OrbitCameraState {
+    float yaw = 0.0f;           // Orizzontal rotation
+    float pitch = 30.0f;        // Vertical rotation (inclination)
+    float radius = 70.0f;       // Distance from the car 
+    float sensitivity = 0.4f;   // Mouse
+    
+    bool isMotionCameraActivated = false;
 
-glm::mat4 mainCameraHome{ 1.0f };
+    bool firstMouse = true;     // Avoid first artifact
+    int lastMouseX = 0;
+    int lastMouseY = 0;
+};
+
+OrbitCameraState orbit;
+
+
 void updateCameraFollow(int idx) {
     if (!camera) return;
 
@@ -123,7 +143,6 @@ void displayCallback() {
 
    myCar.update(deltaTime);
 
-
    updateCameraFollow(selectedCamera);
    list->clear();
    list->pass(root, glm::mat4(1.0f));
@@ -139,11 +158,17 @@ void displayCallback() {
        engine->addToScreenText("[2-3] Left/Right Camera");
        engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
        engine->addToScreenText("[A-D] Turn Left/Rigth");
+       if(!orbit.isMotionCameraActivated)
+           engine->addToScreenText("[M] Activate Motion Camera [OFF]");
+       else
+           engine->addToScreenText("[M] Disable Motion Camera [ON]");
        engine->addToScreenText("\n");
        
        if (myCar.isEngineStarted()) {
+           engine->addToScreenText("Car Engine status: ON");
            engine->addToScreenText("[T] Turn off the engine");
        } else {
+           engine->addToScreenText("Car Engine status: OFF");
            engine->addToScreenText("[E] Turn on the engine");
        }
        //engine->addToScreenText("[] ");
@@ -176,7 +201,9 @@ void keyboardCallback(unsigned char key, int x, int y) {
    case 's':
       myCar.setBraking(true);
       break;
-  
+   case 'm':
+       orbit.isMotionCameraActivated = !orbit.isMotionCameraActivated;
+       break;
    case 'a':
        if(isGameStarted)
             myCar.setSteeringLeft(true); 
@@ -230,8 +257,37 @@ void reshapeCallback(int width, int height) {
     }
 }
 
-// Debug method
+void mouseMotionCallback(int x, int y) {
+    if (!orbit.isMotionCameraActivated) return;
+    if (selectedCamera != 1) return;
+    
+    if (orbit.firstMouse) {
+        orbit.lastMouseX = x;
+        orbit.lastMouseY = y;
+        orbit.firstMouse = false;
+    }
 
+    int deltaX = x - orbit.lastMouseX;
+    int deltaY = y - orbit.lastMouseY;
+
+    // increments
+    orbit.yaw += deltaX * orbit.sensitivity;
+    orbit.pitch+= deltaY * orbit.sensitivity;
+
+    // Terrain limits
+    if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
+    if (orbit.pitch < -5.0f) orbit.pitch = -5.0f;
+
+    // updates
+    orbit.lastMouseX = x;
+    orbit.lastMouseY = y;
+    
+    // std::cout << "Mouse in posix (" << x << ", " << y << ")\n";
+}
+
+// /////////////
+// Debug method
+// ////////////
 void printSceneGraphWithPosition(Node* node, int level = 0) {
     if (!node) return;
     std::string indent(level * 4, ' ');
@@ -270,6 +326,7 @@ int main(int argc, char* argv[]) {
     engine->setSpecialCallback(specialCallback);
     engine->setDisplayCallback(displayCallback);
     engine->setReshapeCallback(reshapeCallback);
+    engine->setMouseMotionCallback(mouseMotionCallback);
 
     camera = new PerspectiveCamera("MainCam", 45.0f, 800.0f / 600.0f, 1.0f, 5000.0f);
    // --- SETUP VISTA FRONTALE ---

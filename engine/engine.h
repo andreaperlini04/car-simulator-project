@@ -28,6 +28,8 @@ namespace Eng {
    /** @brief Callback invocata al rilascio di un tasto. */
    using KeyboardUpCallback = std::function<void(int key)>;
 
+   /** @brief Callback invocata allo spostamento del mouse. */
+   using MouseMotionCallback = std::function<void(int, int)>;
 
    /**
     * @class Base
@@ -131,6 +133,12 @@ namespace Eng {
        */
       void setKeyboardUpCallback(KeyboardUpCallback cb);
 
+      /**
+      * @brief Registra la funzione di callback per il movimento del mouse.
+      * @param cb Funzione da invocare.
+      */
+      void setMouseMotionCallback(MouseMotionCallback cb);
+
       // Utility per il Client
 
       /**
@@ -189,6 +197,13 @@ namespace Eng {
        * @param y Coordinata Y del mouse al momento della pressione.
        */
       void handleSpecialRequest(int key, int x, int y);
+
+      /**
+       *@brief Gestisce internamente l'evento di spostamento del mouse.
+       * @param x Coordinata X del mouse.
+       * @param y Coordinata Y del mouse.
+       */
+      void handleMouseMotion(int x, int y);
 
       // No copy
       Base(Base const&) = delete;
@@ -264,12 +279,6 @@ namespace Eng {
       struct Reserved;
       std::unique_ptr<Reserved> reserved;
     
-      ////FPS:
-      bool show_fps;
-      int frameCounter = 0;
-      float fps = 0.0f;
-
-
       /*
       * @brief Timestamp dell'ultimo aggiornamento del frame per il calcolo del delta time.
       */

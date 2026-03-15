@@ -33,7 +33,6 @@ OvoReader ovoreader{};
 Car myCar;
 bool isGameStarted = false;
 Mesh* groundMesh = nullptr;
-int selectedCamera = 1; // Follows the car from behind
 
 glm::mat4 mainCameraHome{ 1.0f };
 
@@ -48,8 +47,8 @@ bool isFirstFrame = true;
 struct OrbitCameraState {
     float yaw = 0.0f;           // Orizzontal rotation
     float pitch = 30.0f;        // Vertical rotation (inclination)
-    float radius = 70.0f;       // Distance from the car 
-    float sensitivity = 0.4f;   // Mouse
+    float radius = 50.0f;       // Distance from the car 
+    float sensitivity = 0.3f;   // Mouse
     
     bool isMotionCameraActivated = false;
 
@@ -58,10 +57,16 @@ struct OrbitCameraState {
     int lastMouseY = 0;
 };
 
-OrbitCameraState orbit;
+struct CameraSelection {
+    enum Position { BEHIND = 1, LEFT = 2, RIGHT = 3 };
+    Position current = BEHIND;
+};
+
+CameraSelection selectedCamera;  
+OrbitCameraState orbit;     // State
 
 
-void updateCameraFollow(int idx) {
+void updateCameraFollow(CameraSelection::Position pos) {
     if (!camera) return;
 
     glm::mat4 carMatrix = myCar.getWorldMatrix();
@@ -80,16 +85,35 @@ void updateCameraFollow(int idx) {
     glm::vec3 cameraTarget{ 1.f };
     glm::mat4 viewMatrix{ 1.f };
 
-    if (idx == 1) {
-        // Camera da DIETRO
-        distanceBehind = 50.0f;
-        heightAbove = 50.0f; 
+    if (pos == CameraSelection::BEHIND) { // Camera da DIETRO
+        
+        if (orbit.isMotionCameraActivated) {    // Orbital Camera
 
-        cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
-        cameraTarget = carPosition + (carUp * 2.0f);
-        viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+            float yawRad = glm::radians(orbit.yaw);     // Orizzontal
+            float pitchRad = glm::radians(orbit.pitch); // Vertical
+
+            glm::vec3 sphericOffset;    // x,y,z coords of the camera
+            sphericOffset.y = orbit.radius * glm::sin(pitchRad);
+            
+            // Piano XZ
+            sphericOffset.x = orbit.radius * glm::cos(pitchRad) * glm::sin(yawRad);
+            sphericOffset.z = orbit.radius * glm::cos(pitchRad) * glm::cos(yawRad);
+
+            cameraPos = carPosition + sphericOffset;
+            cameraTarget = carPosition + glm::vec3(0.0f, 5.0f, 0.0f);
+            viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+
+        } else {                                // Static Camera that follows the car fro behind
+            distanceBehind = 50.0f;
+            heightAbove = 50.0f;
+
+            cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
+            cameraTarget = carPosition + (carUp * 2.0f);
+            viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
     }
-    else if (idx == 2) {
+    else if (pos == CameraSelection::LEFT) {
         // Camera lato SINISTRO
         distanceSide = 40.0f;
         heightAbove = 0.0f; 
@@ -100,7 +124,7 @@ void updateCameraFollow(int idx) {
 
         viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
     }
-    else if (idx == 3) {
+    else if (pos == CameraSelection::RIGHT) {
         //  Camera lato DESTRO
         distanceSide = 40.0f;
         heightAbove = 0.0f;
@@ -143,7 +167,7 @@ void displayCallback() {
 
    myCar.update(deltaTime);
 
-   updateCameraFollow(selectedCamera);
+   updateCameraFollow(selectedCamera.current);
    list->clear();
    list->pass(root, glm::mat4(1.0f));
 
@@ -203,6 +227,7 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
    case 'm':
        orbit.isMotionCameraActivated = !orbit.isMotionCameraActivated;
+       orbit.firstMouse = true; // Reset mouse state
        break;
    case 'a':
        if(isGameStarted)
@@ -213,13 +238,13 @@ void keyboardCallback(unsigned char key, int x, int y) {
             myCar.setSteeringRight(true); 
       break;
    case '1':
-       selectedCamera = 1;
+       selectedCamera.current = CameraSelection::BEHIND;
        break;
    case '2':
-       selectedCamera = 2;
+       selectedCamera.current = CameraSelection::LEFT;
        break;
    case '3':
-       selectedCamera = 3;
+       selectedCamera.current = CameraSelection::RIGHT;
 
        break;
    }
@@ -259,7 +284,7 @@ void reshapeCallback(int width, int height) {
 
 void mouseMotionCallback(int x, int y) {
     if (!orbit.isMotionCameraActivated) return;
-    if (selectedCamera != 1) return;
+    if (selectedCamera.current != CameraSelection::BEHIND) return;
     
     if (orbit.firstMouse) {
         orbit.lastMouseX = x;
@@ -274,9 +299,9 @@ void mouseMotionCallback(int x, int y) {
     orbit.yaw += deltaX * orbit.sensitivity;
     orbit.pitch+= deltaY * orbit.sensitivity;
 
-    // Terrain limits
+    // Limits
     if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
-    if (orbit.pitch < -5.0f) orbit.pitch = -5.0f;
+    if (orbit.pitch < -2.0f) orbit.pitch = -2.0f;
 
     // updates
     orbit.lastMouseX = x;
@@ -381,18 +406,15 @@ int main(int argc, char* argv[]) {
        carNode->addChild(omniLight);
 
        
-
     }
     else {
        std::cerr << "Attenzione: Impossibile trovare 'Car' o 'Omni' nello Scene Graph!" << std::endl;
     }
 
 
-
     //root->removeChild(root->findByName("Omni"));
     printSceneGraphWithPosition(root);
     //engine->setLighting(false);
-
 
 
     engine->update();

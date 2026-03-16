@@ -73,13 +73,13 @@ void updateCameraFollow(CameraSelection::Position pos) {
     glm::vec3 carPosition = glm::vec3(carMatrix[3]);
 
     // Estrazione assi locali della macchina
-    glm::vec3 carRight = glm::normalize(glm::vec3(carMatrix[0])); // X axis (Left/Right)
-    glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1])); // Y axis (Up/Down)
-    glm::vec3 carForward = glm::normalize(glm::vec3(carMatrix[2])); // Z axis (Back/Forward)
+    glm::vec3 carRight = glm::normalize(glm::vec3(carMatrix[0])); 
+    glm::vec3 carUp = glm::normalize(glm::vec3(carMatrix[1])); 
+    glm::vec3 carForward = glm::normalize(glm::vec3(carMatrix[2]));
 
-    float distanceBehind = 0.0f;
-    float distanceSide = 0.0f; 
-    float heightAbove = 0.0f;
+    float distanceBehind = 50.0f;
+    float distanceSide = 50.0f; 
+    float heightAbove = 50.0f;
 
     glm::vec3 cameraPos{ 1.f };
     glm::vec3 cameraTarget{ 1.f };
@@ -104,8 +104,8 @@ void updateCameraFollow(CameraSelection::Position pos) {
             viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
 
         } else {                                // Static Camera that follows the car fro behind
-            distanceBehind = 50.0f;
-            heightAbove = 50.0f;
+            distanceBehind = 100.0f;
+            heightAbove = 100.0f;
 
             cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
             cameraTarget = carPosition + (carUp * 2.0f);
@@ -326,7 +326,7 @@ void printSceneGraphWithPosition(Node* node, int level = 0) {
     if (dynamic_cast<Mesh*>(node)) std::cout << " [MESH]";
     else if (dynamic_cast<Light*>(node)) std::cout << " [LIGHT]";
     else if (dynamic_cast<Camera*>(node)) std::cout << " [CAMERA]";
-    std::cout << std::fixed << std::setprecision(1) << " -> Pos: (" << x << ", " << y << ", " << z << ")" << std::endl;
+    std::cout << std::fixed << std::setprecision(5) << " -> Pos: (" << x << ", " << y << ", " << z << ")" << std::endl;
 
     for (unsigned int i = 0; i < node->getNumChildren(); i++) {
         printSceneGraphWithPosition(node->getChild(i), level + 1);
@@ -357,7 +357,6 @@ int main(int argc, char* argv[]) {
    // --- SETUP VISTA FRONTALE ---
 
    // Hard-coded
-    camera->translate(glm::vec3(0.0f, 50.0f,100.0f));
     //camera->rotate(-25.0f, glm::vec3(1.0f, 0.0f, 0.0f));
     //mainCameraHome = camera->getM(); // salva posizione iniziale della camera mobile
 
@@ -365,8 +364,7 @@ int main(int argc, char* argv[]) {
     root = new Node("Root");
     Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
 
-    Node* cerchione = root->findByName("CerchioneAD"); // Trova il piano dall'OVO
-    Node* ruota = root->findByName("RuotaAD"); // Trova il piano dall'OVO
+   
     
 
     if (scena) {

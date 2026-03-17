@@ -69,7 +69,7 @@ void Wheel::updateVisuals()
    m = glm::rotate(m, glm::radians((float)steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 
    
-   m = glm::rotate(m, glm::radians(-(float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
+   m = glm::rotate(m, glm::radians((float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
 
    wheelModel->setM(m);
 }

@@ -30,7 +30,7 @@ private:
    Wheel  wheels[4];
 
    float      originalY = 0.0f;
-   glm::vec3  originalScale = glm::vec3(1.0f);
+   
 
    double maxSpeed;
    double currSpeed;

@@ -107,7 +107,7 @@ void updateCameraFollow(CameraSelection::Position pos) {
             distanceBehind = 100.0f;
             heightAbove = 100.0f;
 
-            cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
+            cameraPos = carPosition - (carForward * distanceBehind) + (carUp * heightAbove);
             cameraTarget = carPosition + (carUp * 2.0f);
             viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
         }
@@ -144,6 +144,8 @@ void specialCallback(int key, int x, int y) {
     
 }
 
+void printCustomText();
+
 void drawCenteredText(std::string text, float yOffset, float r, float g, float b) {
     int winW = engine->getWindowWidth();
     int winH = engine->getWindowHeight();
@@ -171,32 +173,8 @@ void displayCallback() {
    list->clear();
    list->pass(root, glm::mat4(1.0f));
 
-   // STARTING TEXT
-   if(!isGameStarted){
-       drawCenteredText("Welcome to the Car Simulator", 0.0f, 0.2f, 1.0f, 0.2f); // Verde Lime
-       drawCenteredText("Press [E] to turn on the engine", -30.0f, 1.0f, 1.0f, 1.0f); // Bianco
-   }
-   else { // MENU
-       engine->clearScreenText();
-       engine->addToScreenText("[1] Main Camera");
-       engine->addToScreenText("[2-3] Left/Right Camera");
-       engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
-       engine->addToScreenText("[A-D] Turn Left/Rigth");
-       if(!orbit.isMotionCameraActivated)
-           engine->addToScreenText("[M] Activate Motion Camera [OFF]");
-       else
-           engine->addToScreenText("[M] Disable Motion Camera [ON]");
-       engine->addToScreenText("\n");
-       
-       if (myCar.isEngineStarted()) {
-           engine->addToScreenText("Car Engine status: ON");
-           engine->addToScreenText("[T] Turn off the engine");
-       } else {
-           engine->addToScreenText("Car Engine status: OFF");
-           engine->addToScreenText("[E] Turn on the engine");
-       }
-       //engine->addToScreenText("[] ");
-   }
+
+   printCustomText();
    
 
    engine->setRenderList(list);
@@ -204,6 +182,41 @@ void displayCallback() {
    engine->postRedisplay();
 }
 
+void printCustomText() {
+   // STARTING TEXT
+   if (!isGameStarted) {
+      drawCenteredText("Welcome to the Car Simulator", 0.0f, 0.2f, 1.0f, 0.2f); // Verde Lime
+      drawCenteredText("Press [E] to turn on the engine", -30.0f, 1.0f, 1.0f, 1.0f); // Bianco
+   }
+   else { // MENU
+      engine->clearScreenText();
+      engine->addToScreenText("[1] Main Camera");
+      engine->addToScreenText("[2-3] Left/Right Camera");
+      engine->addToScreenText("[W-S] Accelerate/Decelerate the car");
+      engine->addToScreenText("[A-D] Turn Left/Rigth");
+      if (!orbit.isMotionCameraActivated)
+         engine->addToScreenText("[M] Activate Motion Camera [OFF]");
+      else
+         engine->addToScreenText("[M] Disable Motion Camera [ON]");
+      engine->addToScreenText("\n");
+
+      if (myCar.isEngineStarted()) {
+         engine->addToScreenText("Car Engine status: ON");
+         engine->addToScreenText("[T] Turn off the engine");
+      }
+      else {
+         engine->addToScreenText("Car Engine status: OFF");
+         engine->addToScreenText("[E] Turn on the engine");
+      }
+      if (groundMesh->getWireframe())
+         engine->addToScreenText("[u] Disable Wireframe [ON]");
+      else
+         engine->addToScreenText("[u] Enable Wireframe [OFF]");
+
+
+      //engine->addToScreenText("[] ");
+   }
+}
 
 void keyboardCallback(unsigned char key, int x, int y) {
 
@@ -236,6 +249,11 @@ void keyboardCallback(unsigned char key, int x, int y) {
    case 'd':
        if(isGameStarted)
             myCar.setSteeringRight(true); 
+      break;
+   case 'u':
+      if (groundMesh) 
+         groundMesh->setWireframe(!groundMesh->getWireframe());
+      
       break;
    case '1':
        selectedCamera.current = CameraSelection::BEHIND;
@@ -378,7 +396,7 @@ int main(int argc, char* argv[]) {
           myCar.init(t, 0, 0);
        }
 
-       Node* foundNode = root->findByName("Piano"); // Trova il piano dall'OVO
+       Node* foundNode = root->findByName("Plane"); // Trova il piano dall'OVO
        if (foundNode) {
           groundMesh = dynamic_cast<Mesh*>(foundNode);
           // Assicurati che la texture sia impostata su GL_REPEAT (di solito lo è di default in texture.cpp)

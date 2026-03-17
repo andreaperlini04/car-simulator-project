@@ -23,6 +23,8 @@ void Mesh::set_all_normals(const std::vector<glm::vec3>& normals) { all_normals 
 void Mesh::set_all_texture_coords(const std::vector<glm::vec2>& textureCoords) { all_texture_coords = textureCoords; }
 void Mesh::set_face_vertices(const std::vector<std::vector<unsigned int>>& faces) { face_vertices = faces; }
 void Mesh::setMaterial(Material* material) { this->material = material; }
+void Mesh::setWireframe(bool wireframe) { isWireframe = wireframe; }
+bool Mesh::getWireframe() const { return isWireframe; }
 
 void Mesh::render() {
     // 1. Applica Materiale
@@ -37,6 +39,12 @@ void Mesh::render() {
 
     // 2. Disegna Geometria
     if (!all_vertices.empty() && !face_vertices.empty()) {
+       if (isWireframe) {
+          glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+       }
+       else {
+          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+       }
         glBegin(GL_TRIANGLES);
 
         for (const auto& face : face_vertices) {
@@ -57,6 +65,7 @@ void Mesh::render() {
                 }
             }
         }
+        
 
         glEnd();
     }

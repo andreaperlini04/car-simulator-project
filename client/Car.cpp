@@ -13,8 +13,8 @@ Car::Car()
 
    this->maxSpeed = 100.0;
    this->currSpeed = 0.0;
-   this->accelerationFactor = 8.0;
-   this->brakingFactor = 20.0;
+   this->accelerationFactor = 300.0;
+   this->brakingFactor = 100.0;
    this->friction = 10.0;
 
    this->carHeading = 90.0;
@@ -75,18 +75,18 @@ void Car::update(double deltaTime)
 
    if (carModel != nullptr) {
       glm::mat4 newMatrix = glm::mat4(1.0f);
-     
       newMatrix = glm::translate(newMatrix, glm::vec3((float)posX, originalY, (float)posZ));
-      newMatrix = glm::rotate(newMatrix, (float)carHeadingRad + 3.14159f, glm::vec3(0.0f, 1.0f, 0.0f));
-      newMatrix = glm::scale(newMatrix, originalScale);
+      newMatrix = glm::rotate(newMatrix, (float)carHeadingRad, glm::vec3(0.0f, 1.0f, 0.0f));
+
+      
       carModel->setM(newMatrix);
 
       double distanceMoved = currSpeed * deltaTime;
 
-      wheels[0].setSteeringAngle(steeringAngle);
-      wheels[1].setSteeringAngle(steeringAngle);
-      wheels[2].setSteeringAngle(0.0);
-      wheels[3].setSteeringAngle(0.0);
+      wheels[0].setSteeringAngle(0.0);
+      wheels[1].setSteeringAngle(0.0);
+      wheels[2].setSteeringAngle(steeringAngle);
+      wheels[3].setSteeringAngle(steeringAngle);
 
       for (int i = 0; i < 4; i++) {
          wheels[i].updateRolling(distanceMoved);
@@ -122,11 +122,7 @@ void Car::init(Node* passedNode, int startX, int startZ)
    // 1. RECUPERIAMO ALTEZZA E SCALA DAL MODELLO .OVO
    glm::mat4 ovoMatrix = this->carModel->getWorldFinalMatrix();
    this->originalY = ovoMatrix[3][1];
-   this->originalScale = glm::vec3(
-      glm::length(glm::vec3(ovoMatrix[0])),
-      glm::length(glm::vec3(ovoMatrix[1])),
-      glm::length(glm::vec3(ovoMatrix[2]))
-   );
+   
 
    glm::mat4 startMatrix = glm::mat4(1.0f);
    startMatrix = glm::translate(startMatrix, glm::vec3((float)posX, originalY, (float)posZ));

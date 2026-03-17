@@ -84,6 +84,15 @@ public:
      */
     void setMaterial(Material* material);
 
+    
+    bool getWireframe() const;
+
+
+    void setWireframe(bool wireframe);
+
+    
+    bool isWireframe = false;
+
     /**
      * @brief Esegue il rendering della geometria.
      */

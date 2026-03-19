@@ -7,7 +7,7 @@ class Car
 public:
    Car();
 
-   void init(Node* carNode, int startX, int startZ);
+   void init(Node* carNode);
 
    bool startEngine();
    bool turnOffEngine();
@@ -23,13 +23,11 @@ public:
    glm::mat4 getWorldMatrix() const;
 
    const std::string wheelNames[4] = { "RuotaAD", "RuotaAS", "RuotaPD", "RuotaPS" };
-   const std::string rimNames[4] = { "CerchioneAD", "CerchioneAS", "CerchionePD", "CerchionePS" };
 
 private:
    Node* carModel = nullptr;
    Wheel  wheels[4];
 
-   float      originalY = 0.0f;
    
 
    double maxSpeed;
@@ -39,6 +37,7 @@ private:
    double friction;
 
    double posX;
+   double posY;
    double posZ;
 
    double carHeading = 90.0;

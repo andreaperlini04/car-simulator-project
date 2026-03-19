@@ -15,6 +15,8 @@ public:
 
    void updateVisuals();
 
+   Node* getNode();
+
 private:
    Node* wheelModel;
    glm::mat4 baseMatrix;

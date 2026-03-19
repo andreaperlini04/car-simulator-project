@@ -270,3 +270,16 @@ int Eng::Base::getWindowHeight() { return reserved->windowHeight; }
 int Eng::Base::getTextWidth(const std::string& text) {
     return glutBitmapLength(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char*)text.c_str());
 }
+
+void ENG_API Eng::Base::setCursorVisible(bool visible) {
+   if (visible) {
+      glutSetCursor(GLUT_CURSOR_INHERIT);
+   }
+   else {
+      glutSetCursor(GLUT_CURSOR_NONE);
+   }
+}
+
+void ENG_API Eng::Base::warpMouse(int x, int y) {
+   glutWarpPointer(x, y);
+}

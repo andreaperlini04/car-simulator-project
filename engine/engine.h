@@ -270,6 +270,15 @@ namespace Eng {
        * @return Larghezza in pixel.
        */
       int getTextWidth(const std::string& text);
+      /**
+       * @brief Nasconde o mostra il cursore del mouse.
+       */
+      void setCursorVisible(bool visible);
+
+      /**
+       * @brief Forza lo spostamento del cursore in una coordinata specifica della finestra.
+       */
+      void warpMouse(int x, int y);
 
    private:
       Base();

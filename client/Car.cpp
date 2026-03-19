@@ -70,23 +70,21 @@ void Car::update(double deltaTime)
    carHeading += turnRate * grip * deltaTime;
 
    double carHeadingRad = carHeading * (M_PI / 180.0);
-   posX += currSpeed * std::sin(carHeadingRad) * deltaTime;
-   posZ += currSpeed * std::cos(carHeadingRad) * deltaTime;
+   posX -= currSpeed * std::sin(carHeadingRad) * deltaTime;
+   posZ -= currSpeed * std::cos(carHeadingRad) * deltaTime;
 
    if (carModel != nullptr) {
       glm::mat4 newMatrix = glm::mat4(1.0f);
-      newMatrix = glm::translate(newMatrix, glm::vec3((float)posX, originalY, (float)posZ));
+      newMatrix = glm::translate(newMatrix, glm::vec3((float)posX, (float)posY, (float)posZ));
       newMatrix = glm::rotate(newMatrix, (float)carHeadingRad, glm::vec3(0.0f, 1.0f, 0.0f));
 
       
       carModel->setM(newMatrix);
 
       double distanceMoved = currSpeed * deltaTime;
-
-      wheels[0].setSteeringAngle(0.0);
-      wheels[1].setSteeringAngle(0.0);
-      wheels[2].setSteeringAngle(steeringAngle);
-      wheels[3].setSteeringAngle(steeringAngle);
+      wheels[0].setSteeringAngle(steeringAngle);
+      wheels[1].setSteeringAngle(steeringAngle);
+      
 
       for (int i = 0; i < 4; i++) {
          wheels[i].updateRolling(distanceMoved);
@@ -107,44 +105,52 @@ void Car::applyFriction(double deltaTime)
     }
 }
 
-void Car::init(Node* passedNode, int startX, int startZ)
+void Car::init(Node* passedNode)
 {
-   this->posX = startX;
-   this->posZ = startZ;
-
    Node* rootScene = passedNode;
    while (rootScene->getParent() != nullptr)
-      rootScene = rootScene->getParent();
+      rootScene = rootScene->getParent(); 
 
    this->carModel = rootScene->findByName("Car");
-   if (!this->carModel) return;
+   if (!this->carModel) return; 
 
-   // 1. RECUPERIAMO ALTEZZA E SCALA DAL MODELLO .OVO
-   glm::mat4 ovoMatrix = this->carModel->getWorldFinalMatrix();
-   this->originalY = ovoMatrix[3][1];
-   
+   glm::mat4 ovoMatrix = this->carModel->getM();
 
+   this->posX = ovoMatrix[3][0];
+   this->posY = ovoMatrix[3][1];
+   this->posZ = ovoMatrix[3][2];
+
+   // IMPOSTIAMO LA MATRICE INIZIALE DELLA MACCHINA 
    glm::mat4 startMatrix = glm::mat4(1.0f);
-   startMatrix = glm::translate(startMatrix, glm::vec3((float)posX, originalY, (float)posZ));
+   startMatrix = glm::translate(startMatrix, glm::vec3((float)posX, (float) posY, (float)posZ));
    this->carModel->setM(startMatrix);
 
+   //  RECUPERIAMO E AGGANCIAMO LE RUOTE
    for (int i = 0; i < 4; i++) {
-      Node* ruota = rootScene->findByName(wheelNames[i]);
-      Node* cerchione = rootScene->findByName(rimNames[i]);
+      Node* ruota = rootScene->findByName(wheelNames[i]); 
+      if (!ruota) continue; 
 
-      if (!ruota) continue;
-
+      // Salviamo la matrice world originaria estratta dall'OVO
       glm::mat4 origRuotaWorld = ruota->getWorldFinalMatrix();
-      glm::mat4 relRuotaM = glm::inverse(startMatrix) * origRuotaWorld;
 
+      // Calcoliamo la matrice relativa rispetto alla macchina
+      glm::mat4 relRuotaM = glm::inverse(startMatrix) * origRuotaWorld; // 
+
+      // Facciamo il reparenting
       if (ruota->getParent())
          ruota->getParent()->removeChild(ruota);
       this->carModel->addChild(ruota);
       ruota->setM(relRuotaM);
 
-      wheels[i].init(ruota, 1.0f, 0.0, 0.0, 0.0);
+      wheels[i].init(ruota, 1.0f, 0.0, 3.8f, 0.0); 
+   }
 
-     
+   wheels[2].setSteeringAngle(0.0);
+   wheels[3].setSteeringAngle(0.0);
+  
+   //DEBUG
+   for (int i = 0; i < 4; i++) {
+      std::cout << wheels[i].getNode()->getName() << std::endl;
    }
 }
 

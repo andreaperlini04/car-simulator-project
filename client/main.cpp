@@ -47,14 +47,12 @@ bool isFirstFrame = true;
 struct OrbitCameraState {
     float yaw = 0.0f;           // Orizzontal rotation
     float pitch = 30.0f;        // Vertical rotation (inclination)
-    float radius = 50.0f;       // Distance from the car 
-    float sensitivity = 0.3f;   // Mouse
+    float radius = 100.0f;       // Distance from the car 
+    float sensitivity = 0.1f;   // Mouse
     
     bool isMotionCameraActivated = false;
 
-    bool firstMouse = true;     // Avoid first artifact
-    int lastMouseX = 0;
-    int lastMouseY = 0;
+
 };
 
 struct CameraSelection {
@@ -87,27 +85,30 @@ void updateCameraFollow(CameraSelection::Position pos) {
 
     if (pos == CameraSelection::BEHIND) { // Camera da DIETRO
         
-        if (orbit.isMotionCameraActivated) {    // Orbital Camera
+       if (orbit.isMotionCameraActivated) {    // Orbital Camera
 
-            float yawRad = glm::radians(orbit.yaw);     // Orizzontal
-            float pitchRad = glm::radians(orbit.pitch); // Vertical
+          float yawRad = glm::radians(orbit.yaw);   // Orizzontale
+          float pitchRad = glm::radians(orbit.pitch); // Verticale
 
-            glm::vec3 sphericOffset;    // x,y,z coords of the camera
-            sphericOffset.y = orbit.radius * glm::sin(pitchRad);
-            
-            // Piano XZ
-            sphericOffset.x = orbit.radius * glm::cos(pitchRad) * glm::sin(yawRad);
-            sphericOffset.z = orbit.radius * glm::cos(pitchRad) * glm::cos(yawRad);
+          // 1. Calcoliamo la distanza orizzontale e verticale in base al pitch
+          float hDist = orbit.radius * glm::cos(pitchRad);
+          float vDist = orbit.radius * glm::sin(pitchRad);
 
-            cameraPos = carPosition + sphericOffset;
-            cameraTarget = carPosition + glm::vec3(0.0f, 5.0f, 0.0f);
-            viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+          // 2. Calcoliamo l'offset RELATIVO alla macchina
+          // -carForward * cos(yaw) ci mette esattamente DIETRO la macchina quando yaw è 0
+          // carRight * sin(yaw) ci fa orbitare a destra/sinistra quando muoviamo il mouse
+          glm::vec3 offset = (carForward * glm::cos(yawRad) + carRight * glm::sin(yawRad)) * hDist;
+          offset += carUp * vDist; // Aggiungiamo l'altezza
 
+          cameraPos = carPosition + offset;
+          cameraTarget = carPosition + glm::vec3(0.0f, 5.0f, 0.0f);
+
+          viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
         } else {                                // Static Camera that follows the car fro behind
             distanceBehind = 100.0f;
             heightAbove = 100.0f;
 
-            cameraPos = carPosition - (carForward * distanceBehind) + (carUp * heightAbove);
+            cameraPos = carPosition + (carForward * distanceBehind) + (carUp * heightAbove);
             cameraTarget = carPosition + (carUp * 2.0f);
             viewMatrix = glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
         }
@@ -115,7 +116,7 @@ void updateCameraFollow(CameraSelection::Position pos) {
     }
     else if (pos == CameraSelection::LEFT) {
         // Camera lato SINISTRO
-        distanceSide = 40.0f;
+        distanceSide = 80.0f;
         heightAbove = 0.0f; 
 
         // Sottraiamo carRight per posizionarci a sinistra della macchina
@@ -126,7 +127,7 @@ void updateCameraFollow(CameraSelection::Position pos) {
     }
     else if (pos == CameraSelection::RIGHT) {
         //  Camera lato DESTRO
-        distanceSide = 40.0f;
+        distanceSide = 80.0f;
         heightAbove = 0.0f;
 
         // Sommiamo carRight per posizionarci a destra della macchina
@@ -238,10 +239,23 @@ void keyboardCallback(unsigned char key, int x, int y) {
    case 's':
       myCar.setBraking(true);
       break;
+      
    case 'm':
-       orbit.isMotionCameraActivated = !orbit.isMotionCameraActivated;
-       orbit.firstMouse = true; // Reset mouse state
-       break;
+      orbit.isMotionCameraActivated = !orbit.isMotionCameraActivated;
+      if (orbit.isMotionCameraActivated) {
+         engine->setCursorVisible(false); // Nascondi il cursore
+
+         // Posiziona il mouse al centro per iniziare
+         int cx = engine->getWindowWidth() / 2;
+         int cy = engine->getWindowHeight() / 2;
+         engine->warpMouse(cx, cy);
+
+
+      }
+      else {
+         engine->setCursorVisible(true); // Rimostra il cursore
+      }
+      break;
    case 'a':
        if(isGameStarted)
             myCar.setSteeringLeft(true); 
@@ -301,31 +315,29 @@ void reshapeCallback(int width, int height) {
 }
 
 void mouseMotionCallback(int x, int y) {
-    if (!orbit.isMotionCameraActivated) return;
-    if (selectedCamera.current != CameraSelection::BEHIND) return;
-    
-    if (orbit.firstMouse) {
-        orbit.lastMouseX = x;
-        orbit.lastMouseY = y;
-        orbit.firstMouse = false;
-    }
+   if (!orbit.isMotionCameraActivated) return;
+   if (selectedCamera.current != CameraSelection::BEHIND) return;
 
-    int deltaX = x - orbit.lastMouseX;
-    int deltaY = y - orbit.lastMouseY;
+   int cx = engine->getWindowWidth() / 2;
+   int cy = engine->getWindowHeight() / 2;
 
-    // increments
-    orbit.yaw += deltaX * orbit.sensitivity;
-    orbit.pitch+= deltaY * orbit.sensitivity;
+   // Se il mouse è esattamente al centro, è l'evento generato dal nostro warpMouse. Ignoralo!
+   if (x == cx && y == cy) return;
 
-    // Limits
-    if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
-    if (orbit.pitch < -2.0f) orbit.pitch = -2.0f;
+   // Calcola di quanto ci siamo spostati dal centro
+   int deltaX = x - cx;
+   int deltaY = y - cy;
 
-    // updates
-    orbit.lastMouseX = x;
-    orbit.lastMouseY = y;
-    
-    // std::cout << "Mouse in posix (" << x << ", " << y << ")\n";
+   // Aggiorna la rotazione
+   orbit.yaw += deltaX * orbit.sensitivity;
+   orbit.pitch += deltaY * orbit.sensitivity;
+
+   // Limiti verticali
+   if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
+   if (orbit.pitch < -2.0f) orbit.pitch = -2.0f;
+
+   // Riporta INCONDIZIONATAMENTE il cursore al centro per il prossimo frame
+   engine->warpMouse(cx, cy);
 }
 
 // /////////////
@@ -390,10 +402,10 @@ int main(int argc, char* argv[]) {
        root = scena;
        root->addChild(camera);
        printSceneGraphWithPosition(root);
-       Node* t = root->findByName("Car");
-       if (t)
+       Node* c = root->findByName("Car");
+       if (c)
        {
-          myCar.init(t, 0, 0);
+          myCar.init(c);
        }
 
        Node* foundNode = root->findByName("Plane"); // Trova il piano dall'OVO
@@ -409,22 +421,28 @@ int main(int argc, char* argv[]) {
     }
 
     Node* carNode = root->findByName("Car");
-    omniLight = root->findByName("Omni");
 
-    if (carNode && omniLight) {
-
-       // 1. Rimuovi la luce dal suo vecchio genitore
-       if (omniLight->getParent()) {
-          omniLight->getParent()->removeChild(omniLight);
-       }
-
-       // 2. Aggiungi la luce come figlia della macchina (ora carNode è valido!)
-       carNode->addChild(omniLight);
-
+    // luci figlie di macchina per spostamento migliore
+    if (carNode) {
        
+       std::string lightNames[] = { "Omni", "Omni001", "Omni002", "Omni003", "Omni004" };
+
+       for (const std::string& name : lightNames) {
+          Node* currentLight = root->findByName(name);
+
+          if (currentLight) {
+             if (currentLight->getParent()) {
+                currentLight->getParent()->removeChild(currentLight);
+             }
+             carNode->addChild(currentLight);
+          }
+          else {
+             std::cerr << "Attenzione: Impossibile trovare la luce '" << name << "' nello Scene Graph!" << std::endl;
+          }
+       }
     }
     else {
-       std::cerr << "Attenzione: Impossibile trovare 'Car' o 'Omni' nello Scene Graph!" << std::endl;
+       std::cerr << "Attenzione: Impossibile trovare 'Car' nello Scene Graph!" << std::endl;
     }
 
 

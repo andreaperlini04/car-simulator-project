@@ -18,6 +18,10 @@ Wheel::Wheel()
    rollingAngle = 0.0;
 }
 
+Node* Wheel::getNode() {
+   return wheelModel;
+}
+
 void Wheel::init(Node* model, float wheelWorldScaleY, double offX, double offY, double offZ)
 {
    wheelModel = model;
@@ -69,7 +73,8 @@ void Wheel::updateVisuals()
    m = glm::rotate(m, glm::radians((float)steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 
    
-   m = glm::rotate(m, glm::radians((float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
+   m = glm::rotate(m, glm::radians(-(float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
 
    wheelModel->setM(m);
 }
+

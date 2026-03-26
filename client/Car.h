@@ -22,6 +22,7 @@ public:
 
    double getCurrSpeedAbs() const;
    static constexpr double maxSpeed = 200.0;
+   void setSteeringAngleDirect(double angle);
 
 
    glm::mat4 getWorldMatrix() const;

@@ -55,6 +55,14 @@ struct OrbitCameraState {
 
 };
 
+struct MouseSteeringState {
+   bool isActive = false;
+   float sensitivity = 0.1f;  // Regola a piacere
+   float currentAngle = 0.0f; // Angolo di sterzo corrente
+};
+
+MouseSteeringState mouseSteering;
+
 struct CameraSelection {
     enum Position { BEHIND = 1, LEFT = 2, RIGHT = 3 };
     Position current = BEHIND;
@@ -215,6 +223,10 @@ void printCustomText() {
       else
          engine->addToScreenText("[M] Disable Motion Camera [ON]");
       engine->addToScreenText("\n");
+      if (!mouseSteering.isActive)
+         engine->addToScreenText("[N] Activate Mouse Steering [OFF]");
+      else
+         engine->addToScreenText("[N] Disable Mouse Steering [ON]");
 
       if (myCar.isEngineStarted()) {
          engine->addToScreenText("Car Engine status: ON");
@@ -274,13 +286,32 @@ void keyboardCallback(unsigned char key, int x, int y) {
          engine->setCursorVisible(true); // Rimostra il cursore
       }
       break;
+   case 'n':
+   case 'N':
+      mouseSteering.isActive = !mouseSteering.isActive;
+      if (mouseSteering.isActive) {
+         // Resetta eventuale sterzo residuo da A/D
+         myCar.setSteeringLeft(false);
+         myCar.setSteeringRight(false);
+         engine->setCursorVisible(false);
+         int cx = engine->getWindowWidth() / 2;
+         int cy = engine->getWindowHeight() / 2;
+         engine->warpMouse(cx, cy);
+         mouseSteering.currentAngle = 0.0f;
+      }
+      else {
+         engine->setCursorVisible(true);
+         mouseSteering.currentAngle = 0.0f;
+         myCar.setSteeringAngleDirect(0.0f);
+      }
+      break;
    case 'a':
-       if(isGameStarted)
-            myCar.setSteeringLeft(true); 
-       break;
+      if (isGameStarted && !mouseSteering.isActive)
+         myCar.setSteeringLeft(true);
+      break;
    case 'd':
-       if(isGameStarted)
-            myCar.setSteeringRight(true); 
+      if (isGameStarted && !mouseSteering.isActive)
+         myCar.setSteeringRight(true);
       break;
    case 'u':
       if (groundMesh) 
@@ -312,10 +343,12 @@ void keyboardUpCallback(unsigned char key) {
       myCar.setBraking(false);
       break;
    case 'a':
-       myCar.setSteeringLeft(false);
-       break;
+      if (!mouseSteering.isActive)
+         myCar.setSteeringLeft(false);
+      break;
    case 'd':
-       myCar.setSteeringRight(false);
+      if (!mouseSteering.isActive)
+         myCar.setSteeringRight(false);
       break;
    }
    
@@ -333,28 +366,34 @@ void reshapeCallback(int width, int height) {
 }
 
 void mouseMotionCallback(int x, int y) {
-   if (!orbit.isMotionCameraActivated) return;
-   if (selectedCamera.current != CameraSelection::BEHIND) return;
-
    int cx = engine->getWindowWidth() / 2;
    int cy = engine->getWindowHeight() / 2;
 
-   // Se il mouse è esattamente al centro, è l'evento generato dal nostro warpMouse. Ignoralo!
-   if (x == cx && y == cy) return;
+   // Nessuna modalità attiva → non fare nulla
+   if (!orbit.isMotionCameraActivated && !mouseSteering.isActive) return;
 
-   // Calcola di quanto ci siamo spostati dal centro
+   if (x == cx && y == cy) return; // Ignora warp
+
    int deltaX = x - cx;
    int deltaY = y - cy;
 
-   // Aggiorna la rotazione
-   orbit.yaw += deltaX * orbit.sensitivity;
-   orbit.pitch += deltaY * orbit.sensitivity;
+   // --- Camera orbitale (tasto M) ---
+   if (orbit.isMotionCameraActivated && selectedCamera.current == CameraSelection::BEHIND) {
+      orbit.yaw -= deltaX * orbit.sensitivity;
+      orbit.pitch += deltaY * orbit.sensitivity;
+      if (orbit.pitch > 85.0f)  orbit.pitch = 85.0f;
+      if (orbit.pitch < -2.0f)  orbit.pitch = -2.0f;
+   }
 
-   // Limiti verticali
-   if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
-   if (orbit.pitch < -2.0f) orbit.pitch = -2.0f;
+   // --- Mouse Steering (tasto N) ---
+   if (mouseSteering.isActive) {
+      mouseSteering.currentAngle -= deltaX * mouseSteering.sensitivity;
+      if (mouseSteering.currentAngle > 35.0f) mouseSteering.currentAngle = 35.0f;
+      if (mouseSteering.currentAngle < -35.0f) mouseSteering.currentAngle = -35.0f;
+      myCar.setSteeringAngleDirect(mouseSteering.currentAngle);
+   }
 
-   // Riporta INCONDIZIONATAMENTE il cursore al centro per il prossimo frame
+   // Warp solo se almeno una modalità è attiva
    engine->warpMouse(cx, cy);
 }
 

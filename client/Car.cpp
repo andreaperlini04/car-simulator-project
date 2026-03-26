@@ -96,6 +96,13 @@ void Car::update(double deltaTime)
    }
 }
 
+void Car::setSteeringAngleDirect(double angle)
+{
+   if (angle > maxSteeringAngle)  angle = maxSteeringAngle;
+   if (angle < -maxSteeringAngle) angle = -maxSteeringAngle;
+   steeringAngle = angle;
+}
+
 void Car::applyFriction(double deltaTime)
 {
     if (currSpeed > 0) {

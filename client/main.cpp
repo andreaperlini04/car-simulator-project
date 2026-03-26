@@ -63,6 +63,11 @@ struct CameraSelection {
 CameraSelection selectedCamera;  
 OrbitCameraState orbit;     // State
 
+// SPEED INFO
+constexpr double MAX_GAME_SPEED = Car::maxSpeed;  
+constexpr double MAX_DISPLAY_KMH = 150.0; // Max speed that the player can see
+double speedRatio;
+double displayKmh;
 
 void updateCameraFollow(CameraSelection::Position pos) {
     if (!camera) return;
@@ -183,6 +188,16 @@ void displayCallback() {
    engine->postRedisplay();
 }
 
+std::string getSpeedToDisplay() {
+    // 1 decimal
+    speedRatio = myCar.getCurrSpeedAbs() / MAX_GAME_SPEED;
+    displayKmh = speedRatio * MAX_DISPLAY_KMH;
+
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(0) << displayKmh;
+    return "Velocita': " + stream.str() + " km/h";
+}
+
 void printCustomText() {
    // STARTING TEXT
    if (!isGameStarted) {
@@ -214,10 +229,13 @@ void printCustomText() {
       else
          engine->addToScreenText("[u] Enable Wireframe [OFF]");
 
+      engine-> addToScreenText(getSpeedToDisplay());
 
       //engine->addToScreenText("[] ");
    }
 }
+
+
 
 void keyboardCallback(unsigned char key, int x, int y) {
 

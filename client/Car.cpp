@@ -10,13 +10,13 @@ Car::Car()
    this->isEngineOn = false;
    this->isAccelerating = false;
    this->isBraking = false;
-
-   this->maxSpeed = 100.0;
    this->currSpeed = 0.0;
-   this->accelerationFactor = 300.0;
-   this->brakingFactor = 100.0;
-   this->friction = 10.0;
 
+   this->accelerationFactor = 50.0;
+   this->brakingFactor = 80.0;
+   this->friction = 15.0;
+   this->reverseGearMaxSpeed = maxSpeed / 2;
+      
    this->carHeading = 90.0;
    this->steeringAngle = 0.0;
 
@@ -32,6 +32,9 @@ void Car::setAccelerating(bool v) { this->isAccelerating = v; }
 void Car::setBraking(bool v) { this->isBraking = v; }
 void Car::setSteeringRight(bool isSteeringRigth) { this->isSteeringRight = isSteeringRigth; }
 void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeringLeft; }
+
+double Car::getCurrSpeedAbs() const { return std::abs(this->currSpeed); }
+
 
 
 void Car::update(double deltaTime)
@@ -60,10 +63,10 @@ void Car::update(double deltaTime)
    }
 
    if (currSpeed > maxSpeed) currSpeed = maxSpeed;
-   if (currSpeed < -maxSpeed) currSpeed = -maxSpeed;
+   if (currSpeed < -reverseGearMaxSpeed) currSpeed = -reverseGearMaxSpeed;
 
    updateSteeringAngle(deltaTime);
-   double turnRate = steeringAngle * currSpeed * 0.05;
+   double turnRate = steeringAngle * currSpeed * 0.020;
    double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
    if (grip > 1.0) grip = 1.0;
 

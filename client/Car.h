@@ -20,7 +20,12 @@ public:
 
    void update(double deltaTime);
 
+   double getCurrSpeedAbs() const;
+   static constexpr double maxSpeed = 200.0;
+
+
    glm::mat4 getWorldMatrix() const;
+   
 
    const std::string wheelNames[4] = { "RuotaAD", "RuotaAS", "RuotaPD", "RuotaPS" };
 
@@ -28,13 +33,11 @@ private:
    Node* carModel = nullptr;
    Wheel  wheels[4];
 
-   
-
-   double maxSpeed;
    double currSpeed;
    double accelerationFactor;
    double brakingFactor;
    double friction;
+   double reverseGearMaxSpeed;
 
    double posX;
    double posY;
@@ -51,7 +54,7 @@ private:
    bool isAccelerating = false;
    bool isBraking = false;
 
-   const double steeringSpeed = 120.0; // Degree/s
+   const double steeringSpeed = 40.0; // Degree/s
    void updateSteeringAngle(double deltaTime);
 
    void applyFriction(double deltaTime);

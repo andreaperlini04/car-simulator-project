@@ -1,22 +1,25 @@
-﻿#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
 
 #include "Car.h"
 #include "engine.h"
 #include <iostream>
 #include <cmath>
 
-Car::Car()
+
+
+Car::Car(double maxSpeed, double accelerationFactor, double brakingFactor, double friction, double reverseGearMaxSpeed)
 {
    this->isEngineOn = false;
    this->isAccelerating = false;
    this->isBraking = false;
    this->currSpeed = 0.0;
 
-   this->accelerationFactor = 50.0;
-   this->brakingFactor = 80.0;
-   this->friction = 15.0;
-   this->reverseGearMaxSpeed = maxSpeed / 2;
-      
+   this->maxSpeed = maxSpeed;
+   this->accelerationFactor = accelerationFactor;
+   this->brakingFactor = brakingFactor;
+   this->friction = friction;
+   this->reverseGearMaxSpeed = reverseGearMaxSpeed;
+       
    this->carHeading = 90.0;
    this->steeringAngle = 0.0;
 
@@ -34,6 +37,7 @@ void Car::setSteeringRight(bool isSteeringRigth) { this->isSteeringRight = isSte
 void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeringLeft; }
 
 double Car::getCurrSpeedAbs() const { return std::abs(this->currSpeed); }
+double Car::getMaxSpeed() const { return this->maxSpeed; }
 
 
 
@@ -48,7 +52,18 @@ void Car::update(double deltaTime)
    // Braking
    else if (isBraking) {
       if (isEngineOn)
-         currSpeed -= brakingFactor * deltaTime;
+      {
+         if (currSpeed > 0) {
+            // Braking while moving forward: use full brake force
+            currSpeed -= brakingFactor * deltaTime;
+            if (currSpeed < 0) currSpeed = 0; // capped
+         }
+         else {
+            // Reversing: a more moderate acceleration proportional to the reverse gear max speed ratio
+            double reverseAccel = accelerationFactor * (reverseGearMaxSpeed / maxSpeed);
+            currSpeed -= reverseAccel * deltaTime;
+         }
+      }
       else {
          if (currSpeed > 0) {
             currSpeed -= brakingFactor * deltaTime;

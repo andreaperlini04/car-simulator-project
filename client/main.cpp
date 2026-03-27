@@ -22,6 +22,7 @@
 #include <array>
 #include <iomanip>
 #include "Car.h"
+#include "WorldConfig.h"
 
 // --- GLOBALI ---
 Eng::Base* engine;
@@ -30,7 +31,9 @@ List* list;
 Node* root;
 Node* omniLight;
 OvoReader ovoreader{};
-Car myCar;
+
+Car myCar(GAME_MAX_SPEED, GAME_ACCEL, GAME_BRAKE, GAME_FRICTION, GAME_REVERSE_MAX);
+
 bool isGameStarted = false;
 Mesh* groundMesh = nullptr;
 
@@ -51,8 +54,6 @@ struct OrbitCameraState {
     float sensitivity = 0.1f;   // Mouse
     
     bool isMotionCameraActivated = false;
-
-
 };
 
 struct CameraSelection {
@@ -64,9 +65,6 @@ CameraSelection selectedCamera;
 OrbitCameraState orbit;     // State
 
 // SPEED INFO
-constexpr double MAX_GAME_SPEED = Car::maxSpeed;  
-constexpr double MAX_DISPLAY_KMH = 150.0; // Max speed that the player can see
-double speedRatio;
 double displayKmh;
 
 void updateCameraFollow(CameraSelection::Position pos) {
@@ -189,9 +187,9 @@ void displayCallback() {
 }
 
 std::string getSpeedToDisplay() {
-    // 1 decimal
-    speedRatio = myCar.getCurrSpeedAbs() / MAX_GAME_SPEED;
-    displayKmh = speedRatio * MAX_DISPLAY_KMH;
+    // Converti velocità da unità di gioco/s a km/h
+    // speedInGameUnits * METERS_PER_UNIT = m/s,  * 3.6 = km/h
+    displayKmh = myCar.getCurrSpeedAbs() * METERS_PER_UNIT * 3.6;
 
     std::ostringstream stream;
     stream << std::fixed << std::setprecision(0) << displayKmh;

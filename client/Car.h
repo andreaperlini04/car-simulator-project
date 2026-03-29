@@ -5,7 +5,7 @@
 class Car
 {
 public:
-   Car();
+   Car(double maxSpeed, double accelerationFactor, double brakingFactor, double friction, double reverseGearMaxSpeed);
 
    void init(Node* carNode);
 
@@ -21,19 +21,17 @@ public:
    void update(double deltaTime);
 
    double getCurrSpeedAbs() const;
-   static constexpr double maxSpeed = 200.0;
-   void setSteeringAngleDirect(double angle);
-
+   double getMaxSpeed() const;
 
    glm::mat4 getWorldMatrix() const;
    
-
    const std::string wheelNames[4] = { "RuotaAD", "RuotaAS", "RuotaPD", "RuotaPS" };
 
 private:
    Node* carModel = nullptr;
    Wheel  wheels[4];
 
+   double maxSpeed;
    double currSpeed;
    double accelerationFactor;
    double brakingFactor;

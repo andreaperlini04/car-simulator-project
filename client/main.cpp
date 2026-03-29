@@ -288,7 +288,7 @@ void keyboardCallback(unsigned char key, int x, int y) {
    case 'N':
       mouseSteering.isActive = !mouseSteering.isActive;
       if (mouseSteering.isActive) {
-         // Resetta eventuale sterzo residuo da A/D
+         myCar.setMouseSteering(true);   // attiva la modalità
          myCar.setSteeringLeft(false);
          myCar.setSteeringRight(false);
          engine->setCursorVisible(false);
@@ -298,9 +298,9 @@ void keyboardCallback(unsigned char key, int x, int y) {
          mouseSteering.currentAngle = 0.0f;
       }
       else {
+         myCar.setMouseSteering(false);  // disattiva la modalità
          engine->setCursorVisible(true);
          mouseSteering.currentAngle = 0.0f;
-         myCar.setSteeringAngleDirect(0.0f);
       }
       break;
    case 'a':
@@ -388,7 +388,7 @@ void mouseMotionCallback(int x, int y) {
       mouseSteering.currentAngle -= deltaX * mouseSteering.sensitivity;
       if (mouseSteering.currentAngle > 35.0f) mouseSteering.currentAngle = 35.0f;
       if (mouseSteering.currentAngle < -35.0f) mouseSteering.currentAngle = -35.0f;
-      myCar.setSteeringAngleDirect(mouseSteering.currentAngle);
+      myCar.setMouseSteeringTarget(mouseSteering.currentAngle);  // era setSteeringAngleDirect
    }
 
    // Warp solo se almeno una modalità è attiva

@@ -21,7 +21,15 @@ public:
    void update(double deltaTime);
 
    double getCurrSpeedAbs() const;
+
    double getMaxSpeed() const;
+
+
+   void setSteeringAngleDirect(double angle);
+   void setMouseSteeringTarget(double angle);
+   void setMouseSteering(bool active);
+
+
 
    glm::mat4 getWorldMatrix() const;
    
@@ -53,8 +61,10 @@ private:
    bool isAccelerating = false;
    bool isBraking = false;
 
-   const double steeringSpeed = 40.0; // Degree/s
+   const double steeringSpeed = 50.0; // Degree/s
    void updateSteeringAngle(double deltaTime);
 
    void applyFriction(double deltaTime);
+   bool isMouseSteering = false;
+   double mouseSteeringTarget = 0.0;
 };

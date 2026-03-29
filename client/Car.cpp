@@ -180,6 +180,16 @@ void Car::init(Node* passedNode)
 }
 
 void Car::updateSteeringAngle(double const deltaTime) {
+   if (isMouseSteering) {
+      double diff = mouseSteeringTarget - steeringAngle;
+      double step = steeringSpeed * deltaTime;
+      if (std::abs(diff) <= step)
+         steeringAngle = mouseSteeringTarget;
+      else
+         steeringAngle += (diff > 0 ? step : -step);
+      return; // gli altri casi non servono
+   }
+
    if (isSteeringRight) {
       steeringAngle -= steeringSpeed * deltaTime;
       if (steeringAngle < -maxSteeringAngle)
@@ -192,13 +202,11 @@ void Car::updateSteeringAngle(double const deltaTime) {
    }
    else if (steeringAngle > 0) {
       steeringAngle -= steeringSpeed * deltaTime;
-      if (steeringAngle < 0.0)
-         steeringAngle = 0.0;
+      if (steeringAngle < 0.0) steeringAngle = 0.0;
    }
    else if (steeringAngle < 0) {
       steeringAngle += steeringSpeed * deltaTime;
-      if (steeringAngle > 0.0)
-         steeringAngle = 0.0;
+      if (steeringAngle > 0.0) steeringAngle = 0.0;
    }
 }
 
@@ -206,4 +214,15 @@ glm::mat4 Car::getWorldMatrix() const
 {
    if (carModel) return carModel->getWorldFinalMatrix();
    return glm::mat4(1.0f);
+}
+
+void Car::setMouseSteeringTarget(double angle) {
+   if (angle > maxSteeringAngle) angle = maxSteeringAngle;
+   if (angle < -maxSteeringAngle) angle = -maxSteeringAngle;
+   mouseSteeringTarget = angle;
+}
+
+void Car::setMouseSteering(bool active) {
+   isMouseSteering = active;
+   if (!active) mouseSteeringTarget = 0.0;
 }

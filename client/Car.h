@@ -41,6 +41,9 @@ private:
 
    double maxSpeed;
    double currSpeed;
+   // --- Vettori per l'inerzia ---
+   double velX = 0.0;
+   double velZ = 0.0;
    double accelerationFactor;
    double brakingFactor;
    double friction;

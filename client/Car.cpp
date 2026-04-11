@@ -13,6 +13,8 @@ Car::Car(double maxSpeed, double accelerationFactor, double brakingFactor, doubl
    this->isAccelerating = false;
    this->isBraking = false;
    this->currSpeed = 0.0;
+   this->velX = 0.0;
+   this->velZ = 0.0;
 
    this->maxSpeed = maxSpeed;
    this->accelerationFactor = accelerationFactor;
@@ -87,9 +89,29 @@ void Car::update(double deltaTime)
 
    carHeading += turnRate * grip * deltaTime;
 
+   // --- INERTIA ---
+   // Calcoliamo i vettori di direzione in cui "guarda" l'auto
    double carHeadingRad = carHeading * (M_PI / 180.0);
-   posX -= currSpeed * std::sin(carHeadingRad) * deltaTime;
-   posZ -= currSpeed * std::cos(carHeadingRad) * deltaTime;
+   double forwardX = -std::sin(carHeadingRad);
+   double forwardZ = -std::cos(carHeadingRad);
+
+   // Calcoliamo la Velocità Ideale (dove la macchina vorrebbe andare in assenza di slittamento)
+   double idealVelX = forwardX * currSpeed;
+   double idealVelZ = forwardZ * currSpeed;
+
+   // Calcoliamo l'aderenza laterale (Grip)
+   // Più la velocità è alta, minore è la capacità di cambiare direzione istantaneamente.
+   // I valori 0.05 e 5.0 sono parametri di "Tuning" che potrai regolare nel WorldConfig.h
+   double lateralGrip = 5.0 / (std::abs(currSpeed) * 0.05 + 1.0);
+
+   // Interpolazione Lineare (Lerp) per simulare l'inerzia
+   // La velocità reale "insegue" la velocità ideale con un ritardo dipendente dal grip
+   this->velX += (idealVelX - this->velX) * lateralGrip * deltaTime;
+   this->velZ += (idealVelZ - this->velZ) * lateralGrip * deltaTime;
+
+   // 5. Aggiorniamo la posizione nello spazio mondo usando la VERA velocità inerziale
+   posX += this->velX * deltaTime;
+   posZ += this->velZ * deltaTime;
 
    if (carModel != nullptr) {
       glm::mat4 newMatrix = glm::mat4(1.0f);
@@ -99,7 +121,17 @@ void Car::update(double deltaTime)
       
       carModel->setM(newMatrix);
 
-      double distanceMoved = currSpeed * deltaTime;
+      // --- INERTIA ---
+      // Calcoliamo la vera velocità tangenziale per far ruotare correttamente i modelli 3D
+      double actualTangentialSpeed = std::sqrt(velX * velX + velZ * velZ);
+
+      // Se stiamo andando in retromarcia (currSpeed < 0), invertiamo il verso di rotazione
+      if (currSpeed < 0) {
+         actualTangentialSpeed = -actualTangentialSpeed;
+      }
+
+      double distanceMoved = actualTangentialSpeed * deltaTime;
+
       wheels[0].setSteeringAngle(steeringAngle);
       wheels[1].setSteeringAngle(steeringAngle);
       

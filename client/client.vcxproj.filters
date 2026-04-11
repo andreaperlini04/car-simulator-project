@@ -32,5 +32,8 @@
     <ClInclude Include="Wheel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WorldConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

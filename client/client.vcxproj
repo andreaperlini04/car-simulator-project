@@ -92,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="Wheel.h" />
+    <ClInclude Include="WorldConfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

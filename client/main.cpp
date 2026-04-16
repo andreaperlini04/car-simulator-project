@@ -238,6 +238,7 @@ void printCustomText() {
          engine->addToScreenText("[u] Disable Wireframe [ON]");
       else
          engine->addToScreenText("[u] Enable Wireframe [OFF]");
+      engine->addToScreenText("[SPACE] Use Handbrake");
 
       engine-> addToScreenText(getSpeedToDisplay());
 
@@ -266,6 +267,9 @@ void keyboardCallback(unsigned char key, int x, int y) {
       break;
    case 's':
       myCar.setBraking(true);
+      break;
+   case ' ': // handbrake
+      myCar.setHandbrake(true);
       break;
       
    case 'm':
@@ -339,6 +343,9 @@ void keyboardUpCallback(unsigned char key) {
       break;
    case 's': 
       myCar.setBraking(false);
+      break;
+   case ' ': 
+      myCar.setHandbrake(false);
       break;
    case 'a':
       if (!mouseSteering.isActive)

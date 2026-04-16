@@ -14,6 +14,7 @@ public:
 
    void setAccelerating(bool isAccelerating);
    void setBraking(bool isBraking);
+   void setHandbrake(bool isHandbrake);
    void setSteeringLeft(bool isSteeringLeft);
    void setSteeringRight(bool isSteeringRight);
    bool isEngineStarted() const;
@@ -63,6 +64,12 @@ private:
    bool isEngineOn = false;
    bool isAccelerating = false;
    bool isBraking = false;
+   bool isHandbrake = false;
+
+   // Drift parameters
+   double driftGripFactor = 0.15; // Less lateral grip when handbrake is activated
+   double driftTurnBoost = 2.5;   // How fast the car rotates while drifting
+   double driftSpeedDecay = 3.0;  // Extra friction applied while sliding
 
    const double steeringSpeed = 50.0; // Degree/s
    void updateSteeringAngle(double deltaTime);

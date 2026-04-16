@@ -35,6 +35,7 @@ bool Car::isEngineStarted() const { return this->isEngineOn; }
 
 void Car::setAccelerating(bool v) { this->isAccelerating = v; }
 void Car::setBraking(bool v) { this->isBraking = v; }
+void Car::setHandbrake(bool v) { this->isHandbrake = v; }
 void Car::setSteeringRight(bool isSteeringRigth) { this->isSteeringRight = isSteeringRigth; }
 void Car::setSteeringLeft(bool isSteeringLeft) { this->isSteeringLeft = isSteeringLeft; }
 
@@ -56,12 +57,10 @@ void Car::update(double deltaTime)
       if (isEngineOn)
       {
          if (currSpeed > 0) {
-            // Braking while moving forward: use full brake force
             currSpeed -= brakingFactor * deltaTime;
-            if (currSpeed < 0) currSpeed = 0; // capped
+                if (currSpeed < 0) currSpeed = 0;
          }
          else {
-            // Reversing: a more moderate acceleration proportional to the reverse gear max speed ratio
             double reverseAccel = accelerationFactor * (reverseGearMaxSpeed / maxSpeed);
             currSpeed -= reverseAccel * deltaTime;
          }
@@ -83,29 +82,64 @@ void Car::update(double deltaTime)
    if (currSpeed < -reverseGearMaxSpeed) currSpeed = -reverseGearMaxSpeed;
 
    updateSteeringAngle(deltaTime);
-   double turnRate = steeringAngle * currSpeed * 0.020;
+   
+   // Sfregamento delle gomme in curva: se si sterza a forte velocita', la macchina rallenta
+   if (std::abs(steeringAngle) > 0.1) {
+       double scrubFactor = std::abs(steeringAngle) / maxSteeringAngle;
+       double speedScrub = scrubFactor * std::abs(currSpeed) * 0.45 * deltaTime;
+       if (currSpeed > 0) {
+           currSpeed -= speedScrub;
+       } else if (currSpeed < 0) {
+           currSpeed += speedScrub;
+       }
+   }
+   
+   // Se c'e' il freno a mano tirato, la macchina gira molto piu' velocemente (sovrasterzo)
+  
+   double currentTurnBoost;
+
+   if (isHandbrake && std::abs(currSpeed) > 5.0) {
+       currentTurnBoost = driftTurnBoost;
+   }
+   else {
+       currentTurnBoost = 1.0;
+   }
+
+   double turnRate = steeringAngle * currSpeed * 0.020 * currentTurnBoost;
+   
    double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
    if (grip > 1.0) grip = 1.0;
 
    carHeading += turnRate * grip * deltaTime;
 
    // --- INERTIA ---
-   // Calcoliamo i vettori di direzione in cui "guarda" l'auto
    double carHeadingRad = carHeading * (M_PI / 180.0);
    double forwardX = -std::sin(carHeadingRad);
    double forwardZ = -std::cos(carHeadingRad);
 
-   // Calcoliamo la Velocità Ideale (dove la macchina vorrebbe andare in assenza di slittamento)
+   // Calcoliamo la velocita ideale
    double idealVelX = forwardX * currSpeed;
    double idealVelZ = forwardZ * currSpeed;
 
    // Calcoliamo l'aderenza laterale (Grip)
-   // Più la velocità è alta, minore è la capacità di cambiare direzione istantaneamente.
-   // I valori 0.05 e 5.0 sono parametri di "Tuning" che potrai regolare nel WorldConfig.h
-   double lateralGrip = 5.0 / (std::abs(currSpeed) * 0.05 + 1.0);
+   double lateralGrip = 18.0 / (std::abs(currSpeed) * 0.02 + 1.0);
+
+   if (isHandbrake && std::abs(currSpeed) > 5.0) {
+      lateralGrip *= driftGripFactor; // Perdiamo aderenza laterale e iniziamo drifting
+      
+      // Slittare causa velocita decrescente
+      // Decelerazione costante e proporzionale alla velocita'
+      double slideDecel = (friction * 10.0 + std::abs(currSpeed) * 0.3) * deltaTime;
+      if (currSpeed > 0) {
+          currSpeed -= slideDecel;
+          if (currSpeed < 0) currSpeed = 0;
+      } else {
+          currSpeed += slideDecel;
+          if (currSpeed > 0) currSpeed = 0;
+      }
+   }
 
    // Interpolazione Lineare (Lerp) per simulare l'inerzia
-   // La velocità reale "insegue" la velocità ideale con un ritardo dipendente dal grip
    this->velX += (idealVelX - this->velX) * lateralGrip * deltaTime;
    this->velZ += (idealVelZ - this->velZ) * lateralGrip * deltaTime;
 

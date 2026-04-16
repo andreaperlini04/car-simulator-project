@@ -98,7 +98,7 @@ void Car::update(double deltaTime)
   
    double currentTurnBoost;
 
-   if (isHandbrake && std::abs(currSpeed) > 5.0) {
+   if (isHandbrake && currSpeed > 5.0) {
        currentTurnBoost = driftTurnBoost;
    }
    else {
@@ -124,7 +124,7 @@ void Car::update(double deltaTime)
    // Calcoliamo l'aderenza laterale (Grip)
    double lateralGrip = 18.0 / (std::abs(currSpeed) * 0.02 + 1.0);
 
-   if (isHandbrake && std::abs(currSpeed) > 5.0) {
+   if (isHandbrake && currSpeed > 5.0) {
       lateralGrip *= driftGripFactor; // Perdiamo aderenza laterale e iniziamo drifting
       
       // Slittare causa velocita decrescente

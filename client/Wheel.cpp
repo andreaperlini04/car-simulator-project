@@ -14,11 +14,11 @@ Wheel::Wheel()
    offsetZ = 0.0;
 
    steeringAngle = 0.0;
-   oldSteeringAngle = 0.0;
+   
    rollingAngle = 0.0;
 }
 
-Node* Wheel::getNode() {
+Node* Wheel::getNode() const {
    return wheelModel;
 }
 
@@ -45,7 +45,6 @@ void Wheel::init(Node* model, float wheelWorldScaleY, double offX, double offY, 
 
 void Wheel::setSteeringAngle(double angle)
 {
-   oldSteeringAngle = steeringAngle;
    steeringAngle = angle;
 }
 
@@ -54,7 +53,7 @@ void Wheel::updateRolling(double distanceMoved)
    if (m_radius <= 0.0f) return;
 
    // Angolo di rotolamento in gradi = (distanza / raggio) * (180 / PI)
-   double angleDeg = (distanceMoved / m_radius) * (180.0 / 3.14159265358979);
+   float angleDeg = (distanceMoved / m_radius) * (180.0 / glm::pi<float>());
    rollingAngle += angleDeg;
 
    if (rollingAngle > 360.0) rollingAngle -= 360.0;
@@ -69,10 +68,7 @@ void Wheel::updateVisuals()
    glm::mat4 m = baseMatrix;
 
 
- 
-   m = glm::rotate(m, glm::radians((float)steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
-
-   
+   m = glm::rotate(m, glm::radians((float)steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));   
    m = glm::rotate(m, glm::radians(-(float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
 
    wheelModel->setM(m);

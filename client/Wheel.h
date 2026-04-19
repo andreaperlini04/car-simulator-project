@@ -15,7 +15,7 @@ public:
 
    void updateVisuals();
 
-   Node* getNode();
+   Node* getNode() const;
 
 private:
    Node* wheelModel;
@@ -31,6 +31,5 @@ private:
    double offsetZ;
 
    double steeringAngle;
-   double oldSteeringAngle;
    double rollingAngle;
 };

@@ -46,7 +46,7 @@ double Car::getMaxSpeed() const { return this->maxSpeed; }
 
 void Car::update(double deltaTime)
 {
-   if (deltaTime < 0 || deltaTime > 1) return;
+   if (deltaTime < 0 || deltaTime > MAX_DELTA_TIME) return;
 
    // Accelerating 
    if (isEngineOn && isAccelerating) {
@@ -84,9 +84,9 @@ void Car::update(double deltaTime)
    updateSteeringAngle(deltaTime);
    
    // Sfregamento delle gomme in curva: se si sterza a forte velocita', la macchina rallenta
-   if (std::abs(steeringAngle) > 0.1) {
+   if (std::abs(steeringAngle) > MIN_STEERING_THRESHOLD) {
        double scrubFactor = std::abs(steeringAngle) / maxSteeringAngle;
-       double speedScrub = scrubFactor * std::abs(currSpeed) * 0.45 * deltaTime;
+       double speedScrub = scrubFactor * std::abs(currSpeed) * TIRE_SCRUB_FACTOR * deltaTime;
        if (currSpeed > 0) {
            currSpeed -= speedScrub;
        } else if (currSpeed < 0) {
@@ -98,16 +98,16 @@ void Car::update(double deltaTime)
   
    double currentTurnBoost;
 
-   if (isHandbrake && currSpeed > 5.0) {
+   if (isHandbrake && currSpeed > DRIFT_MIN_SPEED) {
        currentTurnBoost = driftTurnBoost;
    }
    else {
        currentTurnBoost = 1.0;
    }
 
-   double turnRate = steeringAngle * currSpeed * 0.020 * currentTurnBoost;
+   double turnRate = steeringAngle * currSpeed * TURN_RATE_COEFF * currentTurnBoost;
    
-   double grip = friction / (std::abs(currSpeed) * 0.25 + 1.0);
+   double grip = friction / (std::abs(currSpeed) * GRIP_SPEED_SCALE + 1.0);
    if (grip > 1.0) grip = 1.0;
 
    carHeading += turnRate * grip * deltaTime;
@@ -122,14 +122,14 @@ void Car::update(double deltaTime)
    double idealVelZ = forwardZ * currSpeed;
 
    // Calcoliamo l'aderenza laterale (Grip)
-   double lateralGrip = 18.0 / (std::abs(currSpeed) * 0.02 + 1.0);
+   double lateralGrip = LATERAL_GRIP_BASE / (std::abs(currSpeed) * LATERAL_GRIP_SPEED_SCALE + 1.0);
 
-   if (isHandbrake && currSpeed > 5.0) {
+   if (isHandbrake && currSpeed > DRIFT_MIN_SPEED) {
       lateralGrip *= driftGripFactor; // Perdiamo aderenza laterale e iniziamo drifting
       
       // Slittare causa velocita decrescente
       // Decelerazione costante e proporzionale alla velocita'
-      double slideDecel = (friction * 10.0 + std::abs(currSpeed) * 0.3) * deltaTime;
+      double slideDecel = (friction * SLIDE_FRICTION_SCALE + std::abs(currSpeed) * SLIDE_SPEED_SCALE) * deltaTime;
       if (currSpeed > 0) {
           currSpeed -= slideDecel;
           if (currSpeed < 0) currSpeed = 0;
@@ -143,7 +143,7 @@ void Car::update(double deltaTime)
    this->velX += (idealVelX - this->velX) * lateralGrip * deltaTime;
    this->velZ += (idealVelZ - this->velZ) * lateralGrip * deltaTime;
 
-   // 5. Aggiorniamo la posizione nello spazio mondo usando la VERA velocit‡ inerziale
+   // 5. Aggiorniamo la posizione nello spazio mondo usando la VERA velocit√† inerziale
    posX += this->velX * deltaTime;
    posZ += this->velZ * deltaTime;
 
@@ -156,7 +156,7 @@ void Car::update(double deltaTime)
       carModel->setM(newMatrix);
 
       // --- INERTIA ---
-      // Calcoliamo la vera velocit‡ tangenziale per far ruotare correttamente i modelli 3D
+      // Calcoliamo la vera velocit√† tangenziale per far ruotare correttamente i modelli 3D
       double actualTangentialSpeed = std::sqrt(velX * velX + velZ * velZ);
 
       // Se stiamo andando in retromarcia (currSpeed < 0), invertiamo il verso di rotazione
@@ -233,7 +233,7 @@ void Car::init(Node* passedNode)
       this->carModel->addChild(ruota);
       ruota->setM(relRuotaM);
 
-      wheels[i].init(ruota, 1.0f, 0.0, 3.8f, 0.0); 
+      wheels[i].init(ruota, WHEEL_RADIUS, WHEEL_OFFSET_X, WHEEL_OFFSET_Y, WHEEL_OFFSET_Z); 
    }
 
    wheels[2].setSteeringAngle(0.0);

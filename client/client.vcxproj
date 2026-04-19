@@ -81,6 +81,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
+    <ClCompile Include="CarInputController.cpp" />
+    <ClCompile Include="CarPhysics.cpp" />
+    <ClCompile Include="CarRenderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Wheel.cpp" />
   </ItemGroup>
@@ -91,6 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
+    <ClInclude Include="CarInputController.h" />
+    <ClInclude Include="CarPhysics.h" />
+    <ClInclude Include="CarRenderer.h" />
+    <ClInclude Include="CarState.h" />
     <ClInclude Include="Wheel.h" />
     <ClInclude Include="WorldConfig.h" />
   </ItemGroup>

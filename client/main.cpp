@@ -456,8 +456,7 @@ int main(int argc, char* argv[]) {
     root = new Node("Root");
     Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
 
-   
-    
+  
 
     if (scena) {
        std::cout << "OVO caricato con successo! Aggiungo alla scena." << std::endl;

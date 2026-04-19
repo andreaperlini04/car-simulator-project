@@ -39,6 +39,8 @@ Mesh* groundMesh = nullptr;
 
 glm::mat4 mainCameraHome{ 1.0f };
 
+bool ignoreNextMotion = false;
+
 // Timer
 auto lastFrameTime = std::chrono::steady_clock::now();
 bool isFirstFrame = true;
@@ -285,7 +287,8 @@ void keyboardCallback(unsigned char key, int x, int y) {
 
       }
       else {
-         engine->setCursorVisible(true); // Rimostra il cursore
+          if(!mouseSteering.isActive)
+            engine->setCursorVisible(true); // Rimostra il cursore
       }
       break;
    case 'n':
@@ -295,15 +298,18 @@ void keyboardCallback(unsigned char key, int x, int y) {
          myCar.setMouseSteering(true);   // attiva la modalità
          myCar.setSteeringLeft(false);
          myCar.setSteeringRight(false);
+         myCar.setMouseSteeringTarget(0.0);
          engine->setCursorVisible(false);
          int cx = engine->getWindowWidth() / 2;
          int cy = engine->getWindowHeight() / 2;
+         ignoreNextMotion = true;
          engine->warpMouse(cx, cy);
          mouseSteering.currentAngle = 0.0f;
       }
       else {
          myCar.setMouseSteering(false);  // disattiva la modalità
-         engine->setCursorVisible(true);
+         if(!orbit.isMotionCameraActivated)
+            engine->setCursorVisible(true);
          mouseSteering.currentAngle = 0.0f;
       }
       break;
@@ -371,14 +377,16 @@ void reshapeCallback(int width, int height) {
 }
 
 void mouseMotionCallback(int x, int y) {
-   int cx = engine->getWindowWidth() / 2;
-   int cy = engine->getWindowHeight() / 2;
-
-   // Nessuna modalità attiva → non fare nulla
+   // Nessuna modalità attiva => non fare nulla
    if (!orbit.isMotionCameraActivated && !mouseSteering.isActive) return;
 
-   if (x == cx && y == cy) return; // Ignora warp
+   if (ignoreNextMotion) {          
+       ignoreNextMotion = false;
+       return;
+   }
 
+   int cx = engine->getWindowWidth() / 2;
+   int cy = engine->getWindowHeight() / 2;
    int deltaX = x - cx;
    int deltaY = y - cy;
 
@@ -398,6 +406,7 @@ void mouseMotionCallback(int x, int y) {
       myCar.setMouseSteeringTarget(mouseSteering.currentAngle);  // era setSteeringAngleDirect
    }
 
+   ignoreNextMotion = true;
    // Warp solo se almeno una modalità è attiva
    engine->warpMouse(cx, cy);
 }

@@ -3,7 +3,7 @@
 
 void CarInputController::updateSteeringAngle(double const deltaTime) {
     if (isMouseSteering) {
-        double diff = mouseSteeringTarget - STEERING_SPEED;
+        double diff = mouseSteeringTarget - inputState.steeringAngle;
         double step = STEERING_SPEED * deltaTime;
         if (std::abs(diff) <= step)
             inputState.steeringAngle = mouseSteeringTarget;

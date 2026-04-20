@@ -129,7 +129,7 @@ int main() {
    float shininess = 32.0f;
    float transparency = 0.5f;
 
-   Material* mat = new Material("RossoSemiTrasp", emission, ambient, diffuse, specular, shininess, transparency);
+   std::shared_ptr<Material> mat = std::make_shared<Material>("RossoSemiTrasp", emission, ambient, diffuse, specular, shininess, transparency);
 
    assert(areVec3Equal(mat->getDiffuse(), diffuse));
    assert(mat->getTransparency() == 0.5f);
@@ -223,7 +223,7 @@ int main() {
    delete root; // child era stato rimosso, va cancellato a parte
    delete child;
    delete cam;
-   delete mat; // Mesh non possiede il materiale (puntatore raw), quindi cancelliamo noi
+   //delete mat; // Mesh non possiede il materiale (puntatore raw), quindi cancelliamo noi
    delete mesh;
    delete dirLight;
    delete omniLight;

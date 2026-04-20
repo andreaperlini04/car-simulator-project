@@ -36,9 +36,12 @@ bool CarRenderer::init(Node* passedNode, double& outPosX, double& outPosY, doubl
         glm::mat4 relRuotaM = glm::inverse(startMatrix) * origRuotaWorld; // 
 
         // Facciamo il reparenting
-        if (ruota->getParent())
-            ruota->getParent()->removeChild(ruota);
-        this->carModel->addChild(ruota);
+        if (ruota->getParent()) {
+           // Rimuoviamo il figlio riottenendo il possesso esclusivo
+           Node* extractedWheel = ruota->getParent()->removeChild(ruota);
+           // Lo affidiamo al nuovo padre
+           this->carModel->addChild(std::move(extractedWheel));
+        }
         ruota->setM(relRuotaM);
 
         wheels[i].init(ruota, WHEEL_RADIUS, WHEEL_OFFSET_X, WHEEL_OFFSET_Y, WHEEL_OFFSET_Z);

@@ -18,7 +18,7 @@ const glm::vec3& Material::getSpecular() const { return specular; }
 const glm::vec3& Material::getEmissione() const { return emissione; }
 float Material::getShininess() const { return shininess; }
 float Material::getTransparency() const { return transparency; }
-Texture* Material::getTexture() { return texture; }
+std::shared_ptr<Texture> Material::getTexture() { return texture; }
 
 // Setters
 void Material::setAmbient(const glm::vec3& v) { ambient = v; }
@@ -27,7 +27,7 @@ void Material::setSpecular(const glm::vec3& v) { specular = v; }
 void Material::setEmissione(const glm::vec3& v) { emissione = v; }
 void Material::setShininess(float v) { shininess = v; }
 void Material::setTransparency(float v) { transparency = v; }
-void Material::setTexture(Texture* t) { texture = t; }
+void Material::setTexture(std::shared_ptr<Texture> t) { texture = std::move(t); }
 void Material::setTextureMatrix(const glm::mat4& mat) {
 	this->textureMatrix = mat;
 }

@@ -25,10 +25,11 @@
 #include "WorldConfig.h"
 
 // --- GLOBALI ---
+#include <memory>
 Eng::Base* engine;
 Camera* camera;
-List* list;
-Node* root;
+std::unique_ptr<List> list;
+std::unique_ptr<Node> root;
 Node* omniLight;
 OvoReader ovoreader{};
 
@@ -170,28 +171,64 @@ void drawCenteredText(std::string text, float yOffset, float r, float g, float b
     engine->addString(x, y, text, r, g, b);
 }
 
-void displayCallback() {
+static double physicsAccumulator = 0.0;
+
+
+void displayCallback()
+{
+   // ------------------------------------------------------------------
+   // 1. MISURA DEL TEMPO REALE DEL FRAME
+   // ------------------------------------------------------------------
    auto currentFrameTime = std::chrono::steady_clock::now();
 
    if (isFirstFrame) {
-       lastFrameTime = currentFrameTime;
-       isFirstFrame = false;
+      lastFrameTime = currentFrameTime;
+      isFirstFrame = false;
    }
-   std::chrono::duration<double> elapsedTime = currentFrameTime - lastFrameTime;
-   double deltaTime = elapsedTime.count(); //(seconds)
+
+   double frameTime = std::chrono::duration<double>(currentFrameTime - lastFrameTime).count();
    lastFrameTime = currentFrameTime;
 
-   myCar.update(deltaTime);
+   // Spiral-of-death guard:
+   // Se il frame ci ha messo piu' di 0.25 s (freeze, alt-tab, debugger)
+   // limitiamo frameTime per non accumulare centinaia di passi fisici.
+   if (frameTime > PHYSICS_MAX_FRAME)
+      frameTime = PHYSICS_MAX_FRAME;
 
+   // ------------------------------------------------------------------
+   // 2. LOOP FISICO A TIMESTEP FISSO  (disaccoppiato dal renderer)
+   //
+   //    L'accumulatore raccoglie il tempo reale trascorso e lo "spende"
+   //    a passi fissi di PHYSICS_FIXED_DT.
+   //    Ogni iterazione chiama stepPhysics(FIXED_DT): la fisica riceve
+   //    SEMPRE lo stesso dt, indipendentemente dal frame-rate del render.
+   // ------------------------------------------------------------------
+   physicsAccumulator += frameTime;
+
+   while (physicsAccumulator >= PHYSICS_FIXED_DT)
+   {
+      myCar.stepPhysics(PHYSICS_FIXED_DT);   // un passo fisico deterministico
+      physicsAccumulator -= PHYSICS_FIXED_DT;
+   }
+
+   // ------------------------------------------------------------------
+   // 3. AGGIORNAMENTO RENDERER  (una volta per frame, al frame-rate reale)
+   //
+   //    Il renderer legge lo stato fisico gia' aggiornato e anima le
+   //    ruote in base al frameDt reale (solo animazione visiva).
+   // ------------------------------------------------------------------
+   myCar.updateRenderer(frameTime);
+
+   // ------------------------------------------------------------------
+   // 4. RESTO DEL LOOP DI RENDERING (invariato)
+   // ------------------------------------------------------------------
    updateCameraFollow(selectedCamera.current);
    list->clear();
-   list->pass(root, glm::mat4(1.0f));
-
+   list->pass(root.get(), glm::mat4(1.0f));
 
    printCustomText();
-   
 
-   engine->setRenderList(list);
+   engine->setRenderList(list.get());
    engine->setMainCamera(camera);
    engine->postRedisplay();
 }
@@ -454,24 +491,24 @@ int main(int argc, char* argv[]) {
     engine->setReshapeCallback(reshapeCallback);
     engine->setMouseMotionCallback(mouseMotionCallback);
 
-    camera = new PerspectiveCamera("MainCam", 45.0f, 800.0f / 600.0f, 1.0f, 5000.0f);
+    auto mainCam = std::make_unique<PerspectiveCamera>("MainCam", 45.0f, 800.0f / 600.0f, 1.0f, 5000.0f);
+    camera = mainCam.get(); // Observer
    // --- SETUP VISTA FRONTALE ---
 
    // Hard-coded
     //camera->rotate(-25.0f, glm::vec3(1.0f, 0.0f, 0.0f));
     //mainCameraHome = camera->getM(); // salva posizione iniziale della camera mobile
 
-    list = new List();
-    root = new Node("Root");
+    list = std::make_unique<List>();
     Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
 
   
 
     if (scena) {
        std::cout << "OVO caricato con successo! Aggiungo alla scena." << std::endl;
-       root = scena;
-       root->addChild(camera);
-       printSceneGraphWithPosition(root);
+       root = std::unique_ptr<Node>(scena);
+       root->addChild(mainCam.release());
+       printSceneGraphWithPosition(root.get());
        Node* c = root->findByName("Car");
        if (c)
        {
@@ -501,10 +538,10 @@ int main(int argc, char* argv[]) {
           Node* currentLight = root->findByName(name);
 
           if (currentLight) {
-             if (currentLight->getParent()) {
-                currentLight->getParent()->removeChild(currentLight);
+             if (currentLight && currentLight->getParent()) {
+                auto extractedLight = currentLight->getParent()->removeChild(currentLight);
+                carNode->addChild(std::move(extractedLight));
              }
-             carNode->addChild(currentLight);
           }
           else {
              std::cerr << "Attenzione: Impossibile trovare la luce '" << name << "' nello Scene Graph!" << std::endl;
@@ -517,16 +554,13 @@ int main(int argc, char* argv[]) {
 
 
     //root->removeChild(root->findByName("Omni"));
-    printSceneGraphWithPosition(root);
+    printSceneGraphWithPosition(root.get());
     //engine->setLighting(false);
 
 
     engine->update();
     engine->free();
 
-    // Cleanup
-    delete list;
-
-    delete camera;
+    // Cleanup e rilascio automatico grazie agli unique_ptr
     return 0;
 }

@@ -7,6 +7,7 @@
 #include "material.h"
 #include <vector>
 #include <glm/glm.hpp>
+#include <memory>
 #include "libConfig.h"
 
 /**
@@ -29,7 +30,7 @@ public:
      * @param vertices Numero totale di vertici.
      * @param material Puntatore al materiale da applicare.
      */
-    Mesh(const std::string& name, glm::mat4 matrix, unsigned int faces, unsigned int vertices, Material* material);
+    Mesh(const std::string& name, glm::mat4 matrix, unsigned int faces, unsigned int vertices, std::shared_ptr<Material> material);
 
     // Getters
 
@@ -56,7 +57,7 @@ public:
     /**
      * @brief Restituisce il puntatore al materiale corrente.
      */
-    Material* getMaterial() const;
+    std::shared_ptr<Material> getMaterial() const;
 
     // Setters
     /**
@@ -82,7 +83,7 @@ public:
     /**
      * @brief Associa un materiale alla mesh per il rendering.
      */
-    void setMaterial(Material* material);
+    void setMaterial(std::shared_ptr<Material> material);
 
     
     bool getWireframe() const;
@@ -105,6 +106,6 @@ protected:
    std::vector<std::vector<unsigned int>> face_vertices; /**< Lista di indici che compongono le facce poligonali. */
    unsigned int numFaces;      /**< Conteggio totale delle facce. */
    unsigned int numVertices;   /**< Conteggio totale dei vertici. */
-   Material* material;         /**< Puntatore al materiale associato alla mesh. */
+   std::shared_ptr<Material> material;      /**< Puntatore al materiale associato alla mesh. */
    glm::mat4 matrix;           /**< Matrice di trasformazione locale specifica della mesh. */
 };

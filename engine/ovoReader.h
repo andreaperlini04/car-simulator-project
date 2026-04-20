@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <map>
+#include <memory>
 
 // GLM:      
 #include <glm/glm.hpp>
@@ -155,7 +156,7 @@ protected:
      * The key is the material's name (as a string), and the value is a pointer to the corresponding Material object.
      * This map is used to manage and reference materials during the parsing process.
      */
-    std::map<std::string, Material*> m_materials;
+      std::map<std::string, std::shared_ptr<Material>> m_materials;
 
     /**
      * @brief Recursively loads nodes and their children from the file.
@@ -179,7 +180,7 @@ protected:
      * @param texture_dir Directory containing textures.
      * @return Pointer to the parsed Material object.
      */
-    Material* parse_material(char* data, unsigned int& position, const char* texture_dir);
+    std::shared_ptr<Material> parse_material(char* data, unsigned int& position, const char* texture_dir);
 
     /**
      * @brief Parses a node chunk from the file.

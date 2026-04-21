@@ -1,6 +1,7 @@
 #pragma once
 #include "CarState.h"
 
+
 /*
  * @brief Gestisce tutto l'input grezzo del giocatore e produce
  * uno snapshot CarInputState da passare a CarPhysics.
@@ -45,6 +46,5 @@ private:
     double mouseSteeringTarget = 0.0;
 
     // Costanti di sterzata
-    static constexpr double MAX_STEERING_ANGLE = 35.0;  // Gradi
     static constexpr double STEERING_SPEED = 50.0;  // Gradi/s
 };

@@ -72,7 +72,7 @@ private:
       10.0; // Friction multiplier for slide deceleration
   static constexpr double SLIDE_SPEED_SCALE =
       0.3; // Speed-proportional component of slide decel;
-  static constexpr double MAX_STEERING_ANGLE = 35.0; // Gradi
+
 
   void applyGas(double deltaTime, const CarInputState &input);
   void applyTireScrub(double deltaTime, double steeringAngle);

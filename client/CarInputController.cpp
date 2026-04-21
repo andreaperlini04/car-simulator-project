@@ -1,5 +1,6 @@
 #include "CarInputController.h"
 #include <cmath>
+#include "WorldConfig.h"
 
 void CarInputController::updateSteeringAngle(double const deltaTime) {
     if (isMouseSteering) {
@@ -14,13 +15,13 @@ void CarInputController::updateSteeringAngle(double const deltaTime) {
 
     if (isSteeringRight) {
         inputState.steeringAngle -= STEERING_SPEED * deltaTime;
-        if (inputState.steeringAngle < -MAX_STEERING_ANGLE)
-            inputState.steeringAngle = -MAX_STEERING_ANGLE;
+        if (inputState.steeringAngle < -MAX_STEERING_ANGLE_DEG)
+            inputState.steeringAngle = -MAX_STEERING_ANGLE_DEG;
     }
     else if (isSteeringLeft) {
         inputState.steeringAngle += STEERING_SPEED * deltaTime;
-        if (inputState.steeringAngle > MAX_STEERING_ANGLE)
-            inputState.steeringAngle = MAX_STEERING_ANGLE;
+        if (inputState.steeringAngle > MAX_STEERING_ANGLE_DEG)
+            inputState.steeringAngle = MAX_STEERING_ANGLE_DEG;
     }
     else if (inputState.steeringAngle > 0) {
         inputState.steeringAngle -= STEERING_SPEED * deltaTime;
@@ -33,8 +34,8 @@ void CarInputController::updateSteeringAngle(double const deltaTime) {
 }
 
 void CarInputController::setMouseSteeringTarget(double angle) {
-	if (angle > MAX_STEERING_ANGLE) angle = MAX_STEERING_ANGLE;
-	if (angle < -MAX_STEERING_ANGLE) angle = -MAX_STEERING_ANGLE;
+	if (angle > MAX_STEERING_ANGLE_DEG) angle = MAX_STEERING_ANGLE_DEG;
+	if (angle < -MAX_STEERING_ANGLE_DEG) angle = -MAX_STEERING_ANGLE_DEG;
 	mouseSteeringTarget = angle;
 }
 
@@ -45,7 +46,7 @@ void CarInputController::setMouseSteering(bool active) {
 
 void CarInputController::setSteeringAngleDirect(double angle)
 {
-	if (angle > MAX_STEERING_ANGLE)  angle = MAX_STEERING_ANGLE;
-	if (angle < -MAX_STEERING_ANGLE) angle = -MAX_STEERING_ANGLE;
+	if (angle > MAX_STEERING_ANGLE_DEG)  angle = MAX_STEERING_ANGLE_DEG;
+	if (angle < -MAX_STEERING_ANGLE_DEG) angle = -MAX_STEERING_ANGLE_DEG;
 	inputState.steeringAngle = angle;
 }

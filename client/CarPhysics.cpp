@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include "CarPhysics.h"
 #include <cmath>
+#include "WorldConfig.h"
 
 CarPhysics::CarPhysics(double maxSpeed,
     double accelerationFactor,
@@ -96,7 +97,7 @@ void CarPhysics::applyTireScrub(double deltaTime, double steeringAngle) {
     if (std::abs(steeringAngle) <= MIN_STEERING_THRESHOLD) 
         return;
 
-    double scrubFactor = std::abs(steeringAngle) / MAX_STEERING_ANGLE;
+    double scrubFactor = std::abs(steeringAngle) / MAX_STEERING_ANGLE_DEG;
     double speedScrub = scrubFactor * std::abs(currSpeed) * TIRE_SCRUB_FACTOR * deltaTime;
 
     if (currSpeed > 0) 

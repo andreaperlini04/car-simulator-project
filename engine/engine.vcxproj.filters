@@ -7,9 +7,6 @@
     <ClCompile Include="engine.cpp">
       <Filter>Source FIles</Filter>
     </ClCompile>
-    <ClCompile Include="engine_test.cpp">
-      <Filter>Source FIles</Filter>
-    </ClCompile>
     <ClCompile Include="infiniteLight.cpp">
       <Filter>Source FIles</Filter>
     </ClCompile>

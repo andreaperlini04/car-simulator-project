@@ -1,4 +1,4 @@
-#define _USE_MATH_DEFINES
+ï»¿#define _USE_MATH_DEFINES
 #include "CarRenderer.h"
 #include "engine.h"
 #include <iostream>
@@ -40,7 +40,7 @@ bool CarRenderer::init(Node* passedNode, double& outPosX, double& outPosY, doubl
            // Rimuoviamo il figlio riottenendo il possesso esclusivo
            Node* extractedWheel = ruota->getParent()->removeChild(ruota);
            // Lo affidiamo al nuovo padre
-           this->carModel->addChild(std::move(extractedWheel));
+           this->carModel->addChild(extractedWheel);
         }
         ruota->setM(relRuotaM);
 
@@ -74,7 +74,7 @@ void CarRenderer::update(const CarPhysicsState& physics, double steeringAngle, d
         carModel->setM(newMatrix);
 
         // --- INERTIA ---
-        // Calcoliamo la vera velocità tangenziale per far ruotare correttamente i modelli 3D
+        // Calcoliamo la vera velocitï¿½ tangenziale per far ruotare correttamente i modelli 3D
         double actualTangentialSpeed = std::sqrt(physics.velX * physics.velX + physics.velZ * physics.velZ);
 
         // Se stiamo andando in retromarcia (currSpeed < 0), invertiamo il verso di rotazione

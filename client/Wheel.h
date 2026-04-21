@@ -1,10 +1,10 @@
-#pragma once
+﻿#pragma once
 #include "node.h"
 
 class Wheel
 {
 public:
-   Wheel();
+   Wheel() = default;
 
    // wheelWorldScaleY: lunghezza della colonna Y della world matrix della ruota (prima del reparenting)
    void init(Node* model, float wheelWorldScaleY, double offX, double offY, double offZ);
@@ -18,18 +18,18 @@ public:
    Node* getNode() const;
 
 private:
-   Node* wheelModel;
-   glm::mat4 baseMatrix;
+   Node* wheelModel = nullptr;    ///< Observer (non-owning)
+   glm::mat4 baseMatrix = glm::mat4(1.0f);
 
-   float  m_wheelWorldScaleY; // scala Y world della ruota (estratta da origRuotaWorld prima del reparenting)
-   float  m_radius;           // raggio in unita' mondo (auto-calcolato da pivotWorldY)
-   float  m_localRadius;      // raggio in spazio locale mesh (m_radius / m_wheelWorldScaleY)
+   float  m_wheelWorldScaleY = 1.0f; // scala Y world della ruota (estratta da origRuotaWorld prima del reparenting)
+   float  m_radius = 0.0f;           // raggio in unita' mondo (auto-calcolato da pivotWorldY)
+   float  m_localRadius = 0.0f;      // raggio in spazio locale mesh (m_radius / m_wheelWorldScaleY)
 
    // Related to the centre of the car
-   double offsetX;
-   double offsetY;
-   double offsetZ;
+   double offsetX = 0.0;
+   double offsetY = 0.0;
+   double offsetZ = 0.0;
 
-   double steeringAngle;
-   double rollingAngle;
+   double steeringAngle = 0.0;
+   double rollingAngle = 0.0;
 };

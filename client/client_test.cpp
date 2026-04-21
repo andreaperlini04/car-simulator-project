@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * @file client_test.cpp
  * @brief Test suite per la logica del Client (Fisica, Input, Ruote)
  */
@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <memory>
 
  // Include i file del client
 #include "CarInputController.h"
@@ -71,7 +72,7 @@ void test_CarPhysics() {
    physics.update(1.0, input); // 1 sec a 10m/s^2 di accelerazione
    assert(physics.getState().currSpeed > 0.0);
 
-   // Test 3: Tetto massimo della velocità in avanti
+   // Test 3: Tetto massimo della velocitï¿½ in avanti
    physics.update(10.0, input);
    assert(isClose(physics.getState().currSpeed, 50.0));
 
@@ -88,7 +89,7 @@ void test_CarPhysics() {
 
    // Test 6: Protezione DeltaTime (Lag spike guard in CarPhysics::update)
    double speedBeforeLag = physics.getState().currSpeed;
-   physics.update(5.0, input); // 5.0s è > MAX_DELTA_TIME (1.0). Deve fare return.
+   physics.update(5.0, input); // 5.0s ï¿½ > MAX_DELTA_TIME (1.0). Deve fare return.
    assert(isClose(physics.getState().currSpeed, speedBeforeLag));
    physics.update(-0.5, input); // Tempo negativo non valido. Deve fare return.
    assert(isClose(physics.getState().currSpeed, speedBeforeLag));
@@ -103,18 +104,18 @@ void test_CarPhysics() {
    physScrub.startEngine();
    CarInputState inScrub;
 
-   // Acceleriamo per 2 secondi a 10m/s^2 -> velocità ~20
+   // Acceleriamo per 2 secondi a 10m/s^2 -> velocitï¿½ ~20
    inScrub.isAccelerating = true;
    physScrub.update(2.0, inScrub);
    inScrub.isAccelerating = false;
 
    double speedBeforeScrub = physScrub.getState().currSpeed;
 
-   // Sterziamo al massimo per 1 secondo senza gas né freni
+   // Sterziamo al massimo per 1 secondo senza gas nï¿½ freni
    inScrub.steeringAngle = 35.0;
    physScrub.update(1.0, inScrub);
 
-   // La velocità DEVE essere diminuita a causa di applyTireScrub()
+   // La velocitï¿½ DEVE essere diminuita a causa di applyTireScrub()
    assert(physScrub.getState().currSpeed < speedBeforeScrub);
 
    // --- Test 8: Drift e Perdita di Aderenza ---
@@ -122,9 +123,9 @@ void test_CarPhysics() {
    physDrift.startEngine();
    CarInputState inDrift;
 
-   // Acceleriamo sopra al DRIFT_MIN_SPEED (che nel tuo file è 5.0)
+   // Acceleriamo sopra al DRIFT_MIN_SPEED (che nel tuo file ï¿½ 5.0)
    inDrift.isAccelerating = true;
-   physDrift.update(2.0, inDrift); // Velocità ~20.0
+   physDrift.update(2.0, inDrift); // Velocitï¿½ ~20.0
 
    double speedBeforeDrift = physDrift.getState().currSpeed;
    double headingBeforeDrift = physDrift.getState().carHeading;
@@ -139,7 +140,7 @@ void test_CarPhysics() {
    // 1. L'Heading deve essere cambiato pesantemente (driftTurnBoost = 2.5)
    assert(physDrift.getState().carHeading != headingBeforeDrift);
 
-   // 2. La macchina deve aver perso velocità velocemente per via del "slideDecel"
+   // 2. La macchina deve aver perso velocitï¿½ velocemente per via del "slideDecel"
    assert(physDrift.getState().currSpeed < speedBeforeDrift);
 
    std::cout << "OK" << std::endl;
@@ -152,10 +153,10 @@ void test_Wheel() {
    std::cout << "[TEST] Wheel (Calcolo rotolamento)... ";
 
    Wheel wheel;
-   Node* dummyWheelNode = new Node("RuotaTest");
+   auto dummyWheelNode = std::make_unique<Node>("RuotaTest");
    dummyWheelNode->translate(glm::vec3(0.0f, 2.0f, 0.0f));
 
-   wheel.init(dummyWheelNode, 1.0f, 0.0, 0.0, 0.0);
+   wheel.init(dummyWheelNode.get(), 1.0f, 0.0, 0.0, 0.0);
 
    double distanceMoved = 2.0 * glm::pi<double>();
    wheel.updateRolling(distanceMoved);
@@ -166,7 +167,6 @@ void test_Wheel() {
 
    assert(beforeMatrix != afterMatrix);
 
-   delete dummyWheelNode;
    std::cout << "OK" << std::endl;
 }
 

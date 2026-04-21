@@ -2,21 +2,6 @@
 #include <iostream>
 #include <cmath>
 
-Wheel::Wheel()
-{
-   wheelModel = nullptr;
-   m_wheelWorldScaleY = 1.0f;
-   m_radius = 0.0f;
-   m_localRadius = 0.0f;
-
-   offsetX = 0.0;
-   offsetY = 0.0;
-   offsetZ = 0.0;
-
-   steeringAngle = 0.0;
-   
-   rollingAngle = 0.0;
-}
 
 Node* Wheel::getNode() const {
    return wheelModel;

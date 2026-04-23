@@ -7,7 +7,6 @@ Car::Car(double maxSpeed,
    double reverseGearMaxSpeed)
    : physics(maxSpeed, accelerationFactor, brakingFactor, friction, reverseGearMaxSpeed)
 {
-   // CarInputController e CarRenderer si auto-inizializzano
 }
 
 void Car::init(Node* carNode)
@@ -17,12 +16,10 @@ void Car::init(Node* carNode)
       physics.setInitialPosition(posX, posY, posZ);
 }
 
-// Engine
 bool Car::startEngine() { return physics.startEngine(); }
 bool Car::turnOffEngine() { return physics.turnOffEngine(); }
 bool Car::isEngineStarted()   const { return physics.isEngineStarted(); }
 
-// Input
 void Car::setAccelerating(bool v) { inputController.setAccelerating(v); }
 void Car::setBraking(bool v) { inputController.setBraking(v); }
 void Car::setHandbrake(bool v) { inputController.setHandbrake(v); }
@@ -32,43 +29,27 @@ void Car::setSteeringAngleDirect(double a) { inputController.setSteeringAngleDir
 void Car::setMouseSteeringTarget(double a) { inputController.setMouseSteeringTarget(a); }
 void Car::setMouseSteering(bool active) { inputController.setMouseSteering(active); }
 
-// ---------------------------------------------------------------------------
-// FIXED TIMESTEP — passo fisico
-// ---------------------------------------------------------------------------
-// Chiamato N volte per frame dentro il loop accumulatore di displayCallback.
-// Riceve SEMPRE lo stesso dt fisso: la fisica e' deterministica e
-// indipendente dal frame-rate del rendering.
-// ---------------------------------------------------------------------------
+/**
+ * @brief Esegue l'integrazione fisica.
+ * Richiede un delta-time fisso per garantire il determinismo della simulazione.
+ */
 void Car::stepPhysics(double fixedDt)
 {
-   // 1. Aggiorna l'angolo di sterzata con il timestep fisso.
-   //    In questo modo la velocita' di sterzata e' identica a 30 FPS e a 144 FPS.
+   // Svincola la reattività dell'input dal framerate di rendering
    inputController.updateSteeringAngle(fixedDt);
-
-   // 2. Integra la fisica (velocita', posizione, inerzia, drift).
    physics.update(fixedDt, inputController.getState());
 }
 
-// ---------------------------------------------------------------------------
-// FIXED TIMESTEP — aggiornamento renderer
-// ---------------------------------------------------------------------------
-// Chiamato UNA SOLA VOLTA per frame, dopo aver eseguito tutti i passi fisici.
-// Il renderer legge lo stato fisico gia' aggiornato e aggiorna la matrice
-// mondo del modello 3D + animazione ruote.
-//
-// frameDt = tempo reale del frame (variabile): usato SOLO per l'animazione
-// visiva delle ruote (distanceMoved). NON influenza la simulazione fisica.
-//
-// NOTA: per un rendering ancora piu' preciso si potrebbe implementare
-// l'interpolazione lineare tra lo stato fisico del frame precedente e quello
-// corrente usando alpha = accumulator / FIXED_DT. Per ora non e' necessario.
-// ---------------------------------------------------------------------------
+/**
+ * @brief Sincronizza lo scene graph visivo con l'ultimo stato fisico calcolato.
+ */
 void Car::updateRenderer(double frameDt)
 {
+   // frameDt è variabile: usarlo esclusivamente per interpolazioni puramente estetiche (es. rotazione mesh ruote).
+   // TODO: Per azzerare eventuale micro-stuttering, valutare il passaggio di un 'alpha' (accumulator / FIXED_DT) per interpolare lo stato fisico precedente e attuale.
    renderer.update(physics.getState(), inputController.getState().steeringAngle, frameDt);
 }
 
-// Lettura
 double    Car::getCurrSpeedAbs() const { return physics.getCurrSpeedAbs(); }
 double    Car::getMaxSpeed()     const { return physics.getMaxSpeed(); }
 glm::mat4 Car::getWorldMatrix()  const { return renderer.getWorldMatrix(); }

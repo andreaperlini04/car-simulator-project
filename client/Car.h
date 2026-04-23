@@ -1,22 +1,14 @@
 #pragma once
+
 #include "node.h"
 #include "CarInputController.h"
 #include "CarPhysics.h"
 #include "CarRenderer.h"
 
 /**
- * @brief Facade che compone CarInputController, CarPhysics e CarRenderer.
- *
- * Questa classe espone la stessa API pubblica della classe Car originale, ma
- * delega ogni responsabilita' al sottosistema appropriato.
- *
- * FIXED TIMESTEP:
- *   La fisica e' ora separata dal rendering. Il loop principale deve chiamare:
- *     1. stepPhysics(FIXED_DT)  — N volte per frame, dentro il loop accumulatore
- *     2. updateRenderer(frameDt) — 1 volta per frame, al frame-rate reale
- *
- *   Questo garantisce che la simulazione sia deterministica e indipendente
- *   dal frame-rate: spike di rendering non causano "teletrasporti" fisici.
+ * @brief Facade per l'architettura del veicolo.
+ * Impone il disaccoppiamento tra la simulazione fisica deterministica (fixed-step)
+ * e l'aggiornamento visivo dipendente dal framerate effettivo.
  */
 class Car
 {
@@ -27,46 +19,38 @@ public:
       double friction,
       double reverseGearMaxSpeed);
 
-   //  Ciclo di vita
    void init(Node* carNode);
 
    bool startEngine();
    bool turnOffEngine();
    bool isEngineStarted() const;
 
-   // Input (delegati a CarInputController)
    void setAccelerating(bool v);
    void setBraking(bool v);
    void setHandbrake(bool v);
    void setSteeringLeft(bool v);
    void setSteeringRight(bool v);
+
+   // Override diretti per input analogici (es. gamepad o mouse)
    void setSteeringAngleDirect(double angle);
    void setMouseSteeringTarget(double angle);
    void setMouseSteering(bool active);
 
    /**
-    * @brief Esegue UN passo fisico a timestep fisso.
-    *
-    * Deve essere chiamato all'interno del loop accumulatore in displayCallback,
-    * sempre con lo stesso valore fisso (es. 1.0/60.0).
-    * Aggiorna: sterzata (CarInputController) + fisica (CarPhysics).
-    *
-    * @param fixedDt  Timestep fisso in secondi (es. PHYSICS_FIXED_DT).
+    * @brief Avanza l'integrazione della fisica.
+    * Deve girare in un loop accumulatore a frequenza fissa per garantire
+    * determinismo ed evitare instabilità numeriche sulle collisioni.
+    * @param fixedDt Delta time fisso in secondi (es. 1.0/60.0).
     */
    void stepPhysics(double fixedDt);
 
    /**
-    * @brief Aggiorna la rappresentazione visiva dell'auto.
-    *
-    * Deve essere chiamato UNA VOLTA per frame, dopo tutti i passi fisici.
-    * Aggiorna la matrice mondo del modello 3D e l'animazione delle ruote.
-    *
-    * @param frameDt  Tempo reale trascorso dall'ultimo frame (seconds).
-    *                 Usato SOLO per animazioni visive (rotazione ruote), NON per fisica.
+    * @brief Sincronizza il transform nel scene graph e interpola le animazioni.
+    * Da eseguire una singola volta per frame, a valle dello step fisico.
+    * @param frameDt Delta time reale in secondi. Non influisce sulla simulazione.
     */
    void updateRenderer(double frameDt);
 
-   // Lettura
    double    getCurrSpeedAbs() const;
    double    getMaxSpeed()     const;
    glm::mat4 getWorldMatrix()  const;

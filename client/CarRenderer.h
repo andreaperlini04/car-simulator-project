@@ -3,54 +3,44 @@
 #include "node.h"
 #include "wheel.h"
 
-
 /**
- * @brief Gestisce tutto cio' che riguarda la rappresentazione visiva dell'auto.
- *
- * Responsabilita' uniche:
- *  - Trovare e collegare i nodi 3D della scena (carModel, ruote).
- *  - Aggiornare la matrice mondo del modello in base allo stato fisico.
- *  - Animare le ruote (rotazione, sterzata).
- *  - Non conosce nulla di input ne' di fisica.
+ * @brief Sincronizza il transform del modello 3D e l'animazione delle ruote con lo stato simulato.
+ * Mantiene lo scene graph completamente isolato dai calcoli della fisica pura.
  */
 class CarRenderer {
 public:
-  /**
-   * @brief Inizializza il renderer cercando i nodi nella scena a partire da
-   * passedNode.
-   * @param passedNode  Qualsiasi nodo della gerarchia di scena.
-   * @param outInitPos  [out] Posizione iniziale letta dalla matrice OVO del
-   * modello.
-   * @return true se il nodo "Car" e' stato trovato, false altrimenti.
-   */
-  bool init(Node *passedNode, double &outPosX, double &outPosY,
-            double &outPosZ);
+   /**
+    * @brief Aggancia la geometria dell'auto e ne estrae la trasformazione di base.
+    * Attraversa l'albero per trovare il nodo "Car" e bindare i figli delle ruote.
+    * @param passedNode Nodo di partenza per la ricerca (es. root della scena).
+    * @param outPosX, outPosY, outPosZ Coordinate world estratte per inizializzare il solver fisico.
+    * @return true se il parsing della gerarchia va a buon fine.
+    */
+   bool init(Node* passedNode, double& outPosX, double& outPosY,
+      double& outPosZ);
 
-  /**
-   * @brief Aggiorna la matrice del modello e l'animazione delle ruote.
-   * @param physics       Snapshot prodotto da CarPhysics.
-   * @param steeringAngle Angolo corrente di sterzata (da CarInputController).
-   */
-  void update(const CarPhysicsState &physics, double steeringAngle,
-              double deltaTime);
+   /**
+    * @brief Ricalcola le matrici locali e applica le rotazioni cinematiche.
+    * @param deltaTime Integrato per calcolare i radianti di rotazione visiva delle ruote.
+    */
+   void update(const CarPhysicsState& physics, double steeringAngle,
+      double deltaTime);
 
-  glm::mat4 getWorldMatrix() const;
+   glm::mat4 getWorldMatrix() const;
 
-  bool isReady() const { return carModel != nullptr; }
+   bool isReady() const { return carModel != nullptr; }
 
 private:
-  Node *carModel = nullptr;
-  Wheel wheels[4];
+   Node* carModel = nullptr;
+   Wheel wheels[4];
 
-  static constexpr const char *WHEEL_NAMES[4] = {"RuotaAD", "RuotaAS",
-                                                 "RuotaPD", "RuotaPS"};
+   // Mapping string per agganciare correttamente i nodi esportati da 3ds Max
+   static constexpr const char* WHEEL_NAMES[4] = { "RuotaAD", "RuotaAS",
+                                                  "RuotaPD", "RuotaPS" };
 
-  // Costanti di inizializzazione ruote
-  static constexpr float WHEEL_RADIUS = 1.0f; // Wheel radius (world units)
-  static constexpr double WHEEL_OFFSET_X =
-      0.0; // Wheel X offset relative to hub
-  static constexpr float WHEEL_OFFSET_Y =
-      3.8f; // Wheel Y offset relative to hub (rim height)
-  static constexpr double WHEEL_OFFSET_Z =
-      0.0; // Wheel Z offset relative to hub
+   // Compensazioni per allineare il raycast fisico al pivot visivo del modello OVO
+   static constexpr float WHEEL_RADIUS = 1.0f;
+   static constexpr double WHEEL_OFFSET_X = 0.0;
+   static constexpr float WHEEL_OFFSET_Y = 3.8f;
+   static constexpr double WHEEL_OFFSET_Z = 0.0;
 };

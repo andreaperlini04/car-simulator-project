@@ -13,17 +13,9 @@
 #include <string>
 
 /**
- * @brief Gestisce il ciclo di vita dell'applicazione Car Simulator.
- *
- * Raccoglie tutto lo stato che era disperso come variabili globali in main.cpp
- * e lo incapsula in una singola classe con responsabilita' chiara:
- *   - Inizializzazione engine, finestra e scena
- *   - Loop di gioco (fisica + render)
- *   - Gestione input (tastiera e mouse)
- *
- * I callback richiesti dall'engine (che accetta solo free-function pointer)
- * vengono forniti da wrapper statici in Application.cpp, che delegano
- * all'istanza di Application tramite un puntatore locale s_app.
+ * @brief Root controller del simulatore.
+ * * Centralizza lo stato dell'applicazione per facilitare il reset della scena.
+ * Risolve i requisiti dei callback C-style dell'engine appoggiandosi a wrapper statici esterni.
  */
 class Application
 {
@@ -31,20 +23,17 @@ public:
    Application();
 
    /**
-    * @brief Inizializza engine, finestra e scena.
-    * @return false se qualcosa fallisce (OVO non trovato, ecc.)
+    * @brief Inizializza engine, contesto grafico e grafo della scena.
+    * @return false su errori fatali (es. asset OVO mancanti).
     */
    bool init(int argc, char* argv[]);
 
    /**
-    * @brief Avvia il main loop (bloccante fino alla chiusura della finestra).
+    * @brief Entra nel main loop (bloccante).
     */
    void run();
 
-   // ------------------------------------------------------------------
-   // Callback handlers — chiamati dai wrapper statici in Application.cpp.
-   // Non sono pensati per essere invocati direttamente dall'esterno.
-   // ------------------------------------------------------------------
+   // Delegati dai wrapper C-style in Application.cpp
    void onDisplay();
    void onKeyboard(unsigned char key, int x, int y);
    void onKeyboardUp(unsigned char key);
@@ -54,20 +43,19 @@ public:
 
 private:
 
-   // ---- Strutture di stato interno --------------------------------
-
    struct OrbitCameraState {
-      float yaw = 0.0f;    ///< Rotazione orizzontale (gradi)
-      float pitch = 30.0f;   ///< Inclinazione verticale (gradi)
-      float radius = 100.0f;  ///< Distanza dalla macchina (unita' di gioco)
-      float sensitivity = 0.1f;    ///< Sensibilita' del mouse
+      float yaw = 0.0f;
+      float pitch = 30.0f;
+      float radius = 100.0f;
+      float sensitivity = 0.1f;
       bool  isMotionCameraActivated = false;
    };
 
+   // anche se non è bellissimo da vedere e usare
    struct MouseSteeringState {
       bool  isActive = false;
       float sensitivity = 0.1f;
-      float currentAngle = 0.0f;  ///< Angolo di sterzo corrente (gradi)
+      float currentAngle = 0.0f;
    };
 
    struct CameraSelection {
@@ -75,44 +63,40 @@ private:
       Position current = BEHIND;
    };
 
-   // ---- Engine & Scena --------------------------------------------
+   Eng::Base& engine;
 
-   Eng::Base& engine;          ///< Riferimento al singleton del motore
-   Camera* camera = nullptr; ///< Observer (ownership: root)
+   // Puntatori observer, la deallocazione è gestita dal nodo root
+   Camera* camera = nullptr;
+   Mesh* groundMesh = nullptr;
+
    std::unique_ptr<List> list;
    std::unique_ptr<Node> root;
-   OvoReader             ovoreader;
-   Mesh* groundMesh = nullptr; ///< Observer (ownership: root)
-
-   // ---- Simulazione -----------------------------------------------
+   OvoReader            ovoreader;
 
    Car  myCar;
    bool isGameStarted = false;
 
-   // ---- Timing (fixed-timestep loop) ------------------------------
-
+   // Stato per fixed-timestep: garantisce fisica deterministica indipendente dal framerate
    std::chrono::steady_clock::time_point lastFrameTime;
    bool   isFirstFrame = true;
    double physicsAccumulator = 0.0;
 
-   // ---- Stato input / camera --------------------------------------
-
    OrbitCameraState   orbit;
    CameraSelection    selectedCamera;
    MouseSteeringState mouseSteering;
+
+   // Workaround: evita salti di camera ignorando il delta quando si forza il cursore a centro schermo
    bool               ignoreNextMotion = false;
 
-   // ---- Metodi privati --------------------------------------------
-
    bool loadScene();
+
+   // Fissa le luci allo spazio locale del telaio per preservare l'allineamento in curva
    void reparentLightsToCar();
 
    void        updateCameraFollow(CameraSelection::Position pos);
-   void        drawCenteredText(const std::string& text, float yOffset,
-      float r, float g, float b);
+   void        drawCenteredText(const std::string& text, float yOffset, float r, float g, float b);
    void        printCustomText();
    std::string getSpeedToDisplay() const;
 
-   // Debug
    static void printSceneGraphWithPosition(Node* node, int level = 0);
 };

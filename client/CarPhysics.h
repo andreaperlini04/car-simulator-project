@@ -2,81 +2,73 @@
 #include "CarState.h"
 
 /**
- * @brief Simula la fisica dell'automobile (velocita', posizione, inerzia,
- * drift).
- *
- * Responsabilita':
- *  - Integrare accelerazione, frenata, attrito, sterzo e inerzia laterale.
- *  - Produrre uno snapshot CarPhysicsState da passare a CarRenderer.
- *  - Non conosce nulla di input diretto ne' di grafica.
- *
+ * @brief Modello cinematico/dinamico ibrido del veicolo.
+ * Isola l'integrazione di forze, inerzia e drift.
+ * Totalmente agnostico rispetto al rendering e al polling degli input.
  */
 class CarPhysics {
 public:
-  CarPhysics(double maxSpeed, double accelerationFactor, double brakingFactor,
-             double friction, double reverseGearMaxSpeed);
+   CarPhysics(double maxSpeed, double accelerationFactor, double brakingFactor,
+      double friction, double reverseGearMaxSpeed);
 
-  // --- Motore ---
-  bool startEngine();
-  bool turnOffEngine();
-  bool isEngineStarted() const { return isEngineOn; }
+   bool startEngine();
+   bool turnOffEngine();
+   bool isEngineStarted() const { return isEngineOn; }
 
-  // Aggiornamento frame
-  /**
-   * @param deltaTime  Secondi dall'ultimo frame.
-   * @param input      Snapshot prodotto da CarInputController.
-   */
-  void update(double deltaTime, const CarInputState &input);
+   /**
+    * @brief Esegue uno step di integrazione (consigliato Euler semi-implicito a dt fisso).
+    * @param deltaTime Step temporale (clamped internamente per stabilità).
+    * @param input Snapshot dei comandi attivi in questo tick.
+    */
+   void update(double deltaTime, const CarInputState& input);
 
-  // Lettura Stato
-  const CarPhysicsState &getState() const { return physicsState; }
-  double getCurrSpeedAbs() const;
-  double getMaxSpeed() const { return maxSpeed; }
+   const CarPhysicsState& getState() const { return physicsState; }
+   double getCurrSpeedAbs() const;
+   double getMaxSpeed() const { return maxSpeed; }
 
-  // Posizione iniziale letta dalla scena (usata da CarRenderer::init)
-  void setInitialPosition(double x, double y, double z);
+   // Forza il posizionamento assoluto (es. spawn point) resettando l'inerzia
+   void setInitialPosition(double x, double y, double z);
 
 private:
-  CarPhysicsState physicsState;
+   CarPhysicsState physicsState;
 
-  bool isEngineOn = false;
-  double maxSpeed;
-  double accelerationFactor;
-  double brakingFactor;
-  double friction;
-  double reverseGearMaxSpeed;
+   bool isEngineOn = false;
+   double maxSpeed;
+   double accelerationFactor;
+   double brakingFactor;
+   double friction;
+   double reverseGearMaxSpeed;
 
-  // Parametri drift
-  double driftGripFactor =
-      0.15;                     // Less lateral grip when handbrake is activated
-  double driftTurnBoost = 2.5;  // How fast the car rotates while drifting
-  double driftSpeedDecay = 3.0; // Extra friction applied while sliding
+   // Modificatori per gestione slip angle e sbandata
+   double driftGripFactor = 0.15;  // Taglio netto al grip laterale col freno a mano
+   double driftTurnBoost = 2.5;    // Moltiplicatore di yaw rate per facilitare il controsterzo
+   double driftSpeedDecay = 3.0;   // Attrito viscoso extra per dissipare energia in slide
 
-  // Costanti fisiche
-  static constexpr double MAX_DELTA_TIME = 1.0; // Maximum allowed deltaTime (s)
-  static constexpr double MIN_STEERING_THRESHOLD =
-      0.1; // Min steering angle (deg) for tire scrub
-  static constexpr double TIRE_SCRUB_FACTOR =
-      0.45; // Speed loss coefficient during cornering
-  static constexpr double DRIFT_MIN_SPEED =
-      5.0; // Minimum speed (units/s) to trigger drift
-  static constexpr double TURN_RATE_COEFF =
-      0.020; // Turn rate coefficient (rad / (deg * unit/s))
-  static constexpr double GRIP_SPEED_SCALE =
-      0.25; // Speed scaling factor in grip falloff
-  static constexpr double LATERAL_GRIP_BASE =
-      18.0; // Base lateral grip multiplier
-  static constexpr double LATERAL_GRIP_SPEED_SCALE =
-      0.02; // Speed scaling factor in lateral grip falloff
-  static constexpr double SLIDE_FRICTION_SCALE =
-      10.0; // Friction multiplier for slide deceleration
-  static constexpr double SLIDE_SPEED_SCALE =
-      0.3; // Speed-proportional component of slide decel;
+   // Limite al delta per prevenire esplosioni numeriche nel solver
+   static constexpr double MAX_DELTA_TIME = 1.0;
 
+   // Deadzone per prevenire micro-attriti a volante dritto
+   static constexpr double MIN_STEERING_THRESHOLD = 0.1;
 
-  void applyGas(double deltaTime, const CarInputState &input);
-  void applyTireScrub(double deltaTime, double steeringAngle);
-  void applyTurnAndGrip(double deltaTime, const CarInputState &input);
-  void applyInertia(double deltaTime, const CarInputState &input);
-  void applyFriction(double deltaTime);
+   // Dissipazione energia cinetica in curva (simula la deformazione dello pneumatico)
+   static constexpr double TIRE_SCRUB_FACTOR = 0.45;
+   static constexpr double DRIFT_MIN_SPEED = 5.0;
+
+   // Relazione lineare angolo/velocità per calcolare il raggio di curvatura
+   static constexpr double TURN_RATE_COEFF = 0.020;
+
+   // Smorzamento del grip ad alte velocità (evita ribaltamenti irreali)
+   static constexpr double GRIP_SPEED_SCALE = 0.25;
+   static constexpr double LATERAL_GRIP_BASE = 18.0;
+   static constexpr double LATERAL_GRIP_SPEED_SCALE = 0.02;
+
+   static constexpr double SLIDE_FRICTION_SCALE = 10.0;
+   static constexpr double SLIDE_SPEED_SCALE = 0.3;
+
+   // Pipeline di integrazione sequenziale
+   void applyGas(double deltaTime, const CarInputState& input);
+   void applyTireScrub(double deltaTime, double steeringAngle);
+   void applyTurnAndGrip(double deltaTime, const CarInputState& input);
+   void applyInertia(double deltaTime, const CarInputState& input);
+   void applyFriction(double deltaTime);
 };

@@ -6,17 +6,7 @@
 #include <iomanip>
 #include <chrono>
 
-// ============================================================
-// Wrapper statici
-//
-// L'engine di Eng::Base accetta solo free-function pointer come
-// callback. Questi wrapper statici fungono da bridge: ogni funzione
-// riceve la chiamata dal motore e la delega all'istanza Application
-// corrente tramite s_app.
-//
-// s_app viene impostato nel costruttore di Application e rimane
-// valido per tutta la durata del programma.
-// ============================================================
+// Bridge C-style per mappare le callback dell'engine sull'istanza corrente
 static Application* s_app = nullptr;
 
 static void s_displayCallback() { s_app->onDisplay(); }
@@ -26,20 +16,13 @@ static void s_specialCallback(int k, int x, int y) { s_app->onSpecial(k, x, y); 
 static void s_reshapeCallback(int w, int h) { s_app->onReshape(w, h); }
 static void s_mouseMotionCallback(int x, int y) { s_app->onMouseMotion(x, y); }
 
-// ============================================================
-// Costruttore
-// ============================================================
 Application::Application()
    : engine(Eng::Base::getInstance())
    , myCar(GAME_MAX_SPEED, GAME_ACCEL, GAME_BRAKE, GAME_FRICTION, GAME_REVERSE_MAX)
 {
-   // Rende questa istanza raggiungibile dai wrapper statici
    s_app = this;
 }
 
-// ============================================================
-// init
-// ============================================================
 bool Application::init(int argc, char* argv[])
 {
    if (!engine.init(argc, argv)) return false;
@@ -47,7 +30,6 @@ bool Application::init(int argc, char* argv[])
    engine.createWindow(800, 600, 100, 100, "Car Simulator");
    engine.enableFPS();
 
-   // Registrazione callback tramite i wrapper statici
    engine.setDisplayCallback(s_displayCallback);
    engine.setKeyboardCallback(s_keyboardCallback);
    engine.setKeyboardUpCallback(s_keyboardUpCallback);
@@ -58,74 +40,54 @@ bool Application::init(int argc, char* argv[])
    return loadScene();
 }
 
-// ============================================================
-// run
-// ============================================================
 void Application::run()
 {
-   engine.update();  // blocca finche' la finestra e' aperta
+   engine.update();
    engine.free();
 }
 
-// ============================================================
-// loadScene
-// Carica il file OVO, inizializza la macchina e il piano,
-// e sposta le luci come figlie del nodo Car.
-// ============================================================
 bool Application::loadScene()
 {
-   // --- Camera prospettica principale ---
    auto mainCam = std::make_unique<PerspectiveCamera>(
       "MainCam", 45.0f, 800.0f / 600.0f, 1.0f, 5000.0f);
-   camera = mainCam.get();  // observer: l'ownership passa a root piu' sotto
+   camera = mainCam.get();
 
    list = std::make_unique<List>();
 
-   // --- Caricamento scena da file OVO ---
    Node* scena = ovoreader.readFile("macchina.ovo", "texture/");
    if (!scena) {
-      std::cerr << "Errore critico: impossibile caricare macchina.ovo" << std::endl;
+      std::cerr << "Errore critico: impossibile caricare macchina.ovo\n";
       return false;
    }
 
    root = std::unique_ptr<Node>(scena);
-   root->addChild(mainCam.release());  // root ora possiede la camera
+   // Passaggio di ownership: root gestira' il ciclo di vita della camera
+   root->addChild(mainCam.release());
 
    printSceneGraphWithPosition(root.get());
 
-   // --- Inizializza la macchina ---
    Node* carNode = root->findByName("Car");
    if (carNode) {
       myCar.init(carNode);
    }
    else {
-      std::cerr << "Attenzione: nodo 'Car' non trovato nello scene graph." << std::endl;
+      std::cerr << "Attenzione: nodo 'Car' non trovato nello scene graph.\n";
    }
 
-   // --- Trova il piano (per il toggle wireframe) ---
    Node* planeNode = root->findByName("Plane");
-   if (planeNode)
-      groundMesh = dynamic_cast<Mesh*>(planeNode);
+   if (planeNode) groundMesh = dynamic_cast<Mesh*>(planeNode);
 
-   // --- Sposta le luci come figlie del nodo Car ---
    reparentLightsToCar();
 
    printSceneGraphWithPosition(root.get());
    return true;
 }
 
-// ============================================================
-// reparentLightsToCar
-// Rimuove le luci Omni dal loro parent originale e le aggancia
-// al nodo Car, cosi' si spostano solidalmente con la macchina.
-// ============================================================
 void Application::reparentLightsToCar()
 {
+   // Fissa le luci della scena al nodo vettura per evitare overhead su calcoli di illuminazione dinamica
    Node* carNode = root->findByName("Car");
-   if (!carNode) {
-      std::cerr << "Attenzione: impossibile trovare 'Car' per il reparenting luci." << std::endl;
-      return;
-   }
+   if (!carNode) return;
 
    const std::string lightNames[] = {
        "Omni", "Omni001", "Omni002", "Omni003", "Omni004"
@@ -133,25 +95,20 @@ void Application::reparentLightsToCar()
 
    for (const std::string& name : lightNames) {
       Node* light = root->findByName(name);
-      if (!light) {
-         std::cerr << "Attenzione: luce '" << name << "' non trovata." << std::endl;
-         continue;
-      }
-      if (light->getParent()) {
+      if (light && light->getParent()) {
          auto extracted = light->getParent()->removeChild(light);
          carNode->addChild(std::move(extracted));
       }
    }
 }
 
-// ============================================================
-// onDisplay — loop principale (fixed-timestep fisica + render)
-// ============================================================
+/**
+ * @brief Main loop fisico e di rendering.
+ * Implementa un fixed-timestep per la fisica, disaccoppiando
+ * le collisioni e le forze dal framerate visivo per garantire determinismo.
+ */
 void Application::onDisplay()
 {
-   // ------------------------------------------------------------------
-   // 1. Misura del tempo reale del frame
-   // ------------------------------------------------------------------
    auto now = std::chrono::steady_clock::now();
    if (isFirstFrame) {
       lastFrameTime = now;
@@ -161,34 +118,19 @@ void Application::onDisplay()
    double frameTime = std::chrono::duration<double>(now - lastFrameTime).count();
    lastFrameTime = now;
 
-   // Spiral-of-death guard: se il frame ha impiegato piu' di PHYSICS_MAX_FRAME
-   // (freeze, debugger, alt-tab), limitiamo il tempo accumulato.
+   // Spiral-of-death guard: limita l'accumulo di dt causato da lag o breakpoint
    if (frameTime > PHYSICS_MAX_FRAME)
       frameTime = PHYSICS_MAX_FRAME;
 
-   // ------------------------------------------------------------------
-   // 2. Loop fisico a timestep fisso (disaccoppiato dal renderer)
-   //
-   //    L'accumulatore raccoglie il tempo reale e lo "spende" a passi
-   //    fissi di PHYSICS_FIXED_DT. La fisica riceve SEMPRE lo stesso dt,
-   //    indipendente dal frame-rate di rendering.
-   // ------------------------------------------------------------------
    physicsAccumulator += frameTime;
    while (physicsAccumulator >= PHYSICS_FIXED_DT) {
       myCar.stepPhysics(PHYSICS_FIXED_DT);
       physicsAccumulator -= PHYSICS_FIXED_DT;
    }
 
-   // ------------------------------------------------------------------
-   // 3. Aggiornamento renderer (una volta per frame, al frame-rate reale)
-   //
-   //    frameDt reale usato solo per l'animazione visiva delle ruote.
-   // ------------------------------------------------------------------
+   // L'interpolazione grafica (es. rotazione mesh ruote) usa il dt reale
    myCar.updateRenderer(frameTime);
 
-   // ------------------------------------------------------------------
-   // 4. Camera, scena, HUD
-   // ------------------------------------------------------------------
    updateCameraFollow(selectedCamera.current);
 
    list->clear();
@@ -201,13 +143,9 @@ void Application::onDisplay()
    engine.postRedisplay();
 }
 
-// ============================================================
-// onKeyboard
-// ============================================================
 void Application::onKeyboard(unsigned char key, int /*x*/, int /*y*/)
 {
    switch (key) {
-
    case 'E': case 'e':
       if (!isGameStarted) isGameStarted = true;
       myCar.startEngine();
@@ -227,13 +165,13 @@ void Application::onKeyboard(unsigned char key, int /*x*/, int /*y*/)
          engine.setCursorVisible(false);
          engine.warpMouse(engine.getWindowWidth() / 2, engine.getWindowHeight() / 2);
       }
-      else {
-         if (!mouseSteering.isActive)
-            engine.setCursorVisible(true);
+      else if (!mouseSteering.isActive) {
+         engine.setCursorVisible(true);
       }
       break;
 
    case 'n': case 'N':
+      // Attivazione mouse steering, anche se non è bellissimo da vedere e usare
       mouseSteering.isActive = !mouseSteering.isActive;
       if (mouseSteering.isActive) {
          myCar.setMouseSteering(true);
@@ -247,24 +185,20 @@ void Application::onKeyboard(unsigned char key, int /*x*/, int /*y*/)
       }
       else {
          myCar.setMouseSteering(false);
-         if (!orbit.isMotionCameraActivated)
-            engine.setCursorVisible(true);
+         if (!orbit.isMotionCameraActivated) engine.setCursorVisible(true);
          mouseSteering.currentAngle = 0.0f;
       }
       break;
 
    case 'a':
-      if (isGameStarted && !mouseSteering.isActive)
-         myCar.setSteeringLeft(true);
+      if (isGameStarted && !mouseSteering.isActive) myCar.setSteeringLeft(true);
       break;
    case 'd':
-      if (isGameStarted && !mouseSteering.isActive)
-         myCar.setSteeringRight(true);
+      if (isGameStarted && !mouseSteering.isActive) myCar.setSteeringRight(true);
       break;
 
    case 'u':
-      if (groundMesh)
-         groundMesh->setWireframe(!groundMesh->getWireframe());
+      if (groundMesh) groundMesh->setWireframe(!groundMesh->getWireframe());
       break;
 
    case '1': selectedCamera.current = CameraSelection::BEHIND; break;
@@ -275,9 +209,6 @@ void Application::onKeyboard(unsigned char key, int /*x*/, int /*y*/)
    engine.postRedisplay();
 }
 
-// ============================================================
-// onKeyboardUp
-// ============================================================
 void Application::onKeyboardUp(unsigned char key)
 {
    switch (key) {
@@ -294,25 +225,16 @@ void Application::onKeyboardUp(unsigned char key)
    engine.postRedisplay();
 }
 
-// ============================================================
-// onSpecial — riservato per tasti speciali futuri
-// ============================================================
 void Application::onSpecial(int /*key*/, int /*x*/, int /*y*/) {}
 
-// ============================================================
-// onReshape
-// ============================================================
 void Application::onReshape(int width, int height)
 {
    if (height == 0) height = 1;
-   PerspectiveCamera* pCam = dynamic_cast<PerspectiveCamera*>(camera);
-   if (pCam)
+   if (auto pCam = dynamic_cast<PerspectiveCamera*>(camera)) {
       pCam->setAspectRatio(static_cast<float>(width), static_cast<float>(height));
+   }
 }
 
-// ============================================================
-// onMouseMotion
-// ============================================================
 void Application::onMouseMotion(int x, int y)
 {
    if (!orbit.isMotionCameraActivated && !mouseSteering.isActive) return;
@@ -327,24 +249,22 @@ void Application::onMouseMotion(int x, int y)
    const int deltaX = x - cx;
    const int deltaY = y - cy;
 
-   // --- Camera orbitale (tasto M) ---
-   if (orbit.isMotionCameraActivated &&
-      selectedCamera.current == CameraSelection::BEHIND)
-   {
+   if (orbit.isMotionCameraActivated && selectedCamera.current == CameraSelection::BEHIND) {
       orbit.yaw -= deltaX * orbit.sensitivity;
       orbit.pitch += deltaY * orbit.sensitivity;
+
       if (orbit.pitch > 85.0f) orbit.pitch = 85.0f;
       if (orbit.pitch < -2.0f) orbit.pitch = -2.0f;
    }
 
-   // --- Mouse steering (tasto N) ---
    if (mouseSteering.isActive) {
       mouseSteering.currentAngle -= deltaX * mouseSteering.sensitivity;
-      // Clamp: usa MAX_STEERING_ANGLE_DEG da WorldConfig (stessa costante di CarInputController)
+      // Clamp sui limiti hardware/config definiti da CarInputController
       if (mouseSteering.currentAngle > MAX_STEERING_ANGLE_DEG)
          mouseSteering.currentAngle = static_cast<float>(MAX_STEERING_ANGLE_DEG);
       if (mouseSteering.currentAngle < -MAX_STEERING_ANGLE_DEG)
          mouseSteering.currentAngle = -static_cast<float>(MAX_STEERING_ANGLE_DEG);
+
       myCar.setMouseSteeringTarget(mouseSteering.currentAngle);
    }
 
@@ -352,13 +272,11 @@ void Application::onMouseMotion(int x, int y)
    engine.warpMouse(cx, cy);
 }
 
-// ============================================================
-// updateCameraFollow
-// ============================================================
 void Application::updateCameraFollow(CameraSelection::Position pos)
 {
    if (!camera) return;
 
+   // Estrazione del basis vettoriale dalla world matrix per l'orientamento relativo
    const glm::mat4 carMatrix = myCar.getWorldMatrix();
    const glm::vec3 carPosition = glm::vec3(carMatrix[3]);
    const glm::vec3 carRight = glm::normalize(glm::vec3(carMatrix[0]));
@@ -371,12 +289,14 @@ void Application::updateCameraFollow(CameraSelection::Position pos)
       if (orbit.isMotionCameraActivated) {
          const float yawRad = glm::radians(orbit.yaw);
          const float pitchRad = glm::radians(orbit.pitch);
+
+         // Conversione sferica -> cartesiana per offset telecamera orbitale
          const float hDist = orbit.radius * glm::cos(pitchRad);
          const float vDist = orbit.radius * glm::sin(pitchRad);
 
-         glm::vec3 offset =
-            (carForward * glm::cos(yawRad) + carRight * glm::sin(yawRad)) * hDist;
+         glm::vec3 offset = (carForward * glm::cos(yawRad) + carRight * glm::sin(yawRad)) * hDist;
          offset += carUp * vDist;
+
          cameraPos = carPosition + offset;
          cameraTarget = carPosition + glm::vec3(0.0f, 5.0f, 0.0f);
       }
@@ -389,20 +309,15 @@ void Application::updateCameraFollow(CameraSelection::Position pos)
       cameraPos = carPosition - (carRight * 80.0f);
       cameraTarget = carPosition + (carUp * 2.0f);
    }
-   else { // RIGHT
+   else {
       cameraPos = carPosition + (carRight * 80.0f);
       cameraTarget = carPosition + (carUp * 2.0f);
    }
 
-   camera->setM(glm::inverse(
-      glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f))));
+   camera->setM(glm::inverse(glm::lookAt(cameraPos, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f))));
 }
 
-// ============================================================
-// UI helpers
-// ============================================================
-void Application::drawCenteredText(const std::string& text, float yOffset,
-   float r, float g, float b)
+void Application::drawCenteredText(const std::string& text, float yOffset, float r, float g, float b)
 {
    const float x = (engine.getWindowWidth() - engine.getTextWidth(text)) / 2.0f;
    const float y = engine.getWindowHeight() / 2.0f + yOffset;
@@ -460,23 +375,20 @@ void Application::printCustomText()
    engine.addToScreenText(getSpeedToDisplay());
 }
 
-// ============================================================
-// Debug
-// ============================================================
 void Application::printSceneGraphWithPosition(Node* node, int level)
 {
    if (!node) return;
 
    const std::string indent(level * 4, ' ');
    const std::string branch = (level == 0) ? "ROOT " : "|__ ";
-   const glm::mat4  worldMatrix = node->getWorldFinalMatrix();
+   const glm::mat4 worldMatrix = node->getWorldFinalMatrix();
 
    std::cout << indent << branch
       << "ID:" << node->getId()
       << " '" << node->getName() << "'";
 
-   if (dynamic_cast<Mesh*>  (node)) std::cout << " [MESH]";
-   else if (dynamic_cast<Light*> (node)) std::cout << " [LIGHT]";
+   if (dynamic_cast<Mesh*>(node)) std::cout << " [MESH]";
+   else if (dynamic_cast<Light*>(node)) std::cout << " [LIGHT]";
    else if (dynamic_cast<Camera*>(node)) std::cout << " [CAMERA]";
 
    std::cout << std::fixed << std::setprecision(5)
@@ -485,6 +397,7 @@ void Application::printSceneGraphWithPosition(Node* node, int level)
       << worldMatrix[3][1] << ", "
       << worldMatrix[3][2] << ")\n";
 
-   for (unsigned int i = 0; i < node->getNumChildren(); i++)
+   for (unsigned int i = 0; i < node->getNumChildren(); i++) {
       printSceneGraphWithPosition(node->getChild(i), level + 1);
+   }
 }

@@ -1,50 +1,41 @@
 #pragma once
 #include "CarState.h"
 
-
-/*
- * @brief Gestisce tutto l'input grezzo del giocatore e produce
- * uno snapshot CarInputState da passare a CarPhysics.
- *
- * Compiti:
- *  - Gestione tasti e mouse.
- *  - Mantenere e aggiornare l'angolo di sterzata nel tempo.
+/**
+ * @brief Traduce l'input raw (tastiera/mouse) nello stato discreto per CarPhysics.
+ * Isola l'hardware dalla simulazione per garantire determinismo (es. per replay o step fisici fissi).
  */
-
 class CarInputController
 {
 public:
+   void setAccelerating(bool v) { inputState.isAccelerating = v; }
+   void setBraking(bool v) { inputState.isBraking = v; }
+   void setHandbrake(bool v) { inputState.isHandbrake = v; }
+   void setSteeringLeft(bool v) { isSteeringLeft = v; }
+   void setSteeringRight(bool v) { isSteeringRight = v; }
 
-    // Comandi legati ai tasti 
-    void setAccelerating(bool v) { inputState.isAccelerating = v; }
-    void setBraking(bool v) { inputState.isBraking = v; }
-    void setHandbrake(bool v) { inputState.isHandbrake = v; }
-    void setSteeringLeft(bool v) { isSteeringLeft = v; }
-    void setSteeringRight(bool v) { isSteeringRight = v; }
+   // Valutare un filtro passa-basso o un PID per ammorbidire il ritorno al centro.
+   void setMouseSteering(bool active);
+   void setMouseSteeringTarget(double angle);
+   void setSteeringAngleDirect(double angle);
 
-    // Comandi legati al mouse
-    void setMouseSteering(bool active);
-    void setMouseSteeringTarget(double angle);
-    void setSteeringAngleDirect(double angle);
+   /**
+    * @brief Applica smoothing all'angolo di sterzo.
+    * L'input digitale (tastiera) viene interpolato nel tempo,
+    * mentre l'input analogico (mouse) bypassa il lerp per reattività immediata.
+    */
+   void updateSteeringAngle(double deltaTime);
 
-    // Aggiornamento frame 
-    /**
-     * @brief Aggiorna l'angolo di sterzata in base all'input e al tempo trascorso.
-     * @param deltaTime Secondi dall'ultimo frame.
-     */
-    void updateSteeringAngle(double deltaTime);
-
-    const CarInputState& getState() const { return inputState; }
+   const CarInputState& getState() const { return inputState; }
 
 private:
-    CarInputState inputState;
+   CarInputState inputState;
 
-    bool isSteeringLeft = false;
-    bool isSteeringRight = false;
+   bool isSteeringLeft = false;
+   bool isSteeringRight = false;
 
-    bool   isMouseSteering = false;
-    double mouseSteeringTarget = 0.0;
+   bool   isMouseSteering = false;
+   double mouseSteeringTarget = 0.0;
 
-    // Costanti di sterzata
-    static constexpr double STEERING_SPEED = 50.0;  // Gradi/s
+   static constexpr double STEERING_SPEED = 50.0;
 };

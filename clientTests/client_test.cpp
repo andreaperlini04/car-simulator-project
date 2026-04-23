@@ -143,7 +143,6 @@ void test_Wheel() {
    std::cout << "OK\n";
 }
 
-#ifndef ALL_TESTS_UNIFIED
 int main() {
    std::cout << "--- AVVIO TEST SUITE FISICA ---\n";
 
@@ -155,4 +154,3 @@ int main() {
 
    return 0;
 }
-#endif

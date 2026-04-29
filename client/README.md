@@ -1,7 +1,6 @@
 # Car Simulator – Client
 
-A real-time 3D car simulator written in C++ using an OpenGL-based engine. The client is responsible for loading the scene, simulating vehicle physics, handling player input, and rendering the car in the scene graph.
-
+A real-time 3D car simulator written in C++ using an OpenGL-based engine. The client is responsible for loading the scene, simulating vehicle physics, handling player input. The engine has a dedicated documentation (see files) 
 ---
 
 ## Project Structure

@@ -6,23 +6,24 @@ Mesh::Mesh(const std::string& name)
    
 }
 
-Mesh::Mesh(const std::string& name, glm::mat4 matrix, unsigned int faces, unsigned int vertices, Material* material)
-    : Node(name), matrix(matrix), numFaces(faces), numVertices(vertices), material(material) {
+Mesh::Mesh(const std::string& name, glm::mat4 matrix, unsigned int faces, unsigned int vertices, std::shared_ptr<Material> material)
+   : Node(name), matrix(matrix), numFaces(faces), numVertices(vertices), material(std::move(material)) {
    this->setM(matrix);
-
 }
 
 const std::vector<glm::vec3>& Mesh::get_all_vertices() const { return all_vertices; }
 const std::vector<glm::vec3>& Mesh::get_all_normals() const { return all_normals; }
 const std::vector<glm::vec2>& Mesh::get_all_texture_coords() const { return all_texture_coords; }
 const std::vector<std::vector<unsigned int>>& Mesh::get_face_vertices() const { return face_vertices; }
-Material* Mesh::getMaterial() const { return material; }
+std::shared_ptr<Material> Mesh::getMaterial() const { return material; }
 
 void Mesh::set_all_vertices(const std::vector<glm::vec3>& vertices) { all_vertices = vertices; }
 void Mesh::set_all_normals(const std::vector<glm::vec3>& normals) { all_normals = normals; }
 void Mesh::set_all_texture_coords(const std::vector<glm::vec2>& textureCoords) { all_texture_coords = textureCoords; }
 void Mesh::set_face_vertices(const std::vector<std::vector<unsigned int>>& faces) { face_vertices = faces; }
-void Mesh::setMaterial(Material* material) { this->material = material; }
+void Mesh::setMaterial(std::shared_ptr<Material> material) { this->material = std::move(material); }
+void Mesh::setWireframe(bool wireframe) { isWireframe = wireframe; }
+bool Mesh::getWireframe() const { return isWireframe; }
 
 void Mesh::render() {
     // 1. Applica Materiale
@@ -37,6 +38,12 @@ void Mesh::render() {
 
     // 2. Disegna Geometria
     if (!all_vertices.empty() && !face_vertices.empty()) {
+       if (isWireframe) {
+          glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+       }
+       else {
+          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+       }
         glBegin(GL_TRIANGLES);
 
         for (const auto& face : face_vertices) {
@@ -57,10 +64,18 @@ void Mesh::render() {
                 }
             }
         }
+        
 
         glEnd();
     }
 
     // 3. Ripristina stato
-    if (!material) glEnable(GL_LIGHTING);
+    if (material) {
+       // [NUOVO] Reset della matrice texture per sicurezza
+       glMatrixMode(GL_TEXTURE);
+       glLoadIdentity(); // Rimette la matrice a "neutro"
+       glMatrixMode(GL_MODELVIEW);
+
+       glEnable(GL_LIGHTING); // (era già presente nel tuo codice originale)
+    }
 }

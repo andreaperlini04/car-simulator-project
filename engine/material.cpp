@@ -18,7 +18,7 @@ const glm::vec3& Material::getSpecular() const { return specular; }
 const glm::vec3& Material::getEmissione() const { return emissione; }
 float Material::getShininess() const { return shininess; }
 float Material::getTransparency() const { return transparency; }
-Texture* Material::getTexture() { return texture; }
+std::shared_ptr<Texture> Material::getTexture() { return texture; }
 
 // Setters
 void Material::setAmbient(const glm::vec3& v) { ambient = v; }
@@ -27,7 +27,10 @@ void Material::setSpecular(const glm::vec3& v) { specular = v; }
 void Material::setEmissione(const glm::vec3& v) { emissione = v; }
 void Material::setShininess(float v) { shininess = v; }
 void Material::setTransparency(float v) { transparency = v; }
-void Material::setTexture(Texture* t) { texture = t; }
+void Material::setTexture(std::shared_ptr<Texture> t) { texture = std::move(t); }
+void Material::setTextureMatrix(const glm::mat4& mat) {
+	this->textureMatrix = mat;
+}
 
 void Material::render() {
 	
@@ -39,14 +42,21 @@ void Material::render() {
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 
 	// Gestione Texture
-	if (texture) {
-        glEnable(GL_TEXTURE_2D);
-        // Dice a OpenGL: "Moltiplica il colore della texture con il colore (e l'alpha) del materiale"
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
+   if (texture) {
+      glEnable(GL_TEXTURE_2D);
+      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-        texture->render();
-    } else {
-        glDisable(GL_TEXTURE_2D);
-    }
+      // [NUOVO] Applica la matrice texture richiesta dal Client
+      glMatrixMode(GL_TEXTURE);
+      glLoadMatrixf(glm::value_ptr(this->textureMatrix));
+
+      // Importante: Tornare a ModelView per non rompere le trasformazioni geometriche successive
+      glMatrixMode(GL_MODELVIEW);
+
+      texture->render();
+   }
+   else {
+      glDisable(GL_TEXTURE_2D);
+   }
 	
 }

@@ -85,7 +85,6 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="engine.cpp" />
-    <ClCompile Include="engine_test.cpp" />
     <ClCompile Include="infiniteLight.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="list.cpp" />

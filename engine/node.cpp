@@ -1,5 +1,5 @@
 #include "node.h"
-#include <algorithm> // Necessario per std::remove
+#include <algorithm> // Necessario per std::remove/find_if
 
 ENG_API Node::Node(const std::string& name)
    : Object( name), parent(nullptr), transformationMatrix(glm::mat4(1.0f))
@@ -37,7 +37,7 @@ glm::mat4 Node::getWorldFinalMatrix() const {
 }
 
 void Node::render() {
-   // Metodo base vuoto, verrà sovrascritto dalle classi derivate (Mesh, Light, ecc.)
+   // Metodo base vuoto, verrÃ  sovrascritto dalle classi derivate (Mesh, Light, ecc.)
 }
 
 // --- Gestione Gerarchia ---
@@ -49,22 +49,26 @@ void Node::setParent(Node* newParent) { parent = newParent; }
 void Node::addChild(Node* child) {
    if (child) {
       child->setParent(this);
-      children.push_back(child);
+      children.push_back(std::unique_ptr<Node>(child)); // Prende possesso qui
    }
 }
 
-void Node::removeChild(Node* child) {
-   // Rimuove il figlio dal vettore e resetta il suo genitore
-   auto it = std::remove(children.begin(), children.end(), child);
+Node* Node::removeChild(Node* child) {
+   auto it = std::find_if(children.begin(), children.end(), [child](const std::unique_ptr<Node>& ptr) {
+      return ptr.get() == child;
+      });
    if (it != children.end()) {
       child->setParent(nullptr);
-      children.erase(it, children.end());
+      Node* released = it->release(); // Rilascia l'ownership dal unique_ptr interno senza distruggere l'oggetto
+      children.erase(it);
+      return released;
    }
+   return nullptr;
 }
 
 Node* Node::getChild(int index) const {
    if (index >= 0 && index < children.size())
-      return children[index];
+      return children[index].get();
    return nullptr;
 }
 
@@ -76,7 +80,7 @@ unsigned int Node::getNumChildren() const {
 Node* Node::findByName(const std::string& nodeName) {
    if (this->name == nodeName) return this;
 
-   for (auto* child : children) {
+   for (const auto& child : children) {
       Node* res = child->findByName(nodeName);
       if (res) return res;
    }

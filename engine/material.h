@@ -6,6 +6,7 @@
 #include "object.h"
 #include "texture.h"
 #include "glm/glm.hpp"
+#include <memory>
 #include "libConfig.h"
 
 /**
@@ -65,7 +66,7 @@ public:
 	/**
 	 * @brief Restituisce il puntatore alla texture associata, se presente.
 	 */
-	Texture* getTexture();
+	std::shared_ptr<Texture> getTexture();
 
 	// Setters
 
@@ -103,7 +104,9 @@ public:
 	 * @brief Associa una texture al materiale.
 	 * @param texture Puntatore alla texture da applicare.
 	 */
-	void setTexture(Texture* texture);
+	void setTexture(std::shared_ptr<Texture> texture);
+
+	void setTextureMatrix(const glm::mat4& mat);
 
 	/**
 	 * @brief Applica le proprietà del materiale allo stato corrente del rendering.
@@ -123,5 +126,7 @@ private:
 	/** @brief Valore che determina l'opacità o trasparenza dell'oggetto. */
 	float transparency;
 	/** @brief Puntatore alla texture applicata alla superficie. */
-	Texture* texture;
+	std::shared_ptr<Texture> texture;
+
+	glm::mat4 textureMatrix = glm::mat4(1.0f);
 };

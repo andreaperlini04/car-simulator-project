@@ -25,6 +25,11 @@ namespace Eng {
    using KeyboardCallback = std::function<void(unsigned char key, int x, int y)>;
    /** @brief Callback invocata alla pressione di un tasto speciale. */
    using SpecialCallback = std::function<void(int key, int x, int y)>;
+   /** @brief Callback invocata al rilascio di un tasto. */
+   using KeyboardUpCallback = std::function<void(int key)>;
+
+   /** @brief Callback invocata allo spostamento del mouse. */
+   using MouseMotionCallback = std::function<void(int, int)>;
 
    /**
     * @class Base
@@ -122,6 +127,18 @@ namespace Eng {
        */
       void setSpecialCallback(SpecialCallback cb);
 
+      /**
+       * @brief Registra la funzione di callback quando i tasti della tastiera vengono rilasciati.
+       * @param cb Funzione da invocare.
+       */
+      void setKeyboardUpCallback(KeyboardUpCallback cb);
+
+      /**
+      * @brief Registra la funzione di callback per il movimento del mouse.
+      * @param cb Funzione da invocare.
+      */
+      void setMouseMotionCallback(MouseMotionCallback cb);
+
       // Utility per il Client
 
       /**
@@ -166,6 +183,12 @@ namespace Eng {
        * @param y Coordinata Y del mouse al momento della pressione.
        */
       void handleKeyboardRequest(unsigned char key, int x, int y);
+      
+      /**
+       * @brief Gestisce internamente l'evento di rilascio di un tasto standard.
+       * @param key Codice ASCII del tasto premuto.
+       */
+      void handleKeyboardUpRequest(unsigned char key);
 
       /**
        * @brief Gestisce internamente l'evento di pressione di un tasto speciale.
@@ -174,6 +197,13 @@ namespace Eng {
        * @param y Coordinata Y del mouse al momento della pressione.
        */
       void handleSpecialRequest(int key, int x, int y);
+
+      /**
+       *@brief Gestisce internamente l'evento di spostamento del mouse.
+       * @param x Coordinata X del mouse.
+       * @param y Coordinata Y del mouse.
+       */
+      void handleMouseMotion(int x, int y);
 
       // No copy
       Base(Base const&) = delete;
@@ -240,6 +270,15 @@ namespace Eng {
        * @return Larghezza in pixel.
        */
       int getTextWidth(const std::string& text);
+      /**
+       * @brief Nasconde o mostra il cursore del mouse.
+       */
+      void setCursorVisible(bool visible);
+
+      /**
+       * @brief Forza lo spostamento del cursore in una coordinata specifica della finestra.
+       */
+      void warpMouse(int x, int y);
 
    private:
       Base();
@@ -249,12 +288,6 @@ namespace Eng {
       struct Reserved;
       std::unique_ptr<Reserved> reserved;
     
-      ////FPS:
-      bool show_fps;
-      int frameCounter = 0;
-      float fps = 0.0f;
-
-
       /*
       * @brief Timestamp dell'ultimo aggiornamento del frame per il calcolo del delta time.
       */

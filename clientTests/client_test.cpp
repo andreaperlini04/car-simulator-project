@@ -129,7 +129,7 @@ void test_Wheel() {
    auto dummyWheelNode = std::make_unique<Node>("RuotaTest");
    dummyWheelNode->translate(glm::vec3(0.0f, 2.0f, 0.0f));
 
-   wheel.init(dummyWheelNode.get(), 1.0f, 0.0, 0.0, 0.0);
+   wheel.init(dummyWheelNode.get());
 
    double distanceMoved = 2.0 * glm::pi<double>();
    wheel.updateRolling(distanceMoved);

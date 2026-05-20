@@ -46,7 +46,7 @@ private:
    struct OrbitCameraState {
       float yaw = 0.0f;
       float pitch = 30.0f;
-      float radius = 100.0f;
+      float radius = 200.0f;
       float sensitivity = 0.1f;
       bool  isMotionCameraActivated = false;
    };

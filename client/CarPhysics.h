@@ -41,7 +41,7 @@ private:
 
    // Modificatori per gestione slip angle e sbandata
    double driftGripFactor = 0.15;  // Taglio netto al grip laterale col freno a mano
-   double driftTurnBoost = 2.5;    // Moltiplicatore di yaw rate per facilitare il controsterzo
+   double driftTurnBoost = 1.7;    // Moltiplicatore di yaw rate per facilitare il controsterzo
    double driftSpeedDecay = 3.0;   // Attrito viscoso extra per dissipare energia in slide
 
    // Limite al delta per prevenire esplosioni numeriche nel solver
@@ -60,7 +60,7 @@ private:
    // Smorzamento del grip ad alte velocità (evita ribaltamenti irreali)
    static constexpr double GRIP_SPEED_SCALE = 0.25;
    static constexpr double LATERAL_GRIP_BASE = 18.0;
-   static constexpr double LATERAL_GRIP_SPEED_SCALE = 0.02;
+   static constexpr double LATERAL_GRIP_SPEED_SCALE = 0.04;
 
    static constexpr double SLIDE_FRICTION_SCALE = 10.0;
    static constexpr double SLIDE_SPEED_SCALE = 0.3;

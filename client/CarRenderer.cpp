@@ -44,7 +44,7 @@ bool CarRenderer::init(Node* passedNode, double& outPosX, double& outPosY, doubl
       }
       ruota->setM(relRuotaM);
 
-      wheels[i].init(ruota, WHEEL_RADIUS, WHEEL_OFFSET_X, WHEEL_OFFSET_Y, WHEEL_OFFSET_Z);
+      wheels[i].init(ruota);
    }
 
    // Blocca l'angolo di sterzo delle ruote posteriori (trazione anteriore o integrale base)

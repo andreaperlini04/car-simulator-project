@@ -41,6 +41,6 @@ private:
    // Compensazioni per allineare il raycast fisico al pivot visivo del modello OVO
    static constexpr float WHEEL_RADIUS = 1.0f;
    static constexpr double WHEEL_OFFSET_X = 0.0;
-   static constexpr float WHEEL_OFFSET_Y = 3.8f;
+   static constexpr float WHEEL_OFFSET_Y = 0.0f;
    static constexpr double WHEEL_OFFSET_Z = 0.0;
 };

@@ -9,12 +9,10 @@ Node* Wheel::getNode() const {
 /**
  * @brief Inizializza la ruota calcolando dinamicamente il raggio dalla trasformazione globale.
  */
-void Wheel::init(Node* model, float wheelWorldScaleY, double offX, double offY, double offZ)
+void Wheel::init(Node* model)
 {
    wheelModel = model;
-   offsetX = offX;
-   offsetY = offY;
-   offsetZ = offZ;
+  
 
    if (wheelModel) {
       baseMatrix = wheelModel->getM();
@@ -23,7 +21,7 @@ void Wheel::init(Node* model, float wheelWorldScaleY, double offX, double offY, 
       // Assunzione critica sul file OVO: la mesh della ruota deve poggiare esattamente
       // sul piano globale Y=0. Cosi' l'altezza del pivot corrisponde fisicamente al raggio.
       float pivotWorldY = worldM[3][1];
-      m_radius = pivotWorldY;
+      m_radius = pivotWorldY/2;
    }
 }
 
@@ -53,8 +51,11 @@ void Wheel::updateVisuals()
    // L'ordine delle rotazioni è tassativo: lo sterzo (asse Y) ridefinisce il frame locale
    // prima di applicare il rotolamento (asse X). Invertirli causerebbe la rotazione
    // della ruota su un asse globale errato durante le curve.
+   
+
    m = glm::rotate(m, glm::radians((float)steeringAngle), glm::vec3(0.0f, 1.0f, 0.0f));
    m = glm::rotate(m, glm::radians(-(float)rollingAngle), glm::vec3(1.0f, 0.0f, 0.0f));
+   
 
    wheelModel->setM(m);
 }

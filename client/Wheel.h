@@ -15,7 +15,7 @@ public:
     * @param wheelWorldScaleY Modulo della colonna Y della matrice world pre-reparenting.
     * Necessario per dedurre il raggio locale reale della mesh.
     */
-   void init(Node* model, float wheelWorldScaleY, double offX, double offY, double offZ);
+   void init(Node* model);
 
    void setSteeringAngle(double angle);
    void updateRolling(double distanceMoved);
@@ -38,9 +38,7 @@ private:
    float  m_localRadius = 0.0f;      // Raggio nello spazio mesh per i radianti di rotolamento
 
    // Offset dal pivot/centro di massa dell'auto
-   double offsetX = 0.0;
-   double offsetY = 0.0;
-   double offsetZ = 0.0;
+   
 
    double steeringAngle = 0.0;
    double rollingAngle = 0.0;
